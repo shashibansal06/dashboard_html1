@@ -1,0 +1,411 @@
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
+        @import "style/base";
+        //animate
+        /*==================================== GLOBLE CSS ====================================*/
+        
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            line-height: $lineheight;
+            font-family: $font-family;
+            font-weight: 400;
+            color: $basecolor;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #fff;
+            font-size: 16px;
+            // overflow-x: hidden;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        * {
+            outline: 0;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        ol,
+        ul,
+        li,
+        p,
+        img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            outline: none;
+            border: none;
+        }        
+        a {
+            @include anchor;
+            @include single-transition;
+            color: $skycolor;          
+        }        
+        input[type="text"],
+        input[type="password"],
+        input[type="search"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="month"],
+        textarea {
+            -webkit-appearance: none;
+            outline: none;
+        }
+        
+        select {
+            &:focus {
+                outline: none;
+            }
+        }        
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+            width: inherit;
+            &.justified-cell {
+                width: 1%;
+            }
+        }
+        
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            ::i-block-chrome,
+            select.form-control {
+                background-position-x: 97%;
+                background-position-y: 50%;
+            }
+        }
+        
+        .pointer {
+            cursor: pointer;
+        }         
+        .flowhidden {
+            overflow: hidden;
+        }
+        .main_outer {
+            min-height: 100%;
+            width: 100%;
+        } 
+        .darkblue-btn{
+            @include padding(15 10);
+            @include font-size(18);
+            font-weight:500;
+            background-color: $blue-color;
+            color: $white;
+            @include border(1, solid, $blue-color);
+            &:hover{
+                background-color: $transparent;
+                color:$blue-color;
+            }
+            @media screen and (max-width:$mini-desktop){
+                @include padding(12 10);
+                @include font-size(16);
+            }
+            @media screen and (max-width:$ptablet){
+                @include padding(5 8);
+                @include font-size(14);
+            }
+        }
+        .purple-btn{
+            @include padding(15 10);
+            @include font-size(18);
+            font-weight:500;
+            background-color: $skycolor;
+            color: $white;
+            @include border(1, solid, $skycolor);
+            &:hover{
+                background-color: $transparent;
+                color: $skycolor;
+            }
+            @media screen and (max-width:$mini-desktop){
+                @include padding(12 10);
+                @include font-size(16);
+            }
+            @media screen and (max-width:$ptablet){
+                @include padding(5 8);
+                @include font-size(14);
+            }
+        }
+        .custom-btn{
+            @include padding(6 25);
+            @include margin(0 7);
+            @include font-size(16);
+            white-space: nowrap;
+            font-weight:400;
+            display: inline-block;
+            @include min-width(90);
+            background-color: $skycolor;
+            text-align: center;
+            color: $white;
+            @include border(1, solid, $skycolor);
+            &:hover{
+                background-color: $transparent;
+                color: $skycolor;
+            }
+            @media screen and (max-width:$mini-desktop){
+                @include padding(5 10);
+                @include font-size(16);
+            }
+            @media screen and (max-width:$tablet){
+               @include padding(5 8);          
+            }
+            @media screen and (max-width:$ptablet){
+                
+                @include font-size(14);
+                @include margin(0);
+            }        
+            &.blue-btn{
+                background-color: $blue-color;  
+                border-color:$blue-color;  
+                &:hover{
+                    background-color: $transparent;
+                    color: $blue-color;
+                }  
+            }
+        }
+        h2{
+            @include font-size(25);
+            color: $color-42;
+            @include margin(0 0 10 0);
+            @media screen and (max-width:$mini-desktop){
+                @include font-size(20);
+            }
+            @media screen and (max-width:$tablet){
+                @include font-size(18);
+            }            
+        }
+        p{
+            @include font-size(14);
+            color: $color-8f;
+            @include margin(0 0 25 0);
+            @media screen and (max-width:$mini-desktop){
+                @include font-size(16);
+            }
+        }
+        .radio-outer{
+            @include margin-bottom(35);
+            label{
+                &.z_radio{
+                    @include pos(r, null);
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: $h1-color;
+                    @include margin-right(40);
+                    span{
+                        @include padding-left(30);
+                        @include pos(r, null);
+                        &:after {
+                        @include pos(a, 7px auto auto 5px );
+                          @include circle;
+                          content:none;
+                          @include square(10px);
+                          background-color: $radio-color;                               
+                        }
+                        &:before {
+                          @include pos(a, 2px auto auto 0px );
+                          @include border(1,solid,$radio-color); 
+                          @include circle;
+                          content: "";      
+                          @include square(20px);
+                        }
+                    }
+                    input[type="radio"]{
+                        @include pos(a, 0px auto auto 0px );
+                        visibility: hidden;
+                        &:checked{
+                            &+ span{
+                                &:after{
+                                    content:'';
+                                }
+                            }
+                        }
+                    }
+                }
+                &.z_checked{
+                    @include pos(r, null);
+                    font-size: 16px;
+                    font-weight: 300;
+                    color: $color-42;
+                    @include margin-right(40);
+                    span{
+                        @include padding-left(35);
+                        @include pos(r, null);
+                        cursor: pointer;
+                        &:after {
+                          @include pos(a, 3px auto auto 4px );
+                          content:'';
+                          color:$white;
+                          font-family:FontAwesome;
+                          font-size:12px;
+                        }
+                        &:before {
+                          @include pos(a, 2px auto auto 0px);
+                          @include border(1,solid,$skycolor); 
+                          content: "";      
+                          @include square(20px);
+                        }
+                    }
+                    input[type="checkbox"]{
+                        @include pos(a, 0px auto auto 0px );
+                        visibility: hidden;
+                        &:checked{
+                            &+ span{
+                                &:after{
+                                    content:"\f00c";
+                                }
+                                &:before{
+                                    background-color:$skycolor; 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }   
+
+        .radio-toggle{
+            label{
+                &.z_checked{
+                    @include pos(r, null);
+                    cursor: pointer;
+                    span{
+                        width:40px;
+                        height:10px;
+                        background-color: #d4d4d5;
+                        @include radius(10px);
+                        display: inline-block;
+                        @include padding-left(30);
+                        @include pos(r, null);
+                        &:before {
+                          @include pos(a, -8px auto auto -10px );
+                          @include circle;
+                          background-color: #898989;
+                          content: "";      
+                          @include square(26px);
+                          @include box-shadow(0px, 0px, 4px, rgba(0,0,0,0.5));
+                        }
+                    }
+                    input[type="checkbox"]{
+                        @include pos(a, 0px auto auto 0px );
+                        visibility: hidden;
+                        &:checked{
+                            &+ span{
+                                &:before {
+                                    @include pos(a, -8px -10px auto auto);
+                                    background-color: $blue-color;
+                                }
+                            }
+                        }
+                    }
+                }             
+            }
+        }  
+
+
+
+.input {
+    @include pos(r, null);
+    z-index: 1;
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    overflow: hidden;
+    @include padding-top(16);
+     @media screen and (max-width:$desktop){
+       @include padding-top(20);
+    }
+     .input_field {        
+        width: 100%;
+        background-color: transparent;
+        color:$blue-color;
+        @include font-size(32);
+        @include pos(r, null);
+        @include padding(8 0 4);
+        @include border-round(0);
+        display: block;
+        float: right;
+        border: none;        
+        font-weight: 400;   
+        -webkit-appearance: none; 
+        -moz-appearance: none;
+        appearance: none;
+        &:focus {
+            outline: none;
+        }
+        @media screen and (max-width:$desktop){
+           @include font-size(20);
+        }
+    }
+    .input_label {
+        float: right;
+        color: $input-color;
+        font-weight: 400;
+        letter-spacing: 0.05em;        
+        @include font-size(24);
+        @include padding(0);
+        @include pos(a, 0 auto auto 0);       
+        display: block;
+        width: 100%;
+        text-align: left;    
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;           
+        pointer-events: none;
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transition: -webkit-transform 0.2s 0.15s, color 1s;
+        transition: transform 0.2s 0.15s, color 1s;
+        -webkit-transition-timing-function: ease-out;
+        transition-timing-function: ease-out;
+         @media screen and (max-width:$desktop){
+           @include font-size(14);
+        }
+        .input_label-content {
+            @include pos(r, null);
+            display: block;
+            @include padding(32 0);
+            width: 100%;
+        }
+    }
+    .graphic {
+        @include pos(a, 0 auto auto 0);     
+        fill: none;
+        stroke: $color-55;
+        pointer-events: none;
+        -webkit-transition: -webkit-transform 0.7s, stroke 0.7s;
+        transition: transform 0.7s, stroke 0.7s;
+        -webkit-transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+        transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+    }
+}
+
+
+
+.input_field:focus + .input_label,
+.input--filled .input_label {
+    color: $blue-color;
+    -webkit-transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
+    transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
+}
+
+.input_field:focus ~ .graphic,
+.input--filled .graphic {
+    stroke: $blue-color;
+    -webkit-transform: translate3d(-66.6%, 0, 0);
+    transform: translate3d(-66.6%, 0, 0);
+}
+
+
+.fa{font:normal normal normal 14px/1 FontAwesome}

@@ -1,0 +1,88 @@
+<div class="panel panel-info" data-ng-init="getDashboardSprintActivity();">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            All Sprints
+            <a data-ui-sref="sprints">View All</a>
+            <span collapse-toggler class="pull-right" style="cursor:pointer" data-toggle="collapse" data-target="#allSprint"> <i class="fa fa-minus"></i></span>
+        </h3>        
+    </div>
+    <div class="panel-body  collapse in" id="allSprint"> 
+        <div class="panel_inner ">
+
+            <div class=" table-responsive">
+                <table class="table table-bordered">
+                    <thead class="">
+                        <tr>
+                            <th colspan="10"  class="th_highlight">Sprints</th>
+                        </tr>
+                        <tr>
+                            <th>Sprint No.</th>
+                            <th>Sprint Name</th>
+                            <th>Contingency Hours (%)</th>
+                            <th>Sprint Hours</th>
+                            <th>Burned Hours</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Output</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-if="dasboard_project_sprints.length == 0"><td colspan="8">No sprint found</td></tr>
+                        <tr data-ng-if="dasboard_project_sprints.length > 0" data-ng-repeat="sprint in dasboard_project_sprints"> 
+                            <td><a target="_blank" title="#SP-{{sprint.sprint_number}}" data-ui-sref="ViewSprint({sid : sprint._id , pid : sprint.phase_id[0]._id })" >#SP-{{sprint.sprint_number}}</a></td>
+                            <td data-ng-bind="sprint.sprint_name | capitalize"></td>
+                            <td data-ng-bind="sprint.contigency_hours"></td>
+                            <td data-ng-bind="sprint.planned_time">134</td>
+                            <td data-ng-bind="sprint.burnedHour">88</td>
+                            <td data-ng-bind="sprint.start_date | convert_dateformat ">1-Jan-2017</td>
+                            <td data-ng-bind="sprint.end_date ? (sprint.end_date | convert_dateformat): ' - ' ">15-Jan-2017</td>
+                            <td></td>
+                            <td><span data-ng-class="{'label label-primary  pull-right' : sprint.sprint_status.name == 'New','label label-warning  pull-right' : sprint.sprint_status.name == 'In Progress','label label-success  pull-right' : sprint.sprint_status.name == 'Completed','label label-danger  pull-right' : sprint.sprint_status.name == 'On Hold'}" title="Done">{{sprint.sprint_status.name | capitalize}}</span></td>
+                            <td><a data-ui-sref="ViewSprint({sid : sprint._id , pid : sprint.phase_id[0]._id })">View Details</a></td>
+                        </tr>
+                        <tr data-ng-if="dasboard_project_sprints.length > 0">                                
+                            <td class="text-right"><strong>Total/Status</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong data-ng-bind="dasboard_project_sprints_basic.TotalPlannedHours">749</strong></td>
+                            <td><strong data-ng-bind="dasboard_project_sprints_basic.sprintTotalBurnedHour">0</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong><get-sprint-output sprint_hours="{{dasboard_project_sprints_basic.TotalPlannedHours}}" burned_hours="{{dasboard_project_sprints_basic.sprintTotalBurnedHour}}" ></get-sprint-output></strong></td>
+                            <td><strong></strong></td>
+                            <td><strong></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class=" table-responsive">
+
+                <table class="table table-bordered">
+                    <thead class="">
+                        <tr>
+                            <th colspan="7"  class="th_highlight" >Activities</th>
+                        </tr>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Hours Estimated</th>
+                            <th>Hours Logged</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> 
+                            <td data-ng-bind="dasboard_project_activities.totalActivity"></td>
+                            <td data-ng-bind="dasboard_project_activities.totalActivityHour"></td>
+                            <td data-ng-bind="dasboard_project_activities.totalburnedHour"></td>
+                            <td data-ng-bind="dasboard_project_activities.StartDate ?(dasboard_project_activities.StartDate | convert_dateformat) : ' - '"></td>
+                            <td data-ng-bind="dasboard_project_activities.EndDate ? (dasboard_project_activities.EndDate | convert_dateformat):' -' "></td> 
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

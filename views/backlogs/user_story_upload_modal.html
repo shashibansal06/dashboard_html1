@@ -1,0 +1,36 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-list"></i> Upload User Stories</h4>
+            </div>  
+
+
+            <form data-ng-init=" submitted = false;
+                  " class="form-horizontal form-border" name="upload_csv" data-ng-submit=" upload_csv.$valid ? uploadCsv() : submitted = true" enctype="multipart/form-data" novalidate>
+                <div class="modal-body" style="padding:27px"> 
+                    <div class="form-group">
+                        <label class="control-label">Upload (CSV)<sup class="sup_star">*</sup>:</label>
+                        <input 
+                            class="form-control upload-csv" 
+                            required
+                            ngf-max-size="5MB"
+                            ngf-select 
+                            type="file"
+                            ngf-model-invalid="errorMeetingFile"
+                            data-ng-model="userStory.uploadcsv"                               
+                            name="file">
+                        <div class="text-danger" ng-show="upload_csv.file.$error.maxSize">File too large {{errorMeetingFile.size / 1000000|number:1}}MB: max 5Mb</div>
+                        <div class="text-danger" ng-show="errorMeetingFile[0].$error != pattern && upload_csv.file.$dirty">File extension or File limit is not valid.</div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button ng-disabled="upload_csv.$invalid" class="btn btn-primary" type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

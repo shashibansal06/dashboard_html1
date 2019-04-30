@@ -1,0 +1,47 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+          
+            <form method="post" class="form-signin" name="create_plan" data-ng-submit=" create_plan.$valid ? addPlan() : submitted = true " novalidate>
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Release Plan</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control"  data-ng-model="plan_data.title" name="title" required  placeholder="Title" >
+                        
+                       <div data-ng-messages="create_plan.title.$error" class="text-danger" data-ng-if=" submitted || create_plan.title.$touched ">
+                            <div data-ng-message="required">Title is required.</div>
+                            <div data-ng-message="maxlength">Max 50 characters allowed</div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label">Frequency Cycle<sup class="sup_star">*</sup>:</label>
+                        <input data-ng-maxlength="2" data-ng-pattern="/^[0-9]*$/" type="text" class="form-control" name="frequency" data-ng-model="plan_data.frequency" placeholder="Frequency Cycle" required>
+                        
+                        <div data-ng-messages="create_plan.frequency.$error" class="text-danger" data-ng-if=" submitted || create_plan.frequency.$touched ">
+                            <div data-ng-message="pattern">Please enter only numeric.</div>
+                            <div data-ng-message="required">Frequency cycle is required.</div>
+                            <div data-ng-message="maxlength">Max 2 digit(s) length allowed</div>
+                        </div>
+                    </div>   
+                   
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Submit" >
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <p><strong>{{data.original_name}}</strong>
+                    </p>
+                    <small class="text-muted " style="margin-left: 63px;text-transform: capitalize;">Added on {{data.created_at | convert_date}} </small>
+                </h4>
+            </div>   
+            <div class="modal-body">
+                <div class="form-group">
+                    <a target="_self" href="{{url}}{{data.name}}" download="{{data.name}}">
+                        <img class="thumbnail img-responsive " src="{{ (data.extension != 'gif' && data.extension != 'png' && data.extension != 'jpeg' && data.extension != 'jpg') ? 'assets/img/doc-512.png' :  baseUrl+'attachment/admin/'+data.name }}" >
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

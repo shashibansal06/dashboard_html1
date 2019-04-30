@@ -1,0 +1,58 @@
+<div class="panel panel-default padding-15x"  data-ng-init="getTestCaseList();">
+    <div class="panel-body">
+        <div class="page_title">
+            <h1><i class="fa fa-check-square"></i>&nbsp;Test Cases&nbsp;</h1> <i class="glyphicon glyphicon-plus-sign pull-right" title="Add Test Cases" data-ng-click="checkListModal('1')"></i>
+        </div>    
+        <div class="well margin-top-2x">
+            <form>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th><input data-ng-show=" testcase_data.length > 0"  data-ng-model="main_test_case"  data-ng-click="checkListAll('1');" type="checkbox"></th>
+                            <th  width="10%">Key</th>
+                            <th>Title</th>
+                            <th>Summary</th>
+                            <th>Steps</th>
+                            <th>Required</th>
+                            <th>Result</th>
+                            <th>Priority</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr data-ng-show=" testcase_data.length == 0" >
+                            <td colspan="10">No test case found</td>
+                        </tr>
+
+                        <tr data-ng-show=" testcase_data.length > 0" data-ng-repeat="testcase in testcase_data">
+                            <td><input  type="checkbox" data-ng-true-value="1" data-ng-false-value="0" data-ng-model="testcase_data[$index].status"></td>
+                            <td  width="10%">TC-{{ testcase.checklistId}}</td>
+                            <td>{{ testcase.title | capitalize  }}</td>
+                            <td class="firstCap">{{ testcase.summary}}</td>
+                            <td class="firstCap">{{ testcase.testSteps}}</td>
+                            <td class="firstCap">{{ testcase.testData}}</td>
+                            <td class="firstCap">{{ testcase.result}}</td>
+                            <td>{{ testcase.priority.name | capitalize }}</td>
+                            <td>{{ testcase.user_id.first_name | capitalize  }}</td>
+                            <td><a href="javascript:void(0);" data-ng-click="deleteCheckList(testcase._id, 1)">Delete</a></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+
+                <nav class="pull-right" aria-label="Page navigation" data-ng-show="  testcase_data.length > 0">
+                    <ul class="pagination" items-per-page="testcase_limit" uib-pagination total-items="testcase_data_total" data-ng-model="currentPageTestCase"
+                        boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getTestCaseList()"></ul>
+                </nav>
+                <button type="button" class="btn btn-primary" data-ng-show="  testcase_data.length > 0" data-ng-click='updateCheckList("1");'>Done</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+

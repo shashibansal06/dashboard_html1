@@ -1,0 +1,99 @@
+<!-- Main content -->
+<section class="container-fluid" id="mainContainerSection" data-ng-init="getDropdowns()">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Manage Issues</h4>
+            <div class="row">
+
+
+                <form data-ng-init="submitted = false;
+                      " name="issues" data-ng-submit="issues.$valid ? getIssueByTabId(boardId) : submitted = true">
+                    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+                        <select class="form-control capitalize"
+                                data-ng-change="getIssueByTabId(boardId);"
+                                data-ng-model="sprint_id"
+                                data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >
+                            <option value="">Select all sprint issues</option>
+                            <option value="unmapped">Select all un-mapped issues</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+                        <div class="input-group">
+                            <input name="issue_search" type="text" data-ng-model="str" class="form-control" placeholder="Search..." data-ng-pattern="/^[a-zA-Z0-9 ]*$/">
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="submit">Go!</button>
+                            </span>
+                        </div>
+                        <div ng-messages="issues.issue_search.$error" class="text-danger" role="alert" ng-if="submitted || issues.issue_search.$touched">
+                            <div ng-message="pattern">Only alphanumeric are allowed.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+                        <select class="form-control capitalize"
+                                data-ng-change="getIssueByTabId(boardId);"
+                                data-ng-model="boardId"
+                                data-ng-options="option.name | capitalize for option in issueBoardsList track by option._id" >
+                            <option value="">Please select board</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-secondary" type="button" data-ng-click="clearFilter()">Reset</button>
+                        <!-- <button class="btn btn-primary" type="button" data-ng-click="addIssueWithDetailModal();">Add issue</button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="panel-body">
+        <div class="taskList issue-board">
+            <div class='task_row row'>
+
+                <div ng-init="outerIndex = $index" drop-index="{{ $index}}" drop-status="{{ data.id}}" droppable="true" class='col-sm-3 task_card_outer' data-ng-repeat="data in issueBoardData track by $index">
+                    <div class="panel-heading issue-heading">
+                        <i class="glyphicon glyphicon-time"></i> {{ data._id + data.name | capitalize }}
+                    </div>
+
+                    <div dragable-issue-id="{{bug._id}}" dragable-outer-index="{{ outerIndex}}" dragable-bug-index="{{ $index}}" draggable="true" data-ng-repeat="bug in data.records"
+                         class='panel panel-info task_card '>
+                        <!--- Bug Show pannel -->
+                        <div class='panel-body'>
+                            <span class="assignee_pic" style="background:url('{{(bug.assigned_to.profile_pic == ''|| bug.assigned_to.profile_pic == undefined) ? 'assets/img/default_project.png' : url+bug.assigned_to.profile_pic+'/50x50'}}')center no-repeat"></span>
+                            <h5><a target="_blank" data-ui-sref="main.issues.section({ type: 'description', id : bug._id, pid: pid })"> #BG-{{ bug.taskId}}</a> <span data-ng-bind="bug.name | capitalize"></span></h5>
+                            <div class="form-group">
+                                <h5>
+                                    Issue Complexity <span uib-rating data-ng-click="setRating(bug._id, bug.task_complexity)" data-ng-model="bug.task_complexity" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['One','Two','Three','Four','Five']" aria-labelledby="default-rating"></span>
+                                </h5>
+                                <div class="hours">Logged Hours : {{(bug.efforts[0] && bug.efforts[0] != undefined && bug.efforts[0]!= '')? bug.efforts[0] : '00:00'}}</div>
+                                <select data-ng-change="changeAssignee(issueBoardData[outerIndex].records[$index].assigned_to, bug._id, boardId)"
+                                        data-ng-model="issueBoardData[outerIndex].records[$index].assigned_to",
+                                        data-ng-options="option.first_name+' '+option.last_name+' ('+option.dept_id.department_name+')' | capitalize disable when option.status != 1 for option in resource track by option._id" class="issue-select" >
+                                    <option value="">Assignee Name</option>
+                                </select>
+
+                                <select data-ng-change="changeBugStatus(issueBoardData[outerIndex].records[$index].current_status, bug._id)"
+                                        data-ng-model="issueBoardData[outerIndex].records[$index].current_status"
+                                        data-ng-options="option.name | capitalize for option in statusList track by option._id" class="issue-select" >
+                                    <option value="">Change status</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+                        <div class='panel-footer'>
+                            <a href="javascript:void(0);" class="log_priority">Severity: {{ bug.severity.name | capitalize }}</a>
+                            <a target="_blank" data-ui-sref="main.issues.section({ type: 'comments', id : bug._id, pid: pid })" title="Comment" class="log_comment"><i class="fa fa-comment-o"></i></a>
+                            <a target="_blank" data-ui-sref="main.issues.section({ type: 'attachments', id : bug._id, pid: pid })" title="Attachment" class="log_attach"><i class="fa fa-paperclip"></i></a>
+                            <a target="_blank" data-ui-sref="main.issues.section({ type: 'efforts', id : bug._id, pid: pid })" title="Log Effort" class="log_time"><i class="glyphicon glyphicon-time"></i></a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section><!-- /.content -->

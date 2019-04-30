@@ -1,0 +1,577 @@
+<style>
+.nav-tabs li.active a {
+    color: #5bc0de !important;
+}
+</style>
+
+<section class="container-fluid" id="mainContainerSection" data-ng-init="viewProject();">
+    <div class="page_title">
+        <h1>Project - <span class="sub_title">{{ project_info.title | capitalize }}</span></h1>
+    </div>
+    <div class="project_manage_outer row">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 push-right">
+            <div class='project_right'>
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <span class="project_logo" 
+                              data-ng-style="{'background-image':'url('+ project_logo +')','background-repeat': 'no - repeat','background-position': 'center'}" >
+                         </span>
+                        <h4>{{ project_info.title | capitalize }}
+                        <br/>
+                        <small>
+							<b>Project Owner: </b>{{ project_info.project_manager.first_name | capitalize }}
+						</small>
+                        </h4>
+                        <p class="left-align">{{ project_info.description | capitalize}}</p>
+                        <div class="panel panel-info panel_sprint">
+							 <div class="panel-heading">
+                                <h3 class="panel-title"> Project Information </h3>
+                            </div>
+                            <div class="panel-body">
+							   <table class="table table-striped">
+								   	
+								<tr>
+								  <th>Client Name</th>
+								  <td data-ng-bind="project_info.client_name">  </td>
+								</tr>
+								<tr>
+								  <th>Project Start Date</th>
+								  <td>{{ (project_info.start_date && project_info.start_date != 'undefined') ? (project_info.start_date | convert_dateformat) : ' - '; }}</td>
+                               </tr>
+								<tr>
+								  <th>Actual Start Date </th>
+								  <td>{{ (project_info.project_actual_start_date && project_info.project_actual_start_date != 'undefined') ? (project_info.project_actual_start_date | convert_dateformat) : ' - '; }}</td>
+                              </tr>
+								<tr>
+								  <th>Estimated End Date </th>
+								  <td>{{ (project_info.estimated_end_date && project_info.estimated_end_date != 'undefined') ? (project_info.estimated_end_date | convert_dateformat) : ' - '; }}</td>
+                               </tr>
+								
+								</table>
+								
+							</div>	 
+						</div>	
+                        
+                        
+                        <div class="panel panel-info panel_sprint">
+							 <div class="panel-heading">
+                                <h3 class="panel-title"> Project Estimation And Logged Hours </h3>
+                            </div>
+                            <div class="panel-body">
+							   <table class="table table-striped">
+								   	
+								<tr>
+								  <th>Project Estimated Hours</th>
+								  <td><span ng-if="project_info.estimate_hour">{{project_info.estimate_hour}} Hr(s)</span><span ng-if="!project_info.estimate_hour"> 0 Hr(s)</span></td>
+								</tr>
+								<tr>
+								  <th>Contingency Hours</th>
+								  <td><span ng-if="project_info.contingency_hours">{{project_info.contingency_hours}} Hr(s)</span><span ng-if="!project_info.contingency_hours"> 0 Hr(s)</span></td>
+								</tr>
+								<tr>
+								  <th>Burned Hours </th>
+								   <td><span ng-if="project_info.project_burned_hours">{{project_info.project_burned_hours}} Hr(s)</span><span ng-if="!project_info.project_burned_hours"> 0 Hr(s)</span></td>
+								</tr>
+								<tr>
+								  <th> {{ project_info.estimate_hour >= project_info.project_burned_hours ? 'Remaining Hours' : 'Extra Burned Hours'  }}  </th>
+								  <td data-ng-if="project_info.estimate_hour >= project_info.project_burned_hours">
+								     {{ project_info.estimate_hour - project_info.project_burned_hours }}  Hr(s)
+								  </td>
+								  <td data-ng-if="project_info.estimate_hour < project_info.project_burned_hours">
+								     {{ project_info.project_burned_hours - project_info.estimate_hour  }}  Hr(s)
+								  </td>
+								</tr>
+								</table>
+								
+							</div>	 
+						</div>	
+						
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+
+        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+
+            <div class="manage_inner">
+				
+				<div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> Project Phase Wise Information </h3>
+                    </div>
+                    <div class="panel_inner">
+						<ul class="nav nav-tabs">
+						  <li data-ng-class="selectedPhase == list._id ? 'active' : ''"  data-ng-repeat="list in listofphases">
+							 <a data-ng-click="getPhaseData(list._id)" class="text-primary" href="javascript:void(0)" data-ng-bind="list.phase_name"></a>
+						  </li>
+						</ul>
+						 <div class="row">
+                            <div class="col-xs-12" data-ng-if="listofphases.length == 0 ">
+                                <div class="not_found text-center">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    <span>No Phase found</span>
+                                </div>
+                            </div>
+                            
+                            <ul class="col-xs-12 timeline_style1 timeline"  data-ng-if="listofphases.length > 0 ">
+                             <li>
+                                <div class="timeline-badge info ng-binding"> </div>
+                                <div class="timeline-panel">
+									 <div class=" row">
+										  <div class="col-xs-12">
+											  <div class="timeline-heading ">
+                                                    <h3> {{ phaseWiseData.phases_of_project[0].phase_name | capitalize}}
+                                                        <small data-ng-repeat=" phase_process_data in phaseWiseData.phases_of_project[0].processes">
+                                                            <i  class="fa fa-tags fa-1x" aria-hidden="true" title="{{ phase_process_data.process_name}}"></i> {{ phase_process_data.process_name | capitalize }}
+                                                        </small>
+                                                    </h3>
+                                                    <p>
+													  <strong> Invision link </strong> 	
+                                                      <a target="_blank" href="javascript:void(0);"> {{ phaseWiseData.phases_of_project[0].invison_link }} </a>
+                                                    </p>
+                                                    
+                                                    <p>
+													  <strong> Mockup link </strong> 	
+                                                      <a target="_blank" href="javascript:void(0);"> {{ phaseWiseData.phases_of_project[0].mockup_link }}  </a>
+                                                    </p>
+                                                    
+                                                    
+                                                </div>
+										  </div>
+									       <div class="col-xs-12 col-lg-4">
+											   <ul class="project_time">
+                                                    <li>
+                                                        <label><i class="fa fa-clock-o"></i>Estimated Hours</label>
+                                                        <span>{{(phaseWiseData.phases_of_project[0].estimate_hour && phaseWiseData.phases_of_project[0].estimate_hour != undefined) ? phaseWiseData.phases_of_project[0].estimate_hour : 0}} <small>Hrs</small> </span>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <label><i class="fa fa-clock-o"></i>Burned Hours</label>
+                                                        <span>{{(phaseWiseData.phase_burned_time && phaseWiseData.phase_burned_time != undefined) ? phaseWiseData.phase_burned_time : 0}} <small>Hrs</small> </span>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <label><i class="fa fa-calendar"></i>Start Date</label>
+                                                        <span>{{ (phaseWiseData.phases_of_project[0].start_date && phaseWiseData.phases_of_project[0].start_date != 'undefined') ? (phaseWiseData.phases_of_project[0].start_date | convert_dateformat) : '-';
+                                                            }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <label><i class="fa fa-calendar"></i>End Date</label>
+
+                                                        <span>{{ (phaseWiseData.phases_of_project[0].end_date != '' && phaseWiseData.phases_of_project[0].end_date != 0 && phaseWiseData.phases_of_project[0].end_date != null && phaseWiseData.phases_of_project[0].end_date != undefined) ? (phaseWiseData.phases_of_project[0].end_date | convert_dateformat) : '-';
+                                                            }}</span>
+                                                    </li>
+                                                </ul> 
+										   </div>	   
+									 
+									           <div class="col-xs-12 col-lg-8">
+                                                <div class="table-responsive project_phase_table">
+                                                    <table class="table table-bordered table-responsive table-hover" style="margin-bottom:0;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Total</th>
+                                                                <th>New</th>
+                                                                <th>In-Progress</th>
+                                                                <th>Resolved</th>
+                                                                <th>Completed</th>
+                                                                <th>Closed</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>User Stories</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].UserStory.userStroies_totalcount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].UserStory.newCount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].UserStory.progressCount}}</td>
+                                                                <td> - </td>
+                                                                <td> {{phaseWiseData.phases_of_project[0].UserStory.completedCount}} </td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].UserStory.qaAcceptedCount}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Activity</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Activity.activities_totalcount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Activity.newCount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Activity.progressCount}}</td>
+                                                                <td> - </td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Activity.completedCount}}</td>
+                                                                <td> - </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Issues</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Issue.issue_totalcount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Issue.newCount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Issue.progressCount}}</td>                                        
+                                                                <td>{{phaseWiseData.phases_of_project[0].Issue.resolvedCount}}</td>                                                                
+                                                                <td> - </td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Issue.completedCount}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><a data-ui-sref="sprints({ phaseId: selectedPhase })"> Sprints </a></td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Sprint.sprints_totalcount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Sprint.newCount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Sprint.progressCount}}</td>
+                                                                <td> - </td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Sprint.completedCount}}</td>
+                                                                <td>{{phaseWiseData.phases_of_project[0].Sprint.closedCount}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                       
+									 </div>	 
+								</div>	
+                             </li>
+                            </ul>
+                            
+                        </div>
+
+
+					</div>
+			    </div>
+               
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Sprints
+                        </h3>
+                    </div>
+                    <div class="panel_inner">
+
+
+                        <div class="row">
+                            <div class="col-xs-12 btn-group pull-right">
+                                <button type="button" class="btn btn-info dropdown-toggle pull-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Sprint 
+                                    <span class="caret"></span>
+                                </button> 
+                                <ul class="dropdown-menu pull-right"> 
+                                    <li><a href="javascript:void(0);" data-ng-click="addSprintModal('quick');">Quick add</a></li> 
+                                </ul> 
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="not_found text-center" data-ng-show=" project_info.sprints.length == 0">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    <span>No Sprint found</span>
+                                </div>
+
+
+                                <ul class="timeline timeline_style1 " data-ng-show=" project_info.sprints.length > 0">
+
+                                    <li  data-ng-repeat=" sprint_info in project_info.sprints">
+                                        <div class="timeline-badge info">#{{ sprint_info.sprint_number}} </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-body">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="timeline-heading ">
+                                                            <h3>#SP-{{ sprint_info.sprint_number}} {{ sprint_info.sprint_name}} 
+                                                                <small title="User Stories" class="text-muted">({{ sprint_info.total_user_stories}} US)</small>
+                                                                <a class="edit_mode_sprint btn btn-primary" data-ng-click="editSprintModal(sprint_info._id);" >
+                                                                    <i class="fa fa-pencil" title="Edit Sprint"></i>
+                                                                </a>
+                                                            </h3>
+                                                            <span class="pull-right">
+                                                                <i class="fa fa-clock-o"></i> {{ (sprint_info.created_at != '') ? (sprint_info.created_at | convert_dateformat) : '-';
+                                                                }}</span>
+                                                        </div>
+
+                                                        <p class="firstCap">{{ sprint_info.description}}</p>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-lg-4">
+                                                        <ul class="project_time">
+                                                            <li>
+                                                                <label><i class="fa fa-clock-o"></i>Planned Hours</label>
+                                                                <span>{{ (sprint_info.planned_hours && sprint_info.planned_hours != undefined) ? sprint_info.planned_hours : "00:00"}} <small>Hrs</small> </span>
+                                                            </li>
+                                                            <li>
+                                                                <label><i class="fa fa-clock-o"></i>Burned Hours</label>
+                                                                <span>{{ (sprint_info.burned_time && sprint_info.burned_time != undefined) ? sprint_info.burned_time : "00:00"}} <small>Hrs</small> </span>
+                                                            </li>
+                                                            <li>
+                                                                <label><i class="fa fa-calendar"></i>Start Date</label>
+                                                                <span>{{ (sprint_info.start_date && sprint_info.start_date != 'undefined') ? (sprint_info.start_date | convert_dateformat) : '-';
+                                                                    }}</span>
+                                                            </li>
+                                                            <li>
+                                                                <label><i class="fa fa-calendar"></i>End Date</label>
+                                                                <span>{{ (sprint_info.end_date && sprint_info.end_date != 'undefined') ? (sprint_info.end_date | convert_dateformat) : '-';
+                                                                    }}</span>
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
+                                                    <div class="col-xs-12 col-lg-8">
+                                                        <div class="sprint_hrs_outer">
+                                                            <div class="sprint_hrs">
+                                                                <h4>Activity</h4>
+                                                                <p class="pull-left">
+                                                                    <strong>Planned Hours :</strong>
+                                                                    <span class="text-muted">
+                                                                        {{ (sprint_info.activity_planned_hours && sprint_info.activity_planned_hours != undefined) ? sprint_info.activity_planned_hours : 0}}
+                                                                    </span>
+                                                                </p>
+                                                                <p class="pull-right">
+                                                                    <strong>Burned Hours :</strong>
+                                                                    <span class="text-muted">
+                                                                        {{ (sprint_info.activity_burned_hours && sprint_info.activity_burned_hours != undefined) ? sprint_info.activity_burned_hours : 0}}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="sprint_hrs">
+                                                                <h4>Issues</h4>
+                                                                <p class="pull-left">
+                                                                    <strong>Planned Hours :</strong>
+                                                                    <span class="text-muted">
+                                                                        {{ (sprint_info.issue_planned_hours && sprint_info.issue_planned_hours != undefined) ? sprint_info.issue_planned_hours : 0}}
+                                                                    </span>
+                                                                </p>
+                                                                <p class="pull-right">
+                                                                    <strong>Burned Hours :</strong>
+                                                                    <span class="text-muted">
+                                                                        {{ (sprint_info.issue_burned_hours && sprint_info.issue_burned_hours != undefined) ? sprint_info.issue_burned_hours : 0}}
+                                                                    </span>
+                                                                </p>
+
+
+                                                            </div>
+                                                            <div class="sprint_hrs">
+
+                                                                <h4>User story</h4>
+                                                                <p class="pull-left">
+                                                                    <strong>Planned Hours :</strong>
+                                                                    <span class="text-muted">
+                                                                        {{ (sprint_info.userstory_planned_hours && sprint_info.userstory_planned_hours != undefined) ? sprint_info.userstory_planned_hours : 0}}
+                                                                    </span>
+                                                                </p>
+                                                                <p class="pull-right">
+                                                                    <strong>Burned Hours :</strong>
+                                                                    <span class="text-muted">
+                                                                        {{ (sprint_info.userstory_burned_hours && sprint_info.userstory_burned_hours != undefined) ? sprint_info.userstory_burned_hours : 0}}
+                                                                    </span  >
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Un-Mapped Issues
+                        </h3>
+                    </div>
+                    <div class="panel_inner">
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th data-ng-repeat="unmappedIssue in project_info.Un_mappedIssues">{{unmappedIssue.name}}</th>
+                                        </tr>
+                                        <tr>
+                                            <td data-ng-repeat="unmappedIssueCount in project_info.Un_mappedIssues">{{ unmappedIssueCount.count }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!--End Phase & Sprint -->
+                <!-- Resources -->
+
+                <!--  <div class="panel panel-success">
+                   <div class="panel-heading">
+                     <h3 class="panel-title">Resources
+                     </h3>
+                   </div>
+                   <div class="panel_inner">
+                     <div class="row">
+                       <div class="col-xs-12 table-responsive">
+         
+                         <table class="table table-bordered table-hover">
+                                     <tbody>
+                                         <tr>
+                                             <th>User</th>
+                                             <th>Total Assignments</th>
+                                             <th>New</th>
+                                             <th>In-Progress</th>
+                                             <th>Done</th>
+                                             <th>Hours Logged</th>
+                                         </tr>
+         
+                                         <tr data-ng-show=" project_info.resources.length == 0">
+                                             <td colspan="6">
+                                 <div class="not_found text-center">
+                                   <i class="fa fa-exclamation-triangle"></i>
+                                   <span>No Resources found</span>
+                                 </div>
+                                             </td>
+                                         </tr>
+         
+                                         <tr  data-ng-show=" project_info.resources.length > 0" data-ng-repeat=" assigned_resource in  project_info.resources">
+                                             <td>
+                                 <span class="res_pic" style="background:url('{{  (assigned_resource.profile_pic && assigned_resource.profile_pic != undefined)  ? baseUrl + 'attachment/admin/' + assigned_resource.profile_pic : 'assets/img/default.png'}}')center no-repeat">
+         
+                                 </span>
+                                 {{ (assigned_resource.first_name && assigned_resource.first_name != undefined) ? (assigned_resource.first_name | capitalize) : ''}}
+                                             </td>
+                                             <td>0</td>
+                                             <td>0</td>
+                                             <td>0</td>
+                                             <td>0</td>
+                                             <td>0</td>
+                                         </tr>
+         
+                                     </tbody>
+                                 </table>
+         
+                             </div>
+                         </div>
+                     </div>
+                 </div> -->
+
+                <!---/ Resources -->
+                <!-- Budgeting Info-->
+                
+                <!--
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Budgeting Information
+                        </h3>
+                    </div>
+                    <div class="panel_inner">
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th>Confirmed Date</th>
+                                            <th>Contingency Hours</th>
+                                            <th>Start Date</th>
+                                            <th>Estimated End Date</th>
+                                            <th>Total Billing</th>
+                                            <th>Efforts Logged</th>
+                                            <th>Extra Hours</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ (project_info.confirmed_date && project_info.confirmed_date != 'undefined') ? (project_info.confirmed_date | convert_dateformat) : '-'}}</td>
+                                            <td>{{ (project_info.contingency_hours && project_info.contingency_hours != unbdefined) ? project_info.contingency_hours : '-'}}</td>
+                                            <td>{{ (project_info.start_date && project_info.start_date != 'undefined') ? (project_info.start_date | convert_dateformat) : '-'}}</td>
+                                            <td>{{ (project_info.estimated_end_date && project_info.estimated_end_date != 'undefined') ? (project_info.estimated_end_date | convert_dateformat) : '-'}}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 -->
+                <!--/ End Budgeting Information -->
+
+                <!-- Comments & Notifications-->
+                <div class="panel panel-success"  data-ng-init="getComments();">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Comments & Notifications</h3>
+                    </div>
+                    <div class="panel_inner">
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+
+                                <div class="post-comments">
+                                    <form class="form-border" name="commentform" data-ng-submit=" commentform.$valid ? commentPost() : submitted = true;" novalidate>
+                                        <div class="form-group">
+                                            <label for="comment">Your Comment</label>
+
+                                            <textarea name="comment" class="form-control" rows="3" ng-model="comments.comment_description" required></textarea>
+
+                                            <div ng-messages="commentform.comment.$error" class="text-danger" data-ng-if=" submitted || commentform.comment.$touched">
+                                                <div ng-message="required">Comment is required.</div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary align-center">Comment</button>
+                                    </form>
+
+
+                                    <div class="not_found text-center"  ng-if="list.length <= 0">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                        <span>No Comments found</span>
+                                    </div>
+
+                                    <ul class='timeline comment_timeline' ng-if="list.length > 0">
+                                        <li  ng-repeat="x in list">
+                                            <div class="timeline-badge ng-binding">
+                                                <span class='comment_pic' style="background: url('{{ (x.comment.user_id.profile_pic && x.comment.user_id.profile_pic != undefined) ? url + x.comment.user_id.profile_pic : 'assets/img/default-user.png'}}')center no-repeat;"></span>
+                                            </div>
+                                            <div class='timeline-panel'>
+                                                <div class="timeline-entry-inner">
+
+                                                    <div class="timeline-label">
+                                                        <h6>{{x.comment.user_id.first_name| capitalize}}&nbsp;<span>posted a status update</span><span class="pull-right"><i class="glyphicon glyphicon-time"></i>&nbsp;{{ x.comment.created_at | convert_date_ago }}</span></h6>
+                                                        <p class="firstCap pre-text">{{x.comment.comment_description}}</p>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </li>
+                                    </ul>
+
+                                    <div class="col-lg-12" ng-if="loadmoreButton">
+                                        <button type="button" style="margin-left: 43%;" class="btn btn-primary" ng-click="loadMore();">Load More</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- End Comment section -->
+            </div>
+        </div>
+    </div>
+
+</section>

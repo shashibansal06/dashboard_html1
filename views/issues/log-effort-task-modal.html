@@ -1,0 +1,62 @@
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header popup-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-list"></i> Log Effort</h4>
+            </div>  
+            <form class="form-horizontal form-border" name="efforts" data-ng-submit=" efforts.$valid ? logEfforts(loc) : submitted = true" novalidate>
+                <div class="modal-body" style="padding:27px">
+                    <div class="form-group">
+                        <label class="control-label">Time spent <sup class="sup_star">*</sup>:</label>
+                        <input mask="99:99" class="form-control" data-ng-model="effort.timepicker" name="log" placeholder="00:00" required>
+                        <div ng-messages="efforts.log.$error" class="text-danger" data-ng-if=" submitted || efforts.log.$touched">
+                            <div ng-message="required">Time spent is required.</div>
+                            <div data-ng-message="mask">Valid format HH:MM (00:00).</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Select process <sup class="sup_star">*</sup>:</label>
+                        <select class="form-control" name="process" data-ng-model="effort.process" 
+                                data-ng-options="option.process_name | capitalize for option in processes track by option._id" required>
+                            <option style="display:none" value="">Select a your process</option>
+                        </select>
+                        <div ng-messages="efforts.process.$error" class="text-danger" data-ng-if=" submitted || efforts.process.$touched">
+                            <div ng-message="required">Process is required.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Date <sup class="sup_star">*</sup>:</label>
+
+                        <p class="input-group">
+                            <input style="display:none;" type="text" ng-model="effort.task_id">
+                            <input style="display:none;" type="text" ng-model="effort.project_id">
+                            <input style="display:none;" type="text" ng-model="effort.phase_id">
+                            <input style="display:none;" type="text" ng-model="effort.us_id">
+                            <input style="display:none;" type="text" ng-model="effort.sp_id">
+                            <input name="logdate" ng-click="open()" placeholder="Please select a log effort date" type="text" class="form-control" uib-datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="effort.date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" required readonly />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+
+                        <div ng-messages="efforts.logdate.$error" class="text-danger" data-ng-if=" submitted || efforts.logdate.$touched">
+                            <div ng-message="required">Log effort date is required.</div>
+                        </div>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="close_modal btn btn-primary" type="button" >Close</button>
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+

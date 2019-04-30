@@ -1,0 +1,46 @@
+<div class="panel panel-success" data-ng-init="getDashboardComments();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comments
+            <a data-ui-sref="projectView({ id : '{{ project_id}}' })">View All</a>
+            <span class="pull-right clickable" data-toggle="collapse" data-target="#comments" style="cursor:pointer"> <i class="fa fa-minus"></i></span></h3>
+    </div>
+    <div class="panel-body  collapse in" id="comments">
+        <div class="panel_inner">
+            <div class="row">
+                <form class="form-horizontal form-border full-width" name="commentform" data-ng-submit="commentform.$valid ? dashboardCommentPost() : submitted = true;" novalidate>
+                    <div class="col-xs-12 margin-bottom-4x">
+                        <textarea rows="4" name="comment" class="form-control" placeholder="Your Comment" ng-model="comments.comment_description" required></textarea>
+                        <div ng-messages="commentform.comment.$error" class="text-danger" data-ng-if=" submitted || commentform.comment.$touched">
+                            <div ng-message="required">Comment is required.</div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 form-group text-right">
+                        <button type="submit" class="btn btn-primary"> Comment </button>
+                    </div>
+                </form>
+            </div>            
+
+            <div class="col-xs-12">
+                <span ng-if="list.length <= 0">No Comments Found</span>
+                <div class="timeline-centered" ng-repeat="x in list">
+                    <article class="timeline-entry">
+                        <div class="timeline-entry-inner">
+                            <div class="timeline-icon bg-success">
+                                <i class="entypo-feather"></i>
+                                <img ng-src="{{ (x.comment.user_id.profile_pic && x.comment.user_id.profile_pic != undefined) ? url + x.comment.user_id.profile_pic : 'assets/img/default-user.png'}}" class="img-circle avatar img-responsive">                                                 
+                            </div>
+                            <div class="timeline-label">
+                                <div class="title h5"><a href="javascript:void(0);"><b>{{x.comment.user_id.first_name| capitalize}}</b></a> <span></span>
+                                    <small class="pull-right"><i class="glyphicon glyphicon-time"></i> {{x.comment.created_at| convert_date_ago}}</small>
+                                </div>
+                                <p class="firstCap pre-text">{{x.comment.comment_description}}</p>
+                            </div>
+                        </div>
+                    </article> 
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

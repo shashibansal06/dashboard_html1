@@ -1,0 +1,83 @@
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header popup-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-list"></i> Add Test Case</h4>
+            </div>  
+
+            <form data-ng-init=" submitted = false;" class="form-horizontal form-border" name="add_checklist" data-ng-submit=" add_checklist.$valid ? addCheckList() : submitted = true " novalidate>
+                <div class="modal-body" style="padding:27px">
+
+                    <div class="form-group">
+                        <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control capitalize" name="title" data-ng-model="checklist.title" data-ng-minlength="1" data-ng-maxlength="100" required  placeholder="Title">
+                        <div ng-messages="add_checklist.title.$error" class="text-danger" data-ng-if=" submitted || add_checklist.title.$touched">
+                            <div ng-message="required">Title is required.</div>
+                            <div ng-message="minlength">Minimum 1 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 100 characters allowed</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Summary<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control firstCap" name="summary" data-ng-model="checklist.summary" data-ng-minlength="10" data-ng-maxlength="5000" required  placeholder="Summary">
+                        <div ng-messages="add_checklist.summary.$error" class="text-danger" data-ng-if=" submitted || add_checklist.summary.$touched">
+                            <div ng-message="required">Summary is required.</div>
+                            <div ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Test Steps<sup class="sup_star">*</sup>:</label>
+                        <textarea class="form-control firstCap" name="testSteps"  row="2" data-ng-model="checklist.testSteps" data-ng-minlength="10" data-ng-maxlength="5000" required  placeholder="Test Steps"></textarea>
+                        <div ng-messages="add_checklist.testSteps.$error" class="text-danger" data-ng-if=" submitted || add_checklist.testSteps.$touched">
+                            <div ng-message="required">Test Steps is required.</div>
+                            <div ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Test Data<sup class="sup_star">*</sup>:</label>
+                        <textarea class="form-control firstCap" row="2" name="testData"  data-ng-model="checklist.testData" data-ng-minlength="10" data-ng-maxlength="5000" required  placeholder="Test Data"></textarea>
+                        <div ng-messages="add_checklist.testData.$error" class="text-danger" data-ng-if=" submitted || add_checklist.testData.$touched">
+                            <div ng-message="required">Test Data is required.</div>
+                            <div ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Expected Result<sup class="sup_star">*</sup>:</label>
+                        <textarea class="form-control firstCap" row="2" name="result" data-ng-model="checklist.result" data-ng-minlength="10" data-ng-maxlength="5000" required  placeholder="Expected Result"></textarea>
+                        <div ng-messages="add_checklist.result.$error" class="text-danger" data-ng-if=" submitted || add_checklist.result.$touched">
+                            <div ng-message="required">Expected Result is required.</div>
+                            <div ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label class="control-label">Priority<sup class="sup_star">*</sup>:</label>
+                        <select class="form-control" name="priority" data-ng-model="checklist.priority" required>
+                            <option value="">Select Priority</option>
+                            <option data-ng-value="priority_detail._id"  data-ng-repeat=" priority_detail in priority_status ">{{ priority_detail.name | capitalize }}</option>
+                        </select> 
+                        <div ng-messages="add_checklist.priority.$error" class="text-danger" data-ng-if=" submitted || add_checklist.priority.$touched">
+                            <div ng-message="required">Priority is required.</div>
+                            
+                        </div>
+                        
+                    </div>  
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="close_modal btn btn-primary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

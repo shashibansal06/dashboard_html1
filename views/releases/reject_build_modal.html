@@ -1,0 +1,27 @@
+﻿<div class="modal fade">
+    <div class="modal-dialog">      
+        <div class="modal-content">
+            <form method="post"  name="rejectform" data-ng-submit=" rejectform.$valid ? rejectBuild() : submitted = true " novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 style="text-align:center">Rejection Notes</h3>
+                </div>
+                <div class="modal-body">
+                    <textarea data-ng-model="rejection.rejection_notes" required data-ng-minlength="2" data-ng-minlength="240" name="rejection_notes" rows="7" style="width:100%" placeholder="Enter your rejection reason "></textarea>
+                    
+                    <div data-ng-messages="rejectform.rejection_notes.$error" class="text-danger" data-ng-if=" submitted || rejectform.rejection_notes.$touched ">
+                        <div data-ng-message="required">Rejection note is required.</div>
+                        <div data-ng-message="maxlength">Max 240 characters allowed</div>
+                        <div data-ng-message="minlength">Min 2 characters required</div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

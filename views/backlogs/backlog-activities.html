@@ -1,0 +1,98 @@
+<div class="tab-container" data-ng-init="getAllActivities('activities', 'type', 'all');">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-3" data-ng-init="getPhasesByProjectId()">
+                <select class="form-control"  ng-options="(option.phase_name | capitalize) for option in phaseList track by option._id" ng-model="phase_id" ng-change="getAllActivities('activity', 'type', 'all');">
+                    <option value="">Select Phase</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <form name="search_activity"
+                      data-ng-submit=" search_activity.$valid ? getAllActivities('activities', 'keyword', search) : '' ">
+
+                    <div class="input-group">
+                        <input type="text" name="backlog_activity_search" data-ng-model="search" class="form-control"
+                               placeholder="Search Activities..." data-ng-pattern="/^[a-zA-Z0-9 ]*$/">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">Go!</button>
+                        </span>
+                    </div>
+                    <div ng-messages="search_activity.backlog_activity_search.$error" class="text-danger" role="alert" ng-if="submitted || search_activity.backlog_activity_search.$touched">
+                        <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2" >
+                <button class="btn btn-secondary" type="button" data-ng-click="clearFilter()">Reset</button>
+            </div>
+
+            <div class="col-md-3 pull-right">
+                <div data-ng-click="addActivity();" class="btn btn-primary">
+                    Create New Activity
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel-body table-responsive">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="timeline-centered margin-top-4x">
+                    <article class="timeline-entry" data-ng-repeat="record in list">
+                        <div class="timeline-entry-inner  margin-top-3x">
+                            <div class="timeline-icon bg-success">
+                                <img width="50" height="50" class="img-circle" data-ng-src="{{ (record.assignee_pic && record.assignee_pic != undefined) ? url + record.assignee_pic + '/50x50' : 'assets/img/default.png'}}">
+                            </div>
+                            <div class="timeline-label">
+                                <h2>{{record.assigned_to| capitalize}} <span class="pull-right text-danger">Status - {{record.status}}</span></h2>
+                                <h2>
+                                    <span uib-rating data-ng-click="setRating(record._id, record.task_complexity)" data-ng-model="record.task_complexity" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three','four','five']" aria-labelledby="default-rating"></span>
+                                    <span class="pull-right text-danger"> Estimated - {{record.estimated_time}} Hours</span>
+                                </h2> 
+                                <h2 class="pull-right"><span>{{record.assigned_at| convert_date}}</span></h2>
+                                <h2><u><a data-ui-sref="activityView({ id : record._id })">ACT-{{record.taskId}} {{record.name}}</a> </u>
+                                    <span> &nbsp; Created by {{record.created_by| capitalize}}  {{record.created_at| convert_date}}</span>
+                                </h2>
+                                <p class="pre-text firstCap" data-ng-bind-html="record.description"></p>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a target="_blank" data-ui-sref="projectView({ id : record.project_id })"  class="text-primary" href="javascript:void(0);" title="Project - {{record.project_name| capitalize}}">
+                                            <img data-ng-src="{{ (record.project_logo && record.project_logo == undefined) ? url + record.project_logo : 'assets/img/50x50.png'}}"  class="img-circle" alt="Cinque Terre" width="20" height="20"> {{record.project_name| capitalize}}
+                                        </a> - <span ng-if="record.phase_name != ''">{{record.phase_name| capitalize}}</span>
+                                        <span ng-if="record.phase_name == ''" style="cursor: pointer">
+                                            <select ng-model="$parent.phaseId" ng-options="option.phase_name for option in record.project_phases track by option._id" data-ng-change="assignPhase(phaseId, record._id);">
+                                                <option value="">Assign Phase</option>
+                                            </select>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Assigned By {{record.assigned_by| capitalize}}
+                                    </li>
+                                    <li title="Total comments">
+                                        <i class="fa fa-comments" aria-hidden="true"></i> {{record.comment_count}}
+                                    </li>
+                                    <!--<li title="Total Tasks">
+                                         <i class="fa fa-tasks" aria-hidden="true"></i> 0
+                                     </li>-->
+                                    <li title="Activity end date">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> {{record.end_date| convert_dateformat}}
+                                    </li>
+                                    <li class="pull-right">
+                                        <b>Is Billable : </b> {{ (record.is_billable == true) ? 'Yes' : 'No'}} 
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                    <article data-ng-if="totalRecords == 0">
+                        <div>No Record(s) Found.</div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="pull-right" aria-label="Page navigation">
+        <ul class="pagination" uib-pagination total-items="totalRecords" ng-model="currentPage" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getAllActivities('activities', 'type', 'all')"></ul>
+    </nav>
+</div>

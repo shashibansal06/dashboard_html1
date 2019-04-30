@@ -1,0 +1,107 @@
+<div class="tab-container">
+    <div class="col-md-12" data-ng-init="getAllIssues();">
+        <div style="margin-bottom:50px">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-3">
+                            <select required class="form-control" name="assigne" style="text-transform: capitalize;"  ng-options="option.first_name + ' ' + ' ('+option.email+')' disable when option.status != 1 for option in issues_assignee track by option._id" ng-model="assigne_id"  ng-change="getAllIssues('asigne');">
+                                <option value="">Select assignee</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <select class="form-control" style="text-transform: capitalize;"   ng-options="option.name for option in status track by option._id " ng-model="status_id"
+                                    ng-change="getAllIssues('status');">
+                                <option value="">Select Status</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <form name="search_issues" data-ng-submit=" search_issues.$valid ? getAllIssues('search') : '' ">
+
+                                <div class="input-group">
+                                    <input name="backlog_issues_search" type="text" data-ng-model="search" class="form-control" placeholder="Search By Key"  data-ng-pattern="/^[a-zA-Z0-9 ]*$/">
+                                    <span class="input-group-btn">
+                                        <button  class="btn btn-primary" type="submit">Go!</button>
+                                    </span>
+                                </div>
+                                <div ng-messages="search_issues.backlog_issues_search.$error" class="text-danger" role="alert" ng-if="submitted || search_issues.backlog_issues_search.$touched">
+                                    <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                                </div>   
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <button  class="btn btn-secondary" type="button" data-ng-click="clearFilter()">Reset</button>
+                        </div>
+                        <!--<div class="col-md-2">
+                            <div class="input-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" style="background-color: #337ab7;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Issues<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);" data-ng-click="addQuickModal();">Quick add</a></li>
+                                    <li><a href="javascript:void(0);" data-ng-click="addIssueDetailpModal();">Add Issues with details</a></li>
+                                </ul>
+                            </div>
+                        </div>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color: #fff; background-color: #337ab7;border-color: #2e6da4;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            <h4><i class="fa fa-bug" aria-hidden="true" ></i>&nbsp;Issue Tracker </h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-striped table-bordered table-hover" cellspacing="0 " width="100% ">
+                    <thead class="thead-inverse ">
+                        <tr>
+                            <th>Key</th>
+                            <th>Title</th>
+                            <th>Assignee</th>
+                            <th>Reporter</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Effort Logged</th>
+                            <!--<th>Action</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="issue in issues">
+                            <td style="cursor: pointer;">
+                                <a data-ui-sref="main.issues.section({ type: 'description', id : issue._id, pid: project_id })">
+                                    {{(issue.taskId && issue.taskId != undefined) ? ' BG' + " " + issue.taskId: ''}}
+                                </a>
+                            </td>
+                            <td class="align-on-center capitalize ">{{issue.name}}</td>
+                            <td class="align-on-center capitalize ">{{ issue.assigned_to.first_name + " " + issue.assigned_to.last_name}}</td>
+                            <td class="align-on-center capitalize ">{{issue.created_by.first_name + " " + issue.created_by.last_name}}</td>
+                            <td class="align-on-center capitalize ">{{issue.severity.name}}</td>
+                            <td class="align-on-center capitalize ">{{issue.status.name}}</td>
+                            <td>{{issue.created_at| convert_date}}</td>
+                            <td>{{issue.efforts.updated_at ? (issue.efforts.updated_at | convert_date) : ' - '}}</td>
+                            <td>{{issue.efforts.efforts}}
+                            </td>
+                           <!--<td>
+                                <a data-ng-click="deleteIssue(issue._id, issue.project_id, 2)" href="javascript:void(0)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <span ng-if="CountData == 0" class="text-danger"><h4><b>No Record(s) Found</b></h4></span>
+        <nav class="pull-right" aria-label="Page navigation">
+            <ul class="pagination" uib-pagination total-items="CountData" ng-model="currentPage" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getAllIssues()"></ul>
+        </nav>
+    </div>
+</div>

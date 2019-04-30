@@ -1,0 +1,168 @@
+.sidebar{
+	background-color: $blue-color;
+	@include pos(f, 0 auto auto 0);
+	@include box-shadow(4px, 0px, 15px, rgba(0,0,0,0.6));
+	height:100vh;	
+	@include width(250);
+	z-index:9;
+	@media screen and (max-width:$h_tab){
+		@include width(55);
+	}
+	@media screen and (max-width:$ptablet){
+		@include width(250);
+		display: none;
+	}
+	&.wide-sidebar{
+		@include width(250);
+		transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-webkit-transition: all 0.5s ease;
+		nav{
+			ul{
+				li{
+					width: 250px;
+					a{
+						i{
+							display: inline-block;
+
+						}
+					}
+				}
+			}
+		}
+	}
+	.logo-dashborad{
+		text-align: center;
+		@include padding(16 5);
+		background-color:$skycolor;
+		a{
+			display: inline-block;
+			img{
+				width: 98px;
+				@media screen and (max-width:$desktop){
+					width: 90px;
+				}
+			}
+		}
+		@media screen and (max-width:$desktop){
+			@include padding(14 5);
+		}
+		@media screen and (max-width:$h_tab){
+			display: none;
+		}		
+	}
+	nav{
+		@include margin(20 0);
+		@media screen and (max-width:$desktop){
+			@include margin(15 0);
+		}
+		@media screen and (max-width:$ptablet){
+			@include padding(25 0);
+			@include margin(0);
+		}
+		ul{
+			li{				
+				width:100%;
+				@include pos(r, null);
+				&.b_drp{
+					&:after{
+						content: "\f0d7";
+						@include pos(a, 18px 12px auto auto);  
+						font-family:FontAwesome;
+						color:$white;
+						@include font-size(12);
+					}
+					ul{
+						background-color: $skyhovercolor;
+						@include padding-left(55);
+						li{
+							list-style-type: disc;
+							color: $blue-color;
+							&:after{
+								@include pos(a, 0 auto auto -40px); 
+								content: "";
+								height:100%;
+								width:1px;
+								background-color: $blue-color;
+							}
+							&:before{
+								@include pos(a, 50% auto auto -40px); 
+								content: "";
+								height:1px;
+								width:26px;
+								background-color:$blue-color;
+							}
+							&:last-child{
+								&:after{
+									height:50%;									
+								}
+							}
+							a{
+								color: $blue-color;
+								padding-left: 0px;
+								i{
+
+								}
+							}
+						}
+					}
+				}
+				a{
+					@include padding(10 15);
+					color: $white;
+					display: block;
+					@media screen and (max-width:$desktop){
+						@include padding(8 30);						
+					}
+					@media screen and (max-width:$h_tab){
+						@include padding(8 15);	
+					}
+					span{
+						@include padding-right(10);						
+						@include font-size(22);
+						display: inline-block;
+						vertical-align: middle;
+						@media screen and (max-width:$desktop){
+							@include padding-right(25);
+							@include font-size(18);							
+						}
+						@media screen and (max-width:$h_tab){
+							@include font-size(22);
+							@include padding-right(10);	
+						}
+					}
+					i{
+						font-style: normal;
+						@include font-size(13);
+						@media screen and (max-width:$h_tab){
+							display: none;
+						}
+						@media screen and (max-width:$ptablet){
+							display:inline-block;
+						}
+					}
+					&:hover, &.active{
+						background-color: $skyhovercolor;
+					}
+				}
+				&.nav-border{	
+					a{				
+						@include margin-top(30);
+						@media screen and (max-width:$desktop){	
+							@include margin-top(20);
+						}
+					}
+				}
+				&.nav-margin-bottom{
+					border-bottom:1px solid $border-lightblue;
+					a{
+						@include margin-bottom(40);
+						@media screen and (max-width:$desktop){	
+							@include margin-bottom(20);
+						}
+					}
+				}
+			}
+		}
+	}
+}

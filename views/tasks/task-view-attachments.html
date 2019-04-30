@@ -1,0 +1,56 @@
+<div class="panel panel-default padding-15x"  data-ng-init="getAttachments();">
+    <div class="page_title">
+        <h1><i class="glyphicon glyphicon-paperclip"></i> Attachments</h1>
+    </div>
+
+    <div class="panel-body">
+        <i class="drop-box glyphicon glyphicon-paperclip col-lg-12 attachment-div"
+           ngf-keep="distinct"
+           ngf-max-size="5MB"
+           ngf-pattern="'.pdf,.jpg,.gif,.ods,.png,jpeg,.xls,.xlsx,.doc,.docx,.ppt'"
+           ngf-select="uploadFiles($files,task_id,pid)"
+           ngf-drop="uploadFiles($files,task_id,pid)"
+           ngf-drag-over-class="'dragover'"
+           ngf-model-invalid="invalidFile"
+           ngf-multiple="true"> <span>Attachments</span>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+            <div>
+                Select/Drop Files : images(jpg, gif, png) doc(pdf, xlsx, doc, docx, ppt, xls) and 5 at a time allowed
+            </div>
+
+
+            <div class="progress" data-ng-show="taskprogress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{taskprogress}}%">
+                    <span data-ng-bind="taskprogress + '%'">Complete</span>
+                </div>
+            </div>
+
+            <div>
+                <div data-ng-show="file_max_limit" class="text-danger">You cannot select more than 5 files at a time</div> 
+                <div data-ng-show=" (invalidFile[0].$error && invalidFile[0].$error == 'pattern')"  class="text-danger">Images(jpg, gif, png) doc(pdf, xlsx, doc, docx, ppt, xls) allowed</div>
+                <div data-ng-show=" (invalidFile[0].$error && invalidFile[0].$error == 'maxSize')"  class="text-danger">File(s) Too large max 5mb allowed</div>
+            </div>
+
+        </i>
+
+        <div class="well attach-ul">
+            <ul>
+                <li  data-ng-repeat=" attachment in attachments track by $index" data-ng-show=" attachments.length > 0">
+                    <a title="{{attachment.original_name}}" href="javascript:void(0)" data-ng-click="attachmentModal(attachment)">
+                        <img class="thumbnail img-responsive pull-left" src=" {{ (attachment.extension != 'gif' && attachment.extension != 'png' && attachment.extension != 'jpeg' && attachment.extension != 'jpg') ? 'assets/img/default-document-icon.jpg' : baseUrl + 'attachment/admin/' + attachment.name}} " height="100" width="100">
+                    </a>
+                    <div style="padding-left:130px">
+                        <strong>{{ (attachment.original_name != undefined) ? attachment.original_name : ''}}</strong><br/>
+                        <small class="text-muted">{{ attachment.created_at | convert_date_ago }} </small><br/>
+                        <a title="Click to download" target="_blank"  download="{{ attachment.name}}" href=" {{ baseUrl}}attachment/admin/{{ attachment.name}}" > <span class="glyphicon glyphicon-download-alt"> </span></a>
+                        <a href="javascript:void(0);" data-ng-click="deleteAttachment(task_id, attachment._id)"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </li>
+                <li data-ng-show=" attachments.length == 0">
+                    No attachment found
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

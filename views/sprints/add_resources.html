@@ -1,0 +1,177 @@
+<section  style="overflow:visible; " class="container-fluid" id="mainContainerSection">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page_title">
+                <h1>Add Resources</h1>
+            </div>
+        </div>
+        <!--   <div class="col-md-6">
+              <a ui-sref="sprints" style="text-align: right;" >Manage Sprints</a>
+          </div> -->
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Basic Info</strong>
+        </div>
+        <div class="row padding-15x">
+            <div class="col-md-12" style="margin-left: 6px;">
+                <div class="form-group">
+                    <label for="comment" class="capitalize">SP{{sprint_payload.sprint_number}} <i class="fa fa-key" aria-hidden="true"></i> {{sprint_payload.sprint_name}}
+                    </label>
+                    <p class="firstCap black">{{sprint_payload.description}}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Start Date :</label>
+                        <span>{{sprint_payload.start_date| convert_dateformat}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Contigency Hours (%) :</label>
+                        <span>{{sprint_payload.contigency_hours}}</span>
+                    </div>
+                </div>              
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Release Plan :</label>
+                        <span class="capitalize">{{sprint_payload.release_plan_id.title}}</span>
+                    </div>
+                </div>                
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Phase :</label>
+                        <span>{{sprint_payload.phases[0].phase_name|capitalize}}</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Processes :</label>
+                        <span ng-repeat="process in sprint_payload.phases[0].processes track by $index"><span class="capitalize"><span ng-if="$index != 0">,</span> {{process.process_name}}</span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Planned Hours :</label>
+                        <span>{{sprint_payload.planned_time}} Hours</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Total User Stories:</label>
+                        <span>{{totalRecords}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-xs-4">
+            <div class="basic_info">
+                <strong>Available Users ({{project_available_resources.length}})</strong>
+                <div class="form-group margin-top-2x">
+                    <!-- total {{project_resources.length}} and filter {{addedResourceIds.length}} and pending{{project_available_resources.length}} -->
+                    <input class="form-control" data-ng-model='search_user' ng-keyup="getProjectAssignedResources()" placeholder="Search ..." type="text">
+                    <!--  <span class="input-group-btn">
+                      <button class="btn btn-primary" type="button">Go!</button>
+                 </span> -->
+                </div>
+                <div  class="media basic-info-col-1">
+                    <div data-ng-repeat=" resource in project_available_resources track by $index" data-ng-show=" {{ project_available_resources.length > 0}}" class="resurce-info">
+                        <div class="media-left">
+                            <a href="javascript:void(0)" ng-click="resourcesModal($event, $index, resource);">
+                                <img src=" {{  !resource.profile_pic  ? 'assets/img/default.png' :  baseUrl + 'attachment/admin/'+ resource.profile_pic }} " class="media-object" width="50px" height="50px">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <strong>{{ resource.first_name | capitalize}}</strong><small> {{ (resource.role_id.role_name != undefined) ? '(' + resource.role_id.role_name + ')' : '' | capitalize}}</small>
+                                <span>{{ (resource.dept_id.department_name != undefined) ? resource.dept_id.department_name  : '' | capitalize}}</span>
+
+                                {{ !resource.email ? '' : resource.email }} 
+                            </h5>
+
+                        </div>
+                        <div class="media-right">
+                            <a href="javascript:void(0)" ng-click="resourcesModal($event, $index, resource);">
+                                <button class="btn btn-default">
+                                    <i class="glyphicon glyphicon-plus" title="Add"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>
+        <div class="col-xs-8">
+            <div class="basic_info margin-bottom-4x">
+                <strong>Sprint Users ({{ sprint_available_resources.length}})</strong> <!-- {{resource_id}} -->
+                <table class="table table-striped basic-info-col-2 margin-top-2x">
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr ng-if="sprint_available_resources.length > 0 && assigned_resource.resource_id != null" data-ng-repeat="assigned_resource in sprint_available_resources  track by $index" >
+                        <td>
+                            <!-- | orderBy: 'resource_id.first_name' -->
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="javascript:void(0);">
+                                        <img ng-src="{{  (assigned_resource.resource_id.profile_pic && assigned_resource.resource_id.profile_pic != undefined)  ? baseUrl + 'attachment/admin/' + assigned_resource.resource_id.profile_pic : 'assets/img/default.png'}}" class="media-object" width="50px" height="50px">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading">{{ (assigned_resource.resource_id.first_name != undefined && assigned_resource.resource_id.first_name) ? assigned_resource.resource_id.first_name : '' | capitalize}} {{ (assigned_resource.resource_id.last_name != undefined && assigned_resource.resource_id.last_name) ? assigned_resource.resource_id.last_name : '' | capitalize}}</h5>
+                                    {{ (assigned_resource.resource_id.email != undefined && assigned_resource.resource_id.email) ? assigned_resource.resource_id.email : ''}}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {{ (assigned_resource.resource_id.role_id.role_name != undefined && assigned_resource.resource_id.role_id.role_name) ? assigned_resource.resource_id.role_id.role_name : '-' | capitalize}} 
+                        </td>
+                        <td>
+                            <a ng-if="assigned_resource.delete" href="javascript:void(0);" data-ng-click="deleteResource($index, assigned_resource)">
+                                <i class="glyphicon glyphicon-remove" title="Remove"></i> <!-- {{$index}} -->
+                            </a>
+                            <span ng-if="!assigned_resource.delete" class="text-center" > - </span>
+                        </td>
+                    </tr>
+                    <tr data-ng-show=" sprint_available_resources.length <= 0">
+                        <td colspan="3"><span style="text-align: center">No resource found</span></td>
+                    </tr>                        
+                </table>
+            </div>
+
+            <div class="panel end-date-panel panel-default">
+                <div class="margin-top-4x margin-bottom-4x padding-15x">
+                    <form name="addSprintResourceForm" novalidate data-ng-init=" submitted = false">
+                        <!-- <div class="col-md-5"> -->
+                        <div class="form-group">
+                            <label for="sel1">End Date<sup class="sup_star">*</sup>:</label>
+                            <p class="input-group">
+                                <input uib-datepicker-popup oncut="return false;" onkeypress="return false;"  onpaste="return false;" name="end_date" placeholder="End Date" type="text" class="form-control" data-ng-model="sprint_payload.end_date" is-open="popup2.opened" datepicker-options="dateEndOptions" close-text="Close" data-ng-click="open2()" data-ng-required="true" /> <span class="input-group-btn" >
+                                    <button type="button" class="btn btn-default" data-ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>  
+                            <div data-ng-messages="addSprintResourceForm.end_date.$error" class="text-danger" data-ng-if=" submitted || addSprintResourceForm.end_date.$touched">
+                                <div data-ng-message="required">End date is required.</div>
+                            </div>
+                            </p>
+                        </div>                          
+                        <!-- </div> -->
+                        <div class="align-center">
+                            <button type="button" class="btn btn-success" class="pull-right" data-dismiss="modal" data-ng-click="addSprintResourceForm.$valid ? UserAdded() : submitted = true">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>

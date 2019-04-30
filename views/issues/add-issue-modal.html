@@ -1,0 +1,41 @@
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header popup-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-list"></i> Add Task </h4>
+            </div>  
+
+            <form class="form-horizontal form-border" name="add_task" data-ng-submit=" add_task.$valid ? addTask() : submitted = true " novalidate>
+                <div class="modal-body" style="padding:27px">
+                    <div class="form-group">
+                        <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control capitalize"name="title"  data-ng-model="task.title" data-ng-minlength="1" data-ng-maxlength="100" required placeholder="Title" >
+                        <input type="hidden"  data-ng-model="task.user_story_id">
+                        <input type="hidden"  data-ng-model="task.project_id">
+                        <div ng-messages="add_task.title.$error" class="text-danger" data-ng-if=" submitted || add_checklist.title.$touched">
+                            <div ng-message="required">Title is required.</div>
+                            <div ng-message="minlength">Minimum 1 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 100 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description<sup class="sup_star">*</sup>:</label>
+                        <textarea  data-ng-minlength="50" data-ng-maxlength="500" data-ng-model="task.description"  name="description" class="form-control" rows="2" cols="50" placeholder="Task Description"></textarea>
+                       <div data-ng-messages="add_task.description.$error" data-ng-if=" submitted || addTask.description.$touched" class="text-danger">
+                            <div data-ng-message="minlength">Minimum 50 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 50 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="close_modal btn btn-primary" type="button" >Close</button>
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+

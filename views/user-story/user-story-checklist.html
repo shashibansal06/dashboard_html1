@@ -1,0 +1,41 @@
+<div class="panel panel-default padding-15x" data-ng-init="getCheckList();">
+    <div class="panel-body">
+        <div class="page_title">
+            <h1><i class="glyphicon glyphicon-check"></i>&nbsp; Check List</h1>  
+            <i class="glyphicon glyphicon-plus-sign pull-right" title="Add CheckList" data-ng-click="checkListModal('0')"></i>
+        </div>
+        <div class="well margin-top-2x">
+
+            <form>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="10%"><input data-ng-hide="checklist_data.length == 0" data-ng-model="main_checklist" data-ng-click="checkListAll('0');" type="checkbox"></th>
+                            <th width="80%">Title</th>
+                            <th width="10%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-show=" checklist_data.length == 0" >
+                            <td width="10%" colspan="3">No check list found</td>
+                        </tr>
+
+                        <tr data-ng-show=" checklist_data.length > 0" data-ng-repeat="checklist in checklist_data">
+                            <td width="10%">
+                                <input type="checkbox" data-ng-true-value="1" data-ng-false-value="0" data-ng-model="checklist_data[$index].status"></td>
+                            <td width="80%">{{ checklist.title | capitalize }}</td>
+                            <td  width="10%"><a href="javascript:void(0);" data-ng-click="deleteCheckList(checklist._id, 0)">Delete</a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <nav class="pull-right" aria-label="Page navigation" data-ng-show="  checklist_data.length > 0">
+                    <ul class="pagination" items-per-page="checklist_limit" uib-pagination total-items="checklist_data_total" data-ng-model="currentPageCheckList"
+                        boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getCheckList()">
+                    </ul>
+                </nav>
+                <button type="button" class="btn btn-primary" data-ng-show=" checklist_data.length > 0" data-ng-click='updateCheckList("0");'>Done</button>
+            </form>
+        </div>
+    </div>
+</div>

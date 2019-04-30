@@ -1,0 +1,149 @@
+
+
+<section class="container-fluid" id="mainContainerSection" ng-cloak>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="pull-left"><h4>Manage Sprints</h4></div>
+                        <!--<div  class="pull-right btn btn-primary" master-modal-layout modaldata="add_user_modal_params">Create User</div>-->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right btn btn-primary"  data-ng-click="basicinfoModal();">Add Sprint</a>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+						
+                        <select data-ng-if="project_phase_info.length > 0" class="form-control capitalize" name="phase" data-ng-options="option.phase_name | capitalize for option  in project_phase_info track by option._id" data-ng-model="sprintObj.phase_id" data-ng-required="true" ng-change="checkProjectUserStories()">
+                            <option value="">Select Phase</option>
+                        </select>
+                        <select data-ng-if="project_phase_info.length == 0" name="phase" class="form-control capitalize" data-ng-required="true">
+                            <option value="">No Phase</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="panel-group">
+                    <div class="panel panel-info" style="margin-top:2%">
+                        <div class=" panel-heading ">Sprints</div>
+                        <div class="panel-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <table class="table table-bordered table-responsive table-hover">
+                                        <tr>
+                                            <!--<th>Projection ETA<sub> hr(s)</sub></th>-->
+                                            <!-- <th>Dev. ETA<sub> hr(s)</sub></th> -->
+                                            <th>Sprint No</th>
+                                            <th>Sprint Name</th>
+                                            <th>Sprint Hours</th>
+                                            <th>Contingency Hours (%)</th>
+                                            <th>Burned Hours</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Output</th>
+                                            <th>Sprint Status</th>
+                                            <th>Add Resources</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr ng-if="sprints.length > 0" ng-repeat="sprint in sprints track by $index">
+                                            <!--<td>{{ totalPlannedHours ? totalPlannedHours : 0 }}</td>-->
+                                            <!-- <td>350</td> -->
+                                            <td> <a target="_blank" title="#SP-{{sprint.sprint_number}}" data-ui-sref="ViewSprint({sid : sprint._id , pid : sprint.phase_id[0]._id })" >#SP-{{sprint.sprint_number}}</a></td>
+                                            <td>{{sprint.sprint_name}}</td>
+                                            <td>{{sprint.planned_time}}</td>
+                                            <td>{{sprint.contigency_hours}}</td>
+                                            <td>{{sprint.burnedHour}}</td>
+                                            <td>{{sprint.start_date| convert_dateformat}}</td>
+                                            <td>{{sprint.end_date ? (sprint.end_date | convert_dateformat) : ' - '}}</td>
+                                            <td></td>
+                                            <td><!-- {{sprint.sprint_status._id}} -->
+                                                <select ng-selected="sprint.sprint_status" class="form-control capitalize" name="sprintStatus" data-ng-options="option.name | capitalize for option  in sprintStatus track by option._id" data-ng-model="sprint.sprint_status" data-ng-required="true" ng-change="changeSprintStatus(sprint._id, sprint.sprint_status)">
+                                                </select>
+                                            </td>
+                                            <td>  <a href="javascript:void(0)" data-ng-click="addResource_sprint(sprint._id, sprint.planned_hours, sprint.phase_id[0]._id);">
+                                                    <i class="glyphicon glyphicon-plus" title="Add"></i>
+                                                </a>
+                                            </td>
+                                            <td> 
+                                                <a target="_blank" data-ui-sref="ViewSprint({sid : sprint._id , pid : sprint.phase_id[0]._id })" >View detail</a>
+                                             </td>
+                                                
+                                        </tr>                                                                        
+                                        <tr data-ng-if="sprints.length > 0">
+                                            <td>Total/Status</td>
+                                            <td></td>
+                                            <!-- <td></td> -->
+                                            <td bgcolor="#D4E6F1">{{ totalPlannedHours ? totalPlannedHours : 0  }}</td>
+                                            <td bgcolor="#D4E6F1">{{ totalContiHours ? totalContiHours : 0 }}</td>
+                                            <td bgcolor="#D4E6F1">{{ totalBurnedHours ? totalBurnedHours :0  }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td bgcolor="#ffe4e1">
+
+                                            <get-sprint-output sprint_hours="{{totalPlannedHours}}" burned_hours="{{totalBurnedHours}}" ></get-sprint-output>
+                                       
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr data-ng-if="sprints.length == 0" class="capitalize">
+                                            <td colspan="10"> No sprint available </td>
+                                        </tr> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <!--  <div ng-if="sprints.length > 0"> -->
+                        <nav aria-label="Page navigation" class="align-right">
+                            <ul class="pagination" uib-pagination total-items="totalSprints" data-ng-model="currentPageSprint" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getSprints()">
+                            </ul>
+                        </nav><!-- </div> -->
+                    <div class="panel panel-info" style="margin-top:2%">
+                        <div class=" panel-heading ">Activities</div>
+                        <div class="panel-body"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <table class="table table-bordered table-responsive">
+                                    <tr>
+                                        <th>Activity Count</th>
+                                        <th>Estimated Hours</th>
+                                        <th>Burned Hours</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <!-- <th>Status</th> -->
+                                    </tr>
+                                    <tr data-ng-if="activities.length > 0" data-ng-repeat="activity in activities">
+                                        <td>{{activity.totalActivity}}</td>
+                                        <td>{{activity.totalActivityHour}}</td>
+                                        <td>{{activity.totalburnedHour}}</td>
+                                        <td>{{activity.StartDate ? (activity.StartDate | convert_dateformat) : ' - '}}</td>
+                                        <td>{{activity.EndDate ? (activity.EndDate | convert_dateformat) : ' - '}}</td>
+
+                                        <!-- <td>Completed</td> -->
+                                    </tr>
+                                    <tr data-ng-if="activities.length == 0">
+                                        <td colspan="5" class="capitalize">No activity</td>
+                                    </tr>
+                                    <!--  <tr>
+                                         <td>2</td>
+                                         <td>10</td>
+                                         <td>2</td>
+                                         <td>27-Feb-2017</td>
+                                         <td>1-Mar-2017</td>
+                                         <td>Completed</td>
+                                     </tr> -->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>   <!-- /.row -->
+    </div>
+</section><!-- /.content -->

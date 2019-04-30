@@ -1,0 +1,72 @@
+<!-- Main content -->
+<section class="container-fluid releases-wrapper" id="" data-ng-init="getPlans();">
+    <div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form method="post"  name="searchform" data-ng-submit="getPlans('search')" novalidate>
+
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="text" name="release_search"  data-ng-model="search" class="form-control" placeholder="Search" data-ng-pattern="/^[a-zA-Z0-9 ]*$/">
+                                    <span class="input-group-btn">
+                                        <button  class="btn btn-secondary" type="submit">Search</button>
+                                    </span>
+                                </div>
+                                <div ng-messages="searchform.release_search.$error" class="text-danger" role="alert" ng-if="submitted || searchform.release_search.$touched">
+                            <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                        </div>
+                            </div>
+                                
+
+                            <div class="col-md-2">
+                                <button  class="btn btn-secondary" type="button" data-ng-click="resetFilters()" >Reset</button>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <a href="javascript:void(0);" data-ng-click="createPlanModal();" class="btn btn-primary btn-lg">Create Plan</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>Title</th>
+                            <th>Frequency Cycle</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        <tr data-ng-repeat="data in plan_detail">
+                            <td data-ng-bind=" data.title | capitalize_filter ">{{data.title}}</td>
+                            <td data-ng-bind="data.frequency"></td>
+                            <td>
+                                <a data-ng-click="editPlanModal(data._id)" href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true" title="Edit"></i></a>
+                                <a data-ng-click="deleteReleasePlan(data._id)" href="javascript:void(0)" > <i class="fa fa-times" aria-hidden="true" title="Delete"></i></a>
+                            </td>
+                        </tr> 
+
+                        <tr data-ng-if=" total_records == 0 "><td colspan="3" style="text-align: center;">No Record(s) Found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+        <nav class="pull-right" aria-label="Page navigation" data-ng-show=" total_records > 0 ">
+            <ul class="pagination" uib-pagination items-per-page="limit_plan" total-items="total_records" data-ng-model="currentPagePlan"
+                boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getPlans()"></ul>
+        </nav>
+        
+    </div>   <!-- /.row -->
+    </div>
+</section><!-- /.content -->

@@ -1,0 +1,157 @@
+<header >
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav" data-ng-show="globalProjectList.length == 0">
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" class="dashboard" title="Dashboard" data-ui-sref="welcome"><i class="fa fa-tachometer"></i></a></li>
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="allprojects">Projects</a></li>
+                </ul>
+
+
+                <ul class="nav navbar-nav" data-ng-show="globalProjectList.length > 0">
+                    <li data-ui-sref-active="active"><a class="dashboard" title="Dashboard" data-ui-sref-opts="{reload: true}" data-ui-sref="main.dashboard_parent.dashboard"><i class="fa fa-tachometer"></i></a></li>                   
+                    <li data-ui-sref-active="active" class="dropdown"><a data-toggle="dropdown">Users & Roles <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="users">Users</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="roles">Roles</a></li>
+                        </ul>
+                    </li>
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="allprojects">Projects</a></li>
+                    <li data-ui-sref-active="active" class="dropdown"><a data-toggle="dropdown">Team Board</a>
+                        <ul class="dropdown-menu">
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="tasks">Scrum Board</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" href="#">Kanban Board</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="issues">Issues</a></li>
+                        </ul>
+                    </li>                    
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="main.backlogs.backlogs_activity">Backlogs</a></li> 
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="activities">Feeds</a></li>
+                    <li class="hidden_li more_li collapsed" data-toggle="collapse" data-target="#moreLi"> More <span class="fa fa-chevron-down"></span></li>
+                    <li>
+                        <!-- for Ipad and smaller devices -->
+                        <ul class="navbar-nav hidden_ul collapse" id="moreLi" >
+                            <!--<li data-ui-sref-active="active"><a data-ui-sref="progress">Progress</a></li>-->
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="sprints">Sprints</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="estimations">Estimations</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="main.releases.managePlans">Releases</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="meetings">Calender</a></li>
+                            <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="main.timesheet">Timesheet</a></li>
+                            <!--<li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="#">Reports</a></li>-->
+                            <li  data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="main.review">Code Review</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    <li data-ng-show="globalProjectList.length > 0 && show_project_menu_tab == true">
+
+                        <select class="header_main_height capitalize" data-ng-change="globalProjectListOnChange();" data-ng-init="projects()"  data-ng-model="projectheaderId" data-ng-options="option.title | capitalize for option in globalProjectList track by option._id" >
+                        </select>
+                    </li>
+
+                    <li class="dropdown " data-ng-show="globalProjectList.length > 0" data-ng-init="getUnreadNotifications()">
+                        <a side-bar href="javascript:void(0);" data-ng-click="getNotifications();">
+
+                            <i class="glyphicon glyphicon-bell">
+                                <sup data-ng-show="side_undreadNotifications > 0 || ($parent.side_undreadNotifications && $parent.side_undreadNotifications > 0)"><strong>{{ ($parent.side_undreadNotifications && $parent.side_undreadNotifications > 0) ? $parent.side_undreadNotifications : side_undreadNotifications}}</strong></sup>
+                            </i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a data-ui-sref-opts="{reload: true}" data-ui-sref="editProfile" href="javascript:void(0);">Edit Profile</a></li>
+                            <li><a data-ui-sref-opts="{reload: true}" data-ui-sref="changePassword" href="javascript:void(0);">Change Password</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);" data-ng-click="logout()">Logout</a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+
+
+
+
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <nav data-ng-show="showInternet" class="navbar navbar-default navbar-fixed-top" style="margin-top: 51px; min-height: 30px; background-color: rgb(217, 83, 79);text-align: center;color: white;">
+        You are offline and disconnected from server.Please check your internet connection
+    </nav>
+</header>
+<div notification></div>
+<style type="text/css">
+    .glyphicon-bell {
+
+        font-size:1.5rem;
+    }
+    .notifications {
+        min-width:420px;
+    }
+
+    .notifications-wrapper {
+        overflow:auto;
+        max-height:250px;
+    }
+
+    .menu-title {
+        color:#ff7788;
+        font-size:1.5rem;
+        display:inline-block;
+    }
+
+    .glyphicon-circle-arrow-right {
+        margin-left:10px;
+    }
+
+
+    .notification-heading, .notification-footer  {
+        padding:2px 10px;
+    }
+
+
+    .dropdown-menu.divider {
+        margin:5px 0;
+    }
+
+    .item-title {
+
+        font-size:1.3rem;
+        color:#000;
+
+    }
+    .notifications a.content {
+        text-decoration:none;
+        background:#ccc;
+
+    }
+    .notification-item {
+        padding:10px;
+        margin:5px;
+        background:#ccc;
+        border-radius:4px;
+    }
+</style>

@@ -1,0 +1,276 @@
+<div class="modal fade">
+    <div class="modal-dialog" style="width:100%;" id="myModal">
+        <div class="modal-content">
+            <div class="modal-header" style="color: #fff; background-color: #337ab7;border-color: #2e6da4;">
+                <button type="button" class="close" title="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-bug" aria-hidden="true"></i>
+                    &nbsp;
+                    <span class="capitalize>">{{'BG-' + " " + issue_info.taskId}}</span></h4>
+            </div>
+            <form method="post" data-ng-init=" submitted = false;" class="form-border" name="update_issues"
+                  data-ng-submit="update_issues.$valid ? updateIssue() : submitted = true" enctype="multipart/form-data"
+                  novalidate>
+
+                <div class="modal-body col-lg-12">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                            <input type="text" class="form-control curve capitalize" name="title" ng-model="issue_info.name"
+                                   required>
+                            <div ng-messages="update_issues.title.$error" class="text-danger"
+                                 data-ng-if=" submitted || update_issues.title.$touched">
+                                <div ng-message="required">Title is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="bug_detail">
+                            <h4 style="color: black;"> Bugs Details </h4>
+                            <div class="form-group">
+                                <label class="control-label">Steps To Reproduce </label>
+                                <textarea rows="3" class="form-control firstCap"
+                                          ng-model="issue_info.issue_details.stepsToReproduce"></textarea>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label">Expected Result</label>
+                                <textarea rows="3" class="form-control firstCap"
+                                          ng-model="issue_info.issue_details.expectedResult"></textarea>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label">Actual Result </label>
+                                <textarea rows="3" class="form-control firstCap"
+                                          ng-model="issue_info.issue_details.actualResult"></textarea>
+                            </div>
+                        </div>
+                        <div class="overview">
+                            <div class="col-lg-12">
+                                <h4 style="color: black;"> Bugs Overview </h4>
+                                <div class="form-group">
+                                    <label class="control-label">Summary<sup class="sup_star">*</sup>: </label>
+                                    <textarea required rows="3" class="form-control" name="summary"
+                                              ng-model="issue_info.description"></textarea>
+                                </div>
+                                <div ng-messages="update_issues.summary.$error" class="text-danger" data-ng-if=" submitted || update_issues.summary.$touched">
+                                    <div ng-message="required">Summary is required.</div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label">URL <sub>(Only http://,https://)</sub> </label>
+                                    <input type="url" class="form-control curve" name="url" ng-model="issue_info.url">
+                                    <div class="text-danger">
+                                        <span class="error" ng-show="update_issues.url.$error.url">
+                                            Not valid url!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="environment">
+                            <div class="col-lg-12">
+                                <h4 style="color: black;"> Environment </h4>
+                                <div class="form-group col-lg-4">
+                                    <label class="control-label">Platform </label>
+                                    <select class="form-control" style="text-transform: capitalize;"
+                                            ng-options="option.name | capitalize for option in Platform track by option._id | uppercase"
+                                            ng-model="issue_info.issue_details.platformId" >
+                                        <option value="">Select Platform</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-4 ">
+                                    <label class="control-label ">Operating System </label>
+                                    <select class="form-control"  style="text-transform: capitalize;"
+                                            ng-options="option.name| capitalize for option in OperatingSystem track by option._id "
+                                            ng-model="issue_info.issue_details.operatingSystemId" ; ">
+                                        <option value="">Select Operating System</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label class="control-label">Browser </label>
+                                    <select class="form-control" style="text-transform: capitalize;"
+                                            ng-options="option.name | capitalize for option in Browser track by option._id "
+                                            ng-model="issue_info.issue_details.browserId" ;>
+                                        <option value="">Select Browser</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <h4 class="col-lg-12">Bug Tracking</h4>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Reported By : </label>
+                            <span style="text-color:black;"><b>{{issue_info.created_by.first_name + " " + issue_info.created_by.last_name| capitalize}}</b></span>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Created :</label>
+                            <span><b>{{issue_info.created_at| dateformat}}</b></span>
+
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Assignee<sup class="sup_star">*</sup>:</label>
+                            <select required class="form-control"  style="text-transform: capitalize;"  name="assigne"
+                                    ng-options="option.first_name + ' ' + ' ('+option.email+ ')' | capitalize disable when option.status != 1  for option in issues_assignee track by option._id "
+                                    ng-model="issue_info.assigned_to">
+                                <option value="">Select Assignee</option>
+                            </select>
+                            <div ng-messages="update_issues.assigne.$error" class="text-danger" data-ng-if=" submitted || update_issues.assigne.$touched">
+                                <div ng-message="required">Assignee is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">User Stories</label>
+                            <select  class="form-control capitalize" name="userstory" ng-options="option.name | capitalize for option in issues_userStory track by option._id " ng-model="issue_info.user_story_id">
+                                <option value="">Select User Stories</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Severity<sup class="sup_star">*</sup>:</label>
+                            <select required class="form-control capitalize" name="severity"
+                                    ng-options="option.name | capitalize for option in Severity track by option._id "
+                                    ng-model="issue_info.severity">
+                                <option value="">Select Severity</option>
+                            </select>
+                            <div ng-messages="update_issues.severity.$error" class="text-danger" data-ng-if=" submitted || update_issues.severity.$touched">
+                                <div ng-message="required">Severity is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Status</label>
+                            <select class="form-control capitalize" name="status" ng-options="option.name | capitalize for option in status track by option._id " ng-model="issue_info.status">
+                                <option value="">Select Status</option>
+                            </select>
+                        </div>
+                        <h4 class="col-lg-12 ">Effort Logged</h4>
+                        <div class="form-group col-lg-12 ">
+                            <label class="control-label ">Time Spent</label>
+                            <div class="input-group" >
+                                <input mask="99:99" class="form-control" data-ng-model="ctrl.timepicker" name="number" placeholder="00:00">
+                            </div>
+                            <div data-ng-messages="update_issues.number.$error" data-ng-if=" submitted || update_issues.number.$touched" class="text-danger">
+                                <div data-ng-message="mask">Valid format HH:MM (00:00).</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" style="margin-right: 717px;">Save</button>
+                </div>
+
+            </form>
+            <form data-ng-init=" submitted = false;" class="form-horizontal form-border" enctype="multipart/form-data"
+                  name="attachment_profile" novalidate>
+                <div class="attachments">
+                    <div class="col-lg-12">
+                        <div class="col-lg-5">
+                            <label>
+                                <i class="fa fa-paperclip attachment_icon"
+                                   aria-hidden="true"></i>&nbsp;Attachments</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <input class="file-upload upload meeting-attachment" type="file" ngf-select="uploadpic($files)" ngf-max-size="5MB"
+                               name="file" ngf-model-invalid="errorMeetingFile"  ngf-pattern="'.pdf,.jpg,.gif,.ods,.png,.jpeg,.xls,.xlsx,.doc,.docx,.ppt'" ngf-multiple="true" >
+                        <sub>(Maximum file limit 5 and extension can be .pdf, .jpg, .gif, .ods, .png, .jpeg, .xls, .xlsx, .doc, .docx, .ppt)</sub>
+                        <div data-ng-show="file_max_limit" class="text-danger">You cannot select more than 5 files at a time</div> 
+                        <div data-ng-show=" (errorMeetingFile[0].$error && errorMeetingFile[0].$error == 'pattern')"  class="text-danger">Images(jpg, gif, png) doc(pdf, xlsx, doc, docx, ppt, xls) allowed</div>
+                        <div data-ng-show=" (errorMeetingFile[0].$error && errorMeetingFile[0].$error == 'maxSize')"  class="text-danger">File(s) too large max 5 MB allowed</div>
+                        <!--  <div class="text-danger" ng-show="issue_info.attachments.$error.maxSize">File too large. Max size can be 5 MB
+
+                        </div>
+                        <div class="text-danger"
+                             ng-show="(errorMeetingFile[0].$error != pattern || errorMeetingFile[0].$errorMessages.maxFiles == true) && issue_info.attachments.$dirty && !issue_info.attachments.$error.maxSize">
+                            File extension or File limit is not valid.
+                        </div> -->
+                    </div><br>
+
+                    <div class="col-lg-12">
+
+                        <div data-ng-repeat=" image in issue_info.attachments track by $index"
+                             class="col-xs-2 team-list client-image"
+                             style="border-style: solid;padding: 12px;border-color:gainsboro;">
+
+                            <p class="issue-attachment">
+                                <!--  <a target="_self" href="{{Url}}{{image.name}}" download="{{image.name}}"><i
+                                         class="fa fa-paperclip attachment_icon" aria-hidden="true"></i>Attachment {{ $index
+                                     + 1}}</a> -->
+                                <a target="_self" href="{{Url}}{{image.name}}" download="{{image.name}}"><i
+                                        class="fa fa-paperclip attachment_icon" aria-hidden="true"></i>{{image.original_name}}</a>
+                            </p>
+                            <button class="btn btn-default" data-ng-click="deleteIssueAttachments(issue_info.attachments, image._id, $index)" style="cursor:pointer">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <div data-ng-init="getComments();">
+                <h4 style="color: black; "><i class="fa fa-comments-o " aria-hidden="true "></i>
+                    &nbsp;&nbsp;Add Comment</a></h4>
+                <form method="post" name="commentforms" data-ng-submit=" commentforms.$valid ? commentPost(commentforms) : commentsubmitted = true;
+                    
+                    
+                    
+                    
+                    
+                    
+                      " novalidate>
+                    <div class="form-group ">
+                        <label for="comment">Your Comment<sup class="sup_star">*</sup>:</label>
+
+
+                        <textarea name="comment" class="form-control" rows="3" cols="2" id="comment_description"  data-ng-model="issueComment.comment_description" required></textarea>
+
+                        <div ng-messages="commentforms.comment.$error" class="text-danger" data-ng-if=" commentsubmitted || commentforms.comment.$touched">
+                            <div ng-message="required">Comment is required.</div>
+                        </div>
+
+
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right">Comment</button>
+                </form>
+                <br/>
+                <br/>
+                <span ng-if="list.length <= 0"><h4 style="margin-left:470px; "> No Comments Found</h4></span>
+
+                <div class="">
+                    <div class="timeline-centered " ng-repeat="x in list">
+                        <article class="timeline-entry">
+                            <div class="timeline-entry-inner">
+                                <div class="timeline-icon bg-success">
+                                    <i class="entypo-feather"></i>
+                                    <img src="{{(x.user_id.profile_pic == ''|| x.user_id.profile_pic == undefined) ? '../assets/img/default.png' :Url+x.user_id.profile_pic}}" class="img-circle avatar img-responsive ">
+                                </div>
+                                <div class="timeline-label ">
+                                    <h2><a href="javascript:void(0); ">{{x.user_id.first_name| capitalize}}</a><span
+                                            class="pull-right "><i class="glyphicon glyphicon-time "></i>&nbsp;{{x.created_at| convert_date}}</span>
+                                    </h2>
+                                    <p class="pre-text firstCap">{{x.comment}}</p>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+                <div data-ng-if="loadmoreButton">
+                    <button type="button " style="margin-left: 43%; " class="btn btn-primary " ng-click="loadMore();
+                            ">Load
+                        More
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

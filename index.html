@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+    <head>
+        <meta charset="UTF-8">
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <link rel="shortcut icon" href="assets/img/favicon/apple-icon-114x114.png">
+        <title data-ng-bind="globalTitle"></title>
+        <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+        <!-- Angular Jquery  --> 
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <!-- Angular Jquery  --> 
+
+        <!-- Angular files --> 
+        <script src="node_modules/angular/angular.js"></script>
+
+
+        <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="node_modules/oclazyload/dist/ocLazyLoad.js"></script>
+        <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
+        <script src="node_modules/angular-jwt/dist/angular-jwt.min.js"></script>
+        <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+        <script src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+        <script src="node_modules/ng-mask/dist/ngMask.min.js"></script>
+
+        <script src="index.js"></script>
+        <script src="configs/config.js"></script>
+        <script src="configs/routing.js"></script>
+
+
+        <script src="node_modules/angular-jwt/dist/angular-jwt.min.js"></script>
+        <script src="node_modules/underscore/underscore-min.js"></script>
+        <!-- Angular files  --> 
+
+        <!-- Angular Messages  --> 
+        <script src="node_modules/angular-messages/angular-messages.min.js"></script>
+        <!-- Angular Messages  --> 
+
+
+        <!-- Bootstrap --> 
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+        <!-- Bootstrap --> 
+
+        <!-- Sweet Alert Start-->    
+        <link href="node_modules/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css" />
+        <script src="node_modules/sweetalert/dist/sweetalert.min.js"></script>
+        <!-- Sweet Alert End-->  
+
+
+        <!-- Angular Modal Start-->    
+        <script src= "node_modules/angular-modal-service/src/angular-modal-service.js"></script>
+        <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+        <!-- Angular Modal End-->
+
+        
+        <!-- Common Service-->    
+        <script src="services/commonService.js"></script>
+        <!--Common Service-->    
+
+        <script src="node_modules/"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >
+
+        <link rel="stylesheet" href="node_modules/angular-moment-picker/dist/angular-moment-picker.min.css" type="text/css" >
+
+
+        <!-- Angular Interceptor-->   
+        <script src="services/httpInterceptor.js"></script>
+        <!-- Angular Interceptor-->   
+
+
+        <!-- Angular tostr-->   
+        <script src="node_modules/angular-toastr/dist/angular-toastr.tpls.js"></script>
+        <link rel="stylesheet" href="node_modules/angular-toastr/dist/angular-toastr.css" />
+        <!-- Angular tostr-->   
+
+        <!-- Angular Moment-->   
+        <script src="node_modules/moment/moment.js"></script>
+        <script src="node_modules/angular-moment-picker/dist/angular-moment-picker.min.js"></script>
+        <script type="text/javascript" src="node_modules/angular-desktop-notification/angular-desktop-notification.js"></script>
+        <!-- Angular Moment-->   
+
+
+        <!-- Angular Scroll bar-->
+
+        <link href="node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+        <script src="node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="node_modules/ng-scrollbars/dist/scrollbars.min.js"></script>
+        <!-- Angular Scroll bar -->    
+
+
+        <link href="assets/css/custom/custom_style.css" rel="stylesheet" type="text/css" />
+
+        <!-- Angular Highcharts-->  
+        <script src="node_modules/highcharts/highcharts.js"></script>
+        <script src="node_modules/highcharts-ng/dist/highcharts-ng.min.js"></script>
+        <script src="node_modules/highcharts/highcharts-3d.js"></script>
+        <script src="node_modules/highcharts/modules/exporting.js"></script>
+        <script src="node_modules/highcharts/modules/no-data-to-display.src.js"></script>
+        <!-- Angular Highcharts-->  
+
+        <script src="assets/js/angular-wysiwyg/demo/scripts/bootstrap-colorpicker-module.js"></script>
+        <script src="assets/js/angular-wysiwyg/dist/angular-wysiwyg.js"></script> 
+
+
+        <script src="node_modules/angular-cache-buster/angular-cache-buster.js"></script>
+        <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
+
+        <link href="angular-froala/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+
+        <link rel="stylesheet" href="node_modules/froala-editor/css/froala_editor.min.css" />
+        <link rel="stylesheet" href="node_modules/froala-editor/css/froala_style.min.css" />
+
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/code_view.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/colors.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/emoticons.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/file.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/fullscreen.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/image_manager.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/image.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/line_breaker.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/table.css">
+        <link rel="stylesheet" href="node_modules/froala-editor/css/plugins/video.css">
+
+
+
+        <script src="node_modules/froala-editor/js/froala_editor.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/align.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/char_counter.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/code_beautifier.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/code_view.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/colors.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/emoticons.min.js"></script> 
+        <script src="node_modules/froala-editor/js/plugins/entities.min.js"></script> 
+        <script src="node_modules/froala-editor/js/plugins/file.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/font_family.min.js"></script> 
+        <script src="node_modules/froala-editor/js/plugins/font_size.min.js"></script> 
+        <script src="node_modules/froala-editor/js/plugins/fullscreen.min.js"></script> 
+        <script src="node_modules/froala-editor/js/plugins/image.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/image_manager.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/inline_style.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/line_breaker.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/link.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/lists.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/paragraph_format.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/paragraph_style.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/quote.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/save.min.js"></script>
+        <script src="node_modules/froala-editor/js/plugins/table.min.js"></script> 
+        <script src="node_modules/froala-editor/js/plugins/video.min.js"></script>
+        <script src="angular-froala/src/angular-froala.js"></script>
+        <script type="text/javascript" src="node_modules/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js"></script>
+    </head>
+
+    <body>
+        <div class="main-ng-View" data-ui-view></div>
+    </body>
+</html>
+
+

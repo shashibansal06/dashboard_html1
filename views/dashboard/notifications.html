@@ -1,0 +1,31 @@
+
+<div class="position_for_grid_content panel panel-danger" data-ng-init="getDashboardNotifications()">
+    <div class="panel-heading">
+        <h3 class="panel-title">Notifications
+            <a side-bar href="javascript:void(0);">View all</a>
+            <span class="pull-right clickable" data-toggle="collapse" data-target="#notifications" style="cursor:pointer">
+                <i class="fa fa-minus"></i>
+
+            </span></h3>
+    </div>
+    <div class="panel-body collapse in" id="notifications" >
+        <div class="panel_inner">
+            <span data-ng-if="dasboard_notifications.length == 0">No notifications found.</span>
+            <ul class="list-group" data-ng-if="dasboard_notifications.length > 0">
+                <li class="list-group-item" data-ng-repeat="notifications in dasboard_notifications">  {{notifications.message| capitalize }} <span class="badge">{{notifications.created_at| convert_date_ago}}</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--
+        {
+            "resource_id" : ObjectId("58eddc630781163b2131e049"), 
+            "productivity_hours" : NumberInt(8), 
+            "_id" : ObjectId("592d07e7ff82454377bfd964")
+        }, 
+        {
+            "resource_id" : ObjectId("58f840e9e506342b5629bed3"), 
+            "productivity_hours" : NumberInt(8), 
+            "_id" : ObjectId("592d07e7ff82454377bfd963")
+        }-->

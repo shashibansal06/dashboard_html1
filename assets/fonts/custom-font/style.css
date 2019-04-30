@@ -1,0 +1,113 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?jczz1v');
+  src:  url('fonts/icomoon.eot?jczz1v#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?jczz1v') format('truetype'),
+    url('fonts/icomoon.woff?jczz1v') format('woff'),
+    url('fonts/icomoon.svg?jczz1v#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-content-management2:before {
+  content: "\e90c";
+  color: #fff;
+}
+.icon-delete:before {
+  content: "\e90d";
+  color: #f43030;
+}
+.icon-edit:before {
+  content: "\e90e";
+  color: #fff;
+}
+.icon-edit-line:before {
+  content: "\e90f";
+  color: #239205;
+}
+.icon-filter-icon2:before {
+  content: "\e910";
+  color: #fff;
+}
+.icon-leftchevron2:before {
+  content: "\e911";
+}
+.icon-logout-icon2:before {
+  content: "\e912";
+  color: #fff;
+}
+.icon-page-management2:before {
+  content: "\e913";
+  color: #fff;
+}
+.icon-profile-img2:before {
+  content: "\e914";
+  color: #fff;
+}
+.icon-rightchevron2:before {
+  content: "\e915";
+}
+.icon-search2:before {
+  content: "\e916";
+}
+.icon-user-management2:before {
+  content: "\e917";
+  color: #fff;
+}
+.icon-content-management:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-filter-icon:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-leftchevron:before {
+  content: "\e905";
+}
+.icon-logout-icon:before {
+  content: "\e906";
+  color: #fff;
+}
+.icon-page-management:before {
+  content: "\e907";
+  color: #fff;
+}
+.icon-profile-img:before {
+  content: "\e908";
+  color: #fff;
+}
+.icon-rightchevron:before {
+  content: "\e909";
+}
+.icon-search:before {
+  content: "\e90a";
+}
+.icon-user-management:before {
+  content: "\e90b";
+  color: #fff;
+}
+.icon-clock:before {
+  content: "\e900";
+}
+.icon-database:before {
+  content: "\e901";
+}
+.icon-notepad:before {
+  content: "\e902";
+}

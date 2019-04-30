@@ -1,0 +1,32 @@
+<div class="panel panel-info" data-ng-init="getDashboardOpenIssue();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Open Issues Statistics
+            <span collapse-toggler  data-toggle="collapse" data-target="#open_issue" class="pull-right clickable">
+                <i class="fa fa-minus"></i>
+            </span>
+    </div>
+    <div class="panel-body  collapse in" id="open_issue">
+        <div class="panel_inner"> 
+            <select class="form-control capitalize" data-ng-change="getDashboardOpenIssue();" data-ng-model="sprint_id_open" data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >
+                <option value="">All Sprint Data</option>
+            </select>
+            <br/>
+            <div class="col-xs-12 col-md-6">
+                <ul class="list-group bugs-list">
+                    <li data-ng-repeat="openIssueParent in open_issues_parent" class="list-group-item list-group-item-green">{{openIssueParent.name| capitalize}}  <span class="pull-right"> <b> {{openIssueParent.count}}</b></span></li>               
+                </ul>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <ul class="list-group">
+                    <li data-ng-repeat="openIssueChild in open_issues_child" class="list-group-item list-group-item-green">{{openIssueChild.name| capitalize}}  <span class="pull-right"> <b> {{openIssueChild.count}}</b></span></li>               
+                </ul>
+            </div>
+            <h3>Unmapped Issues</h3>
+            <div class="col-xs-12 col-md-6">
+                <ul class="list-group">
+                    <li data-ng-repeat="openIssueUnmapped in open_issues_unmapped" class="list-group-item list-group-item-green">{{openIssueUnmapped.name| capitalize}}  <span class="pull-right"> <b> {{openIssueUnmapped.count}}</b></span></li>               
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

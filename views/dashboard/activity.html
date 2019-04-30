@@ -1,0 +1,65 @@
+<div class="panel panel-info" data-ng-init="getDashbaordActivities();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Activities
+            <a data-ui-sref="activities">View All</a>
+            <span collapse-toggler  data-toggle="collapse" data-target="#activityList" class="pull-right" style="cursor:pointer">
+                <i class="fa fa-minus"></i>
+            </span>
+    </div>
+    <div class="panel-body  collapse in" id="activityList">
+        <div class="panel_inner">                   
+
+            <div class="col-xs-12">
+                <span ng-if="dasboard_activities.length <= 0"> No Activity Found</span>
+                <div class="timeline-centered" data-ng-repeat="record in dasboard_activities">
+                    <article class="timeline-entry" >
+                        <div class="timeline-entry-inner">
+                            <div class="timeline-icon bg-success">
+                                <a data-ui-sref="activityView({ id : record._id })"><img width="50" height="50" class="img-circle"  ng-src="{{(record.assignee_pic == ''|| record.assignee_pic == undefined) ? 'assets/img/default.png' : url+record.assignee_pic}}"></a>
+                            </div>
+                            <div class="timeline-label">
+                                <h2>
+                                    <a data-ui-sref="activityView({ id : record._id })">{{record.assigned_to| capitalize}}</a> 
+                                    <span class="pull-right status text-danger">Status - {{record.status}}</span>
+                                </h2>
+
+                                <h5>
+                                    <span uib-rating data-ng-click="setRating(record._id, record.task_complexity)" data-ng-model="record.task_complexity" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three','four','five']" aria-labelledby="default-rating"></span>
+                                    <span class="pull-right text-danger status">Estimated - {{record.estimated_time}} Hours</span>
+                                </h5>  
+
+                                <h2 class="pull-right"><span>{{record.assigned_at| convert_date}}</span></h2>
+                                <h2><u><a data-ui-sref="activityView({ id : record._id })"> ACT-{{record.taskId}} {{record.name}}</a> </u>
+                                    <span>&nbsp; Created by {{record.created_by| capitalize}}  {{record.created_at| convert_date}}</span>
+                                </h2>
+                                <p class="pre-text">{{record.description}}</p>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a class="text-primary" data-ui-sref="projectView({ id : '{{ project_id}}' })" title="Project - {{record.project_name}}">
+                                            <img ng-src="{{(record.project_logo == ''|| record.project_logo == undefined) ? 'assets/img/igni.png' : url+record.project_logo}}" class="img-circle" alt="Cinque Terre" width="20" height="20"> {{record.project_name}} 
+                                        </a> - {{record.phase_name}}
+                                    </li>
+                                    <li>
+                                        Assigned By {{record.assigned_by| capitalize}}
+                                    </li>
+                                    <li title="Total comments">
+                                        <i class="fa fa-comments" aria-hidden="true"></i> {{record.comment_count}} 
+                                    </li>
+                                    <li title="Activity end date">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> {{record.end_date| convert_dateformat}} 
+                                    </li>
+                                    <li class="pull-right">
+                                        <b>Is Billable : </b> {{ (record.is_billable == true) ? 'Yes' : 'No'}} 
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

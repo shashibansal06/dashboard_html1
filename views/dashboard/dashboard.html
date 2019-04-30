@@ -1,0 +1,47 @@
+<section class="container-fluid dashboard" id="mainContainerSection" data-ng-init="getSprintsList();">
+    <div class="col-xs-12">
+        <div class="page_title">
+            <h1>DashBoard</h1>
+        </div>
+        <div class="row">
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="issues"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="userStory"></section>
+        </div>
+        <hr/>
+        <div class="row">
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-12" data-ui-view="sprint_report"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-12" data-ui-view="comparitive_issue"></section>
+        </div>        
+        <hr/>
+         <div class="row">
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-12" data-ui-view="user_report"></section>
+        </div>        
+        <hr/>
+        <div class="row">
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="build_releases"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="open_issue"></section>
+        </div>       
+        <hr/>        
+        <div class="row">
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="currentSprint"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="tasks"></section>
+        </div>
+        <hr/>
+        <div class="row">
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="notifications"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="projectSprint"></section>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page_title">
+                    <h1>Reports</h1>
+            </div>
+            </div>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="activities"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-6" data-ui-view="comments"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-12" data-ui-view="commits"></section>
+            <section class="flex_panel_outer panel-wrapper col-xs-12 col-sm-12 col-md-12" data-ui-view="sprints"></section>
+        </div>
+    </div>
+</section>

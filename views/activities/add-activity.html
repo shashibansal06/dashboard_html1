@@ -1,0 +1,159 @@
+<div class="modal fade" id="activitiesModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" name="create_activity" novalidate data-ng-init=" submitted = false"  data-ng-submit=" create_activity.$valid ? addActivity() : submitted = true " >
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create New Activity</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label for="comment">Activity <sup class="sup_star">*</sup>:</label>
+                                <textarea class="form-control" placeholder="Activity title" rows="2" name="title" data-ng-maxlength="150" data-ng-model="activity_payload.title" style="resize: vertical" required></textarea>
+                                <div data-ng-messages="create_activity.title.$error" data-ng-if=" submitted || create_activity.title.$touched" class="text-danger">
+                                    <div data-ng-message="required">Activity title is required.</div>
+                                    <div data-ng-message="maxlength">Activity title should not be more than 150 characters.</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description <sup class="sup_star">*</sup>:</label>
+                                <textarea class="form-control" placeholder="Activity Description" rows="4" name="description" data-ng-model="activity_payload.description" data-ng-maxlength="1000" style="resize: vertical" required></textarea>
+                                <div data-ng-messages="create_activity.description.$error" data-ng-if=" submitted || create_activity.description.$touched" class="text-danger">
+                                    <div data-ng-message="required">Activity description is required.</div>
+                                    <div data-ng-message="maxlength">Activity description should not be more than 1000 characters.</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status">Status <sup class="sup_star">*</sup>:</label>
+                                <select class="form-control" data-ng-model="activity_payload.status" ng-options="(option.name | capitalize) disable when (option.name == 'In-progress' || option.name == 'Completed') for option in activity_status track by option._id"  name="status" required >
+                                    <option value="">Select Status</option>
+                                </select>
+                                <div ng-messages="create_activity.status.$error" class="text-danger" data-ng-if=" submitted || create_activity.status.$touched">
+                                    <div ng-message="required">Status is required</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">  
+                                <div class="form-group">
+                                    <label for="sel1">End Date <sup class="sup_star">*</sup>:</label>
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" data-ng-click="open1()" name="end_date" uib-datepicker-popup data-ng-model="activity_payload.start_date" is-open="popup1.opened" datepicker-options="dateOptions" data-ng-required="true" close-text="Close" readonly/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                    <div ng-messages="create_activity.end_date.$error" class="text-danger" data-ng-if=" submitted || create_activity.end_date.$touched">
+                                        <div ng-message="required">Select activity end date.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">  
+                                <div class="form-group">
+                                    <label for="sel1">Is Billable <sup class="sup_star">*</sup>:</label>
+                                    <select class="form-control" data-ng-model="activity_payload.is_billable"  name="is_billable" required>
+                                        <option value="">Select Billable</option>
+                                        <option ng-value="false">No</option>
+                                        <option ng-value="true">Yes</option>
+                                    </select>
+                                    <div ng-messages="create_activity.is_billable.$error" class="text-danger" data-ng-if=" submitted || create_activity.is_billable.$touched">
+                                        <div ng-message="required">Is billable is required.</div>
+                                    </div>
+                                </div>
+                            </div>	   
+                        </div>		 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">  
+                                <div class="form-group">
+                                    <label for="sel1">Estimated Hours <sup class="sup_star">*</sup>:</label>
+
+                                    <div  hours-format="HH:mm" minutes-format="HH:mm" class="input-group">
+                                        <input  class="form-control" data-ng-model="ctrl.timepicker" name="estimation" data-ng-pattern="/^[0-9]*$/" placeholder="00" required>
+                                    </div>
+                                </div>
+                                <div ng-messages="create_activity.estimation.$error" class="text-danger" data-ng-if=" submitted || create_activity.estimation.$touched">
+                                    <div ng-message="required">Estimation hours are required.</div>
+                                    <div data-ng-message="pattern">Please enter only numeric</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">  
+                                <div class="form-group">
+                                    <label for="sel1">Estimated Minutes <sup class="sup_star">*</sup>:</label>
+                                    <!--<input data-ng-pattern="/^[0-9][0-9]*$/" type="text"  placeholder="0" class="form-control" data-ng-model="activity_payload.estimation" name="estimation" required/>-->
+                                    <div class="input-group">
+                                        <input mask="69" class="form-control" data-ng-model="ctrl.minutes" data-ng-pattern="/^[0-9]*$/" name="minutes" data-ng-maxlength="2" data-ng-minlength="2" placeholder="00" required>
+                                    </div>
+                                </div>
+                                <div ng-messages="create_activity.minutes.$error" class="text-danger" data-ng-if=" submitted || create_activity.minutes.$touched">
+                                    <div ng-message="required">Estimation minutes are required.</div>
+                                    <div data-ng-message="pattern">Please enter only numeric</div>
+                                    <div data-ng-message="minlength">Minimum 2 digits allowed</div>
+                                    <div data-ng-message="maxlength">Maximum 2 digits allowed</div>
+                                    <div data-ng-message="mask">Please fill minutes fron 0 - 60</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">  	
+                                <div class="form-group">
+                                    <label for="sel1">Project <sup class="sup_star">*</sup>:</label>
+                                    <select required class="form-control" name="project_id" data-ng-change="changeProject(activity_payload.project_id)" ng-options="(option.title | capitalize) for option in activity_projects track by option._id" ng-model="activity_payload.project_id">
+                                        <option value="">Select Project</option>
+                                    </select>
+                                    <div ng-messages="create_activity.project_id.$error" class="text-danger" data-ng-if=" submitted || create_activity.project_id.$touched">
+                                        <div ng-message="required">Project is required.</div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-4">  
+                                <div class="form-group">
+                                    <label for="sel1">Phase:</label>
+                                    <select class="form-control" name="phase_id"  ng-options="(option.phase_name | capitalize) for option in activity_phases track by option._id" ng-model="activity_payload.phase_id">
+                                        <option value="">Select Phase</option>
+                                    </select>
+                                </div>
+                            </div> 
+                            <div class="col-md-4">  
+                                <div class="form-group">
+                                    <label for="sel1">Assignee <sup class="sup_star">*</sup>:</label>
+                                    <select required class="form-control" name="assigne_id" ng-options="(option.first_name | capitalize) + ' ' + ' ('+option.email+')' disable when option.status != 1 for option in activity_pjct_phases track by option._id" ng-model="activity_payload.assigne_id">
+                                        <option value="">Select Assignee</option>
+                                    </select>
+                                    <div ng-messages="create_activity.assigne_id.$error" class="text-danger" data-ng-if=" submitted || create_activity.assigne_id.$touched">
+                                        <div ng-message="required">Assignee is required.</div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div> 
+
+                    </div>
+                </div> 
+
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" >Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

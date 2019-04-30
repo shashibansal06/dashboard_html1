@@ -1,0 +1,30 @@
+<div class="panel panel-default padding-15x" data-ng-init="viewEffort()">
+    <div class="page_title">
+        <h1><i class="fa fa-bar-chart" aria-hidden="true"></i> Effort Logs</h1> 
+
+        <button data-ng-click="effortsAdd(task_details.projectId, task_details.phaseId, task_details.taskId, task_details.userStoryId, task_details.sprintId, '', '', '')" class="pull-right btn btn-primary">Log Efforts</button>
+    </div> 
+    <div class="panel-body" style="padding:0 0 20px 25px;">
+        <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="log in logs.listing">
+                <span data-ng-bind="log.message | capitalize_filter"></span> &nbsp; &nbsp;
+                <a title="Edit" data-ng-click="effortsEdit(task_details.projectId, task_details.phaseId, task_details.taskId, task_details.userStoryId, task_details.sprintId, log.efforts, {_id: log.process_id}, log.log_effort_date, log._id)"
+                   data-ng-show="log.log_by_user"
+                   href="javascript:void(0);">
+                    <i class="text-primary fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>  
+                &nbsp;  &nbsp; 
+                <a title="Delete" data-ng-click="deleteLog(log._id)" data-ng-show="log.log_by_user" href="javascript:void(0)">
+                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                </a>
+
+            </li>
+        </ul>
+    </div> 
+    <!-- </div> -->
+</div>
+<nav aria-label="Page navigation" data-ng-show="total_efforts > 0" class="pull-right">
+    <ul class="pagination" uib-pagination total-items="total_efforts" data-ng-model="currentPageTaskEffort" boundary-link-numbers="true" max-size="5" rotate="false" data-ng-change="viewEffort()">
+    </ul>
+</nav>
+

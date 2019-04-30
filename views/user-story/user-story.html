@@ -1,0 +1,39 @@
+
+<section class="container-fluid" id="mainContainerSection">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-2">
+                <div class="list-group">
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'description', id : userStoryId })" class="list-group-item">
+                        <i class="glyphicon glyphicon-list-alt"></i>&nbsp;Description
+                    </a>
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'checklist', id : userStoryId })" class="list-group-item">
+                        <i class="glyphicon glyphicon-check"></i>&nbsp;Check list
+                    </a>
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'test-case', id : userStoryId })" class="list-group-item">
+                        <i class="fa fa-check-square"></i>&nbsp;Test cases
+                    </a>                                        
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'attachments', id : userStoryId })" class="list-group-item">
+                        <i class="glyphicon glyphicon-paperclip"></i> Attachments
+                    </a>
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'comments', id : userStoryId })" class="list-group-item">
+                        <i class="fa fa-comments-o"></i> Comments
+                    </a>
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'view-task', id : userStoryId })" class="list-group-item">
+                        <i class="fa fa-tasks" aria-hidden="true"></i> Tasks
+                    </a>
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'view-issue', id : userStoryId })" class="list-group-item">
+                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issues
+                    </a>
+                    <a data-ui-sref-active="active" data-ui-sref="main.userstory.section({ type: 'view-history', id : userStoryId })" class="list-group-item">
+                        <i class="fa fa-history"></i>&nbsp;History
+                    </a>
+                </div> 
+            </div>
+            <div class="col-sm-10">
+                <section data-ui-view="section" data-ng-show='user_story_data || user_story_data_tasks || user_story_data_issues || userstory_history'></section>
+            </div>	  	 
+
+        </div>
+    </div>
+</section>

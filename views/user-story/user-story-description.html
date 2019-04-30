@@ -1,0 +1,284 @@
+
+<div class="panel panel-default padding-15x" data-ng-init="getUsDescription()">
+    <div class="panel-body">
+        <div class="page_title">
+            <h1>
+                <i class="glyphicon glyphicon-list-alt"></i>&nbsp;
+                Process Estimations</h1>
+        </div>
+        <div data-ng-show=" userstory_detail.estimations.length > 0">
+            <div class="stats" data-ng-repeat=" approved_eta in userstory_detail.estimations" >
+                <p>Estimated hours for process - {{  approved_eta.process_id.process_name}} - {{ approved_eta.approved_hours}}</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="panel-body margin-top-2x">
+        <h4>Description </h4>
+        <i class="fa fa-pencil"></i> &nbsp; &nbsp; 
+        <strong data-ng-bind="'US-' + userstory_detail.taskId" ></strong> 
+        <span data-ng-bind="userstory_detail.name | capitalize"></span>
+    </div> 
+
+    <form class="form-horizontal" name="usform" novalidate data-ng-init=" submitted = false" data-ng-submit=" usform.$valid ? updateUserStory() : submitted = true ">
+        <div class="form-group">
+            <div class="col-sm-12 margin-top-3x">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email" >Title<sup class="sup_star">*</sup> </label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="1" name="name" data-ng-minlength="10" data-ng-maxlength="150" data-ng-model="userstory_detail.name" required></textarea>
+                        <div data-ng-messages="usform.name.$error" class="text-danger" data-ng-if=" submitted || usform.name.$touched">
+                            <div data-ng-message="required">Name is required.</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 150 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2"> As a<sup class="sup_star">*</sup> </label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control capitalize" name="role" data-ng-minlength="2" data-ng-maxlength="50" data-ng-model="userstory_detail.user_story_details.role" required>
+                        <div data-ng-messages="usform.role.$error" class="text-danger" data-ng-if=" submitted || usform.role.$touched">
+                            <div data-ng-message="required">Role is required.</div>
+                            <div data-ng-message="minlength">Minimum 2 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 50 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"> I want<sup class="sup_star">*</sup> </label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="3" data-ng-minlength="10" data-ng-maxlength="5000" name="feature" data-ng-model="userstory_detail.user_story_details.feature"  required></textarea>
+                        <div data-ng-messages="usform.feature.$error" class="text-danger" data-ng-if=" submitted || usform.feature.$touched">
+                            <div data-ng-message="required">Feature is required.</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"> Given<sup class="sup_star">*</sup> </label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="3" data-ng-minlength="10" data-ng-maxlength="5000" name="context"  data-ng-model="userstory_detail.user_story_details.context"  required></textarea>
+                        <div data-ng-messages="usform.context.$error" class="text-danger" data-ng-if=" submitted || usform.context.$touched">
+                            <div data-ng-message="required">Given is required.</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"> View when<sup class="sup_star">*</sup> </label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="3" name="event" data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="userstory_detail.user_story_details.event"  required></textarea>
+                        <div data-ng-messages="usform.event.$error" class="text-danger" data-ng-if=" submitted || usform.event.$touched">
+                            <div data-ng-message="required">When is required.</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"> Then outcome<sup class="sup_star">*</sup> </label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="3" name="outcome" data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="userstory_detail.user_story_details.outcome"  required></textarea>
+                        <div data-ng-messages="usform.outcome.$error" class="text-danger" data-ng-if=" submitted || usform.outcome.$touched">
+                            <div data-ng-message="required">Outcome is required.</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userstory_detail.screen_image.length > 0">
+                    <label class="control-label col-sm-2" for="email" > Screen image</label>
+                    <div class="col-sm-9">
+                        <img ng-src="{{ baseUrl + 'attachment/admin/' + userstory_detail.screen_image[0].name}}" class="img-thumbnail" width="300"> 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Update screen image:</label>
+                    <div class="col-sm-9">
+                        <input class="form-control upload-csv" ngf-max-size="5MB" ngf-select type="file" data-ng-model="userstory_detail.image" name="attachment" ngf-model-invalid="errorMeetingFile" ngf-pattern="'.jpg,.png,.jpeg'" >
+                        <div data-ng-show=" (errorMeetingFile.$error && errorMeetingFile.$error == 'pattern')"  class="text-danger">Images(.jpg, .png, .jpeg) allowed</div>
+                        <div data-ng-show=" (errorMeetingFile.$error && errorMeetingFile.$error == 'maxSize')"  class="text-danger">File(s) Too large max 5mb allowed</div>
+                        <sub>
+                            (extension can be .png, .jpg, .jpeg)
+                        </sub>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Epic</label>
+                    <div class="col-sm-9">
+                        <select class="form-control capitalize" name="epic_id" data-ng-model="userstory_detail.user_story_details.epic_id">
+                            <option value="">Select Epic</option>
+                            <option data-ng-value="epic_detail._id"  data-ng-repeat=" epic_detail in epic_data">{{ epic_detail.name | capitalize}}</option>
+                        </select> 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Status</label>
+
+                    <div class="col-sm-9">
+                        <select class="form-control" name="status" data-ng-model="userstory_detail.status" >
+                            <option value="">Select Status</option>
+                            <option value="{{status_detail._id}}"  data-ng-repeat=" status_detail in status_data">{{ status_detail.name | capitalize}}</option>
+                        </select> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Priority</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="priority_id" data-ng-model="userstory_detail.user_story_details.priority_id">
+                            <option value="">Select Priority</option>
+                            <option data-ng-value="priority_detail._id"  data-ng-repeat=" priority_detail in priority_data">{{ priority_detail.name | capitalize}}</option>
+                        </select> 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Theme</label>
+                    <div class="col-sm-9">
+                        <select class="form-control capitalize" name="theme_id" data-ng-model="userstory_detail.user_story_details.theme_id">
+                            <option value="">Select Theme</option>
+                            <option data-ng-value="theme_detail._id"  data-ng-repeat=" theme_detail in theme_data">{{ theme_detail.name | capitalize}}</option>
+                        </select> 
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2"></label>
+                    <div class="col-sm-9">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </form>
+    <div class="panel-body">
+        <div class="page_title">
+            <h1>
+                <i class="glyphicon glyphicon-list-alt"></i>&nbsp;
+                Revisions</h1>
+
+            <div data-ng-show="userstory_detail_revisions != ''" class="pull-right"><span><strong>Update By :</strong> </span> <small title="{{userstory_detail.updated_by.email}}">{{userstory_detail.updated_by.first_name| capitalize}} {{userstory_detail.updated_by.last_name| capitalize}}</small></div><br/>
+            <div data-ng-show="userstory_detail_revisions != ''" class="pull-right"><span><strong>Update At :</strong> </span> <small>{{userstory_detail.modified| convert_date}} </small></div>
+        </div>
+
+        <div class="form-group" data-ng-show="userstory_detail_revisions == ''">
+            <div class="col-sm-12">
+                <p>No Revisions found.</p>
+            </div>
+        </div>
+
+
+        <div data-ng-show="userstory_detail_revisions != ''">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Title</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="userstory_detail_revisions.name | capitalize_filter"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">As a</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="userstory_detail_revisions.user_story_details.role | capitalize_filter"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">I want</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="userstory_detail_revisions.user_story_details.feature | capitalize_filter"></p>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Given</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="userstory_detail_revisions.user_story_details.context | capitalize_filter"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">View when</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="userstory_detail_revisions.user_story_details.event | capitalize_filter"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Then outcome</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="userstory_detail_revisions.user_story_details.outcome | capitalize_filter"></p>
+                </div>
+            </div>
+
+
+
+            <div class="form-group" ng-if="userstory_detail_revisions.screen_image.length > 0">
+                <label class="control-label col-sm-2">Screen image</label>
+                <div class="col-sm-9">
+                    <img ng-src="{{ baseUrl + 'attachment/admin/' + userstory_detail_revisions.screen_image[0].name}}" class="img-thumbnail" width="300"> 
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Epic</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="(userstory_detail_revisions.user_story_details.epic_id && userstory_detail_revisions.user_story_details.epic_id != undefined && userstory_detail_revisions.user_story_details.epic_id != null) ? userstory_detail_revisions.user_story_details.epic_id.name : ' - '"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Status</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="(userstory_detail_revisions.status && userstory_detail_revisions.status != undefined && userstory_detail_revisions.status != null) ? userstory_detail_revisions.status.name : ' - '"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Priority</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="(userstory_detail_revisions.user_story_details.priority_id && userstory_detail_revisions.user_story_details.priority_id != undefined && userstory_detail_revisions.user_story_details.priority_id != null) ? userstory_detail_revisions.user_story_details.priority_id.name : ' - '"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Theme</label>
+                <div class="col-sm-9">
+                    <p data-ng-bind="(userstory_detail_revisions.user_story_details.theme_id && userstory_detail_revisions.user_story_details.theme_id != undefined && userstory_detail_revisions.user_story_details.theme_id != null) ? userstory_detail_revisions.user_story_details.theme_id.name : ' - '"></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

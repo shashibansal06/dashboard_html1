@@ -1,0 +1,202 @@
+<!-- Main content -->
+<section class="container-fluid" id="mainContainerSection">
+    <div data-ng-show="warningTip" class="alert alert-danger">
+        <strong>There is no any sprint plan in your selected project.</strong>
+    </div>	
+    <div class="col-md-12">
+        <div class="panel panel-default" data-ng-init="loadTaskBoard()">
+            <div class="panel-heading">
+                <h4>Manage Tasks</h4>
+                <div class="row">
+                    <form class="form-horizontal form-border full-width" name="tasks"  novalidate>
+                        <div class="col-md-3 col-sm-5">
+                            <select class="form-control capitalize" data-ng-change="getAllTasks();" data-ng-model="sprint_id" data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-5">
+                            <div class="input-group full-width">
+                                <input type="text" name="task_search" data-ng-model="search_keyword" class="form-control" placeholder="Search..." >
+                                <!--<span class="input-group-btn">
+                                    <button class="btn btn-secondary" type="submit">Go!</button>
+                                </span>-->
+                            </div>
+                            <!--<div ng-messages="tasks.task_search.$error" class="text-danger" role="alert" ng-if="submitted || tasks.task_search.$touched">
+                                <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                            </div>-->
+                        </div>
+
+                        <div class="col-md-6 col-sm-2">
+                            <button class="btn btn-secondary" type="button" data-ng-click="clearFilter()">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row tasks_header">
+                <div class="col-sm-3">
+                    <div class="panel-heading user-story-heading">
+                        <i class="glyphicon glyphicon-list"></i>
+                        User Stories
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel-heading new-heading">
+                        <i class="glyphicon glyphicon-time"></i>
+                        New
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel-heading progress-heading">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                        In-Progress 
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel-heading completed-heading">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        Completed 
+                    </div>
+                </div>
+            </div>
+
+            <div data-ng-repeat=" data in taskList| filter:search_keyword" class="taskList">
+                <div class="task_row row" ng-init="outerIndex = $index">
+                    <div class="col-sm-12 task_heading">
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                        <label data-ng-bind="'US-' + data.taskId"></label>
+                        <span class="label label-warning" data-ng-bind="data.status.name | capitalize"></span>
+                        <strong data-ng-repeat="eta in data.estimations">{{ eta.process_id.process_name | capitalize }} : {{ eta.approved_hours | timeWihoutContingency : contigency_hours | number: 2 }} HOURS </strong>
+                        <strong data-ng-bind="'| contingency ' + contigency_hours + '%'"></strong>
+                    </div>
+                    <div class="col-sm-3 task_card_outer">
+                        <div class="panel panel-default stories">
+                            <div class="panel-body">
+                                <h4><a target="_blank"  data-ui-sref="main.userstory.section({ type: 'description', id : data._id , pid : data.project_id })" data-ng-bind="'US-' + data.taskId"></a><span class="pull-right">{{data.userStory_complexity.name| capitalize}}</span></h4>
+                                <select 
+                                    data-ng-change="usStatusChange(taskList[outerIndex].status, taskList[outerIndex]._id)"
+                                    data-ng-model="taskList[outerIndex].status" 
+                                    data-ng-options="option.name | capitalize for option in usStatusList track by option._id" class="pull-right" >
+                                </select>
+                                <p class="capitalize" style="color:black" data-ng-bind="data.name"></p>
+                                <div class="hours">Estimated Hours: {{(data.total_estimated_hours && data.total_estimated_hours != undefined && data.total_estimated_hours != '')? data.total_estimated_hours : '00:00'}}</div>
+                                <div class="hours">Task Logged Hours: {{(data.total_userstory_logged_hours && data.total_userstory_logged_hours != undefined && data.total_userstory_logged_hours != '')?data.total_userstory_logged_hours:'00:00' }}</div>
+                                <div class="hours">Issue Logged Hours: {{(data.total_userstory_issue_logged_hours && data.total_userstory_issue_logged_hours != undefined && data.total_userstory_issue_logged_hours != null)?data.total_userstory_issue_logged_hours:'00:00'}}</div>
+
+
+                                <div class="task-time task_popup_parent clearfix">
+                                    <div class="pull-left">
+                                        <div class="input-group">
+                                            <button type="button" class="btn btn-info dropdown-toggle" style="background-color : '#337ab7'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Add Issue<span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="javascript:void(0);" data-ng-click="issueQuickAddModal(data._id);">Quick add</a></li>
+                                                <li><a href="javascript:void(0);" data-ng-click="addIssueWithDetailModal(data._id);">Add Issues with details</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="pull-right btn btn-primary" data-ng-click="postTask(data.project_id, data._id, sprint_id._id, data.phase_id)"><i class="fa fa-plus"></i>Add Task</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--New Task -->
+                    <div class="col-sm-3  task_card_outer" drag-drop-index="{{ outerIndex}}" droppable="true" drop-status="1">
+                        <div drag-status="1" drag-pick-index="{{ outerIndex}}" draggable="true" class="panel panel-info task_card" dragable-tkId="{{task._id}}" data-ng-repeat="task in data.newtask.new track by $index">
+                            <div class="panel-body">
+                                <span class="assignee_pic" style="background:url('{{(task.created_by.profile_pic == ''|| task.created_by.profile_pic == undefined) ? 'assets/img/default_project.png' : url+task.created_by.profile_pic+'/50x50'}}')center no-repeat">
+                                </span>
+                                <h5><a target="_blank" data-ui-sref="main.task.section({ type: 'detail', id : task._id, pid: data.project_id})" data-ng-bind="'TK-' + task.taskId"></a> 
+                                    <span class="capitalize" data-ng-bind="task.name"></span>
+                                    <label> <small><i class="glyphicon glyphicon-user"></i>{{ task.created_by.first_name | capitalize }} {{task.created_by.last_name}}</small></label>
+                                    <div class="form-group pull-right">
+                                        <select 
+                                            data-ng-change="statusUpdate(task._id, taskList[outerIndex].newtask.new[$index].current_status._id);"
+                                            data-ng-model="taskList[outerIndex].newtask.new[$index].current_status" 
+                                            data-ng-options="option.name | capitalize for option in statusList track by option._id" >
+                                            <option value="">Change status</option>
+                                        </select>
+                                    </div>
+                                </h5>
+                                <a data-ng-click="logEffort(data.project_id, data.phase_id, task._id, data._id, sprint_id._id)" href='javascript:void(0);' class='log_time' title="Log Effort" ><i class="glyphicon glyphicon-time"></i></a>
+                                <div class="hours task-hours margin-bottom-2x">
+                                    <strong>Estimated Hours</strong> : {{(task.estimate_per_process && task.estimate_per_process != undefined && task.estimate_per_process != '')?task.estimate_per_process.effort_estimate:'00:00'}}<br/>
+                                    <strong>Logged Hours</strong> : {{(task.efforts && task.efforts != undefined && task.efforts != '')?task.efforts:'00:00'}}
+                                </div>
+
+                            </div>
+                        </div> 
+                    </div>
+                    <!--New Task -->
+                    <!--In Progress -->
+                    <div class="col-sm-3 task_card_outer" drag-drop-index="{{ outerIndex}}" droppable="true" drop-status="2">
+                        <div drag-status="2" drag-pick-index="{{ outerIndex}}" draggable="true" dragable-tkId="{{inprogress._id}}" data-ng-repeat="inprogress in data.newtask.inProgress track by $index" class="panel panel-warning task_card">
+                            <div class="panel-body">
+
+                                <span class="assignee_pic" style="background:url('{{(inprogress.created_by.profile_pic == ''|| inprogress.created_by.profile_pic == undefined) ? 'assets/img/default_project.png' : url+inprogress.created_by.profile_pic+'/50x50'}}')center no-repeat">
+                                </span>
+
+                                <h5><a target="_blank" data-ui-sref="main.task.section({ type: 'detail', id : inprogress._id, pid: data.project_id})" data-ng-bind="'TK' + inprogress.taskId"></a>
+                                    <span data-ng-bind="inprogress.name"></span>
+                                    <label> <small><i class="glyphicon glyphicon-user"></i>{{ inprogress.created_by.first_name | capitalize }} {{ inprogress.created_by.last_name}}</small></label>
+                                    <div class="form-group pull-right">
+                                        <select data-ng-change="statusUpdate(inprogress._id, taskList[outerIndex].newtask.inProgress[$index].current_status._id);" 
+                                                data-ng-model="taskList[outerIndex].newtask.inProgress[$index].current_status" 
+                                                data-ng-options="option.name | capitalize for option in statusList track by option._id" >
+                                            <option value="">Change status</option>
+                                        </select>
+                                    </div>
+                                </h5>
+                                <a data-ng-click="logEffort(data.project_id, data.phase_id, inprogress._id, data._id, sprint_id._id)" href='javascript:void(0);' class='log_time' title="Log Effort" ><i class="glyphicon glyphicon-time"></i></a>
+                                <div class="hours task-hours margin-bottom-2x">
+                                    <strong>Estimated Hours</strong> : {{(inprogress.estimate_per_process && inprogress.estimate_per_process != undefined && inprogress.estimate_per_process != '')?inprogress.estimate_per_process.effort_estimate:'00:00'}}<br/>
+                                    <strong>Logged Hours</strong> : {{(inprogress.efforts && inprogress.efforts != undefined && inprogress.efforts != '')?inprogress.efforts:'00:00'}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--Completed -->
+                    <div class="col-sm-3 task_card_outer" drag-drop-index="{{ outerIndex}}" droppable="true" drop-status="3">
+                        <div drag-status="3" drag-pick-index="{{ outerIndex}}" draggable="true" dragable-tkId="{{completed._id}}" data-ng-repeat="completed in data.newtask.completed track by $index" class="panel panel-success task_card">
+                            <div class="panel-body">
+
+                                <span class="assignee_pic" style="background:url('{{(completed.created_by.profile_pic == ''|| completed.created_by.profile_pic == undefined) ? 'assets/img/default_project.png' : url+completed.created_by.profile_pic+'/50x50'}}')center no-repeat">
+                                </span>
+
+                                <h5><a target="_blank" data-ui-sref="main.task.section({ type: 'detail', id : completed._id, pid: data.project_id})" data-ng-bind="'TK' + completed.taskId"></a> <span data-ng-bind="completed.name"></span>
+                                    <label> <small><i class="glyphicon glyphicon-user"></i>{{ completed.created_by.first_name | capitalize }} {{ completed.created_by.last_name}}</small></label>
+                                    <div class="form-group pull-right">
+                                        <select data-ng-change="statusUpdate(completed._id, taskList[outerIndex].newtask.completed[$index].current_status._id);" 
+                                                data-ng-model="taskList[outerIndex].newtask.completed[$index].current_status" 
+                                                data-ng-options="option.name | capitalize for option in statusList track by option._id" >
+                                            <option value="">Change status</option>
+                                        </select>
+                                    </div>
+                                </h5>
+                                <a data-ng-click="logEffort(data.project_id, data.phase_id, completed._id, data._id, sprint_id._id)" href='javascript:void(0);' class='log_time' title="Log Effort" ><i class="glyphicon glyphicon-time"></i></a>
+                                <div class="hours task-hours margin-bottom-2x">
+                                    <strong>Estimated Hours</strong> : {{(completed.estimate_per_process && completed.estimate_per_process != undefined && completed.estimate_per_process != '')?completed.estimate_per_process.effort_estimate:'00:00'}} <br/>
+                                    <strong>Logged Hours </strong>: {{(completed.efforts && completed.efforts != undefined && completed.efforts != '')?completed.efforts:'00:00'}}
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--Completed-->
+                </div>
+            </div>
+
+
+
+        </div>    
+    </div>
+
+</div>   <!-- /.row -->
+</section><!-- /.content -->
+
+

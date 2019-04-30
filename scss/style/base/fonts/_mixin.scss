@@ -1,0 +1,29 @@
+// VARIABLES FOR FONTS
+$primary-font-path: "../fonts" !default;
+$font-family: 'OpenSans' !default;
+
+
+@mixin font-face($font-family, $primary-font-path, $font-weight, $font-style) {
+    @font-face {
+        font-family: $font-family;
+        src: url('#{$primary-font-path}.eot');
+        src: url('#{$primary-font-path}.eot?#iefix') format('embedded-opentype'),
+            url('#{$primary-font-path}.woff') format('woff'),
+            url('#{$primary-font-path}.ttf') format('truetype'),
+            url('#{$primary-font-path}.svg##{$font-family}') format('svg');
+        font-weight: $font-weight;
+        font-style: $font-style;
+    }
+    //Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        @font-face {
+            font-family: $font-family;
+            src: url('#{$primary-font-path}.svg##{$font-family}') format('svg');
+        }
+    }
+}
+
+@mixin OpenSans{font-family: '$font-family', arial, sans-serif; font-weight: 300; font-style: normal;}
+@mixin OpenSans{font-family: '$font-family', arial, sans-serif; font-weight: 400; font-style: normal;}
+@mixin OpenSans{font-family: '$font-family', arial, sans-serif; font-weight: 600; font-style: normal;}
+@mixin OpenSans{font-family: '$font-family', arial, sans-serif; font-weight: 700; font-style: normal;}

@@ -1,0 +1,128 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form role="form" name="create_phase" novalidate data-ng-init=" submitted = false"  data-ng-submit=" create_phase.$valid ? createPhase() : submitted = true " >
+
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Phase</h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label for="phase_name" >Phase Name<sup class="sup_star">*</sup>:</label>
+                        <input required type="text" class="form-control capitalize" data-ng-model="phase_payload.phase_name" name="phase_name" data-ng-maxlength="50" required  placeholder="Phase Name">
+                        <div data-ng-messages="create_phase.phase_name.$error" class="text-danger" data-ng-if=" submitted || create_phase.phase_name.$touched">
+                            <div data-ng-message="required">Name is required.</div>
+                            <div data-ng-message="maxlength">Phase name can not exceed 50 characters.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usr">Process<sup class="sup_star">*</sup>:</label>
+                        <select required  class="form-control capitalize" multiple data-ng-model="phase_payload.process_id" name="process_id">
+                            <option value="">Select Process</option>
+                            <option data-ng-repeat=" process in process_data" value="{{ process._id}}">{{ process.process_name}}</option>
+                        </select>
+
+                        <div data-ng-messages="create_phase.process_id.$error" class="text-danger" data-ng-if=" submitted || create_phase.process_id.$touched">
+                            <div data-ng-message="required">Process is required.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usr">Estimated Hours<sup class="sup_star">*</sup>:</label>
+                        <input data-ng-pattern="/^[1-9][0-9]*$/" required type="text" id="estimate_hour" class="form-control" placeholder="Estimated Hours" data-ng-model="phase_payload.estimate_hour" name="estimate_hour"/>
+
+                        <div data-ng-messages="create_phase.estimate_hour.$error" class="text-danger" data-ng-if=" submitted || create_phase.estimate_hour.$touched">
+                            <div data-ng-message="required">Estimated hours are required.</div>
+                            <div data-ng-message="pattern">Only digit's allowed</div>
+                        </div>
+
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="usr">Mockup link:</label>
+                        <input type="url" id="mockup_link" class="form-control" placeholder="Estimated Hours" data-ng-model="phase_payload.mockup_link" name="mockup_link"/>
+                        <div data-ng-messages="create_phase.mockup_link.$error" class="text-danger" data-ng-if=" submitted || create_phase.mockup_link.$touched">
+                            <div data-ng-message="url">Please Enter a valid url.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usr">Invision link:</label>
+                        <input type="url" id="invison_link" class="form-control" placeholder="Invision link" data-ng-model="phase_payload.invison_link" name="invison_link"/>
+                        <div data-ng-messages="create_phase.invison_link.$error" class="text-danger" data-ng-if=" submitted || create_phase.invison_link.$touched">
+                            <div data-ng-message="url">Please Enter a valid url.</div>
+                        </div>
+                    </div>
+
+                   
+                    <div class="form-group">
+                        <label for="end_date">Start Date<sup class="sup_star">*</sup>:</label>
+                        <p class="input-group">
+                            <input uib-datepicker-popup="yyyy-MM-dd"
+                                   oncut="return false;"
+                                   onkeypress="return false;"  
+                                   onpaste="return false;" 
+                                   name="start_date" placeholder="Start date" 
+                                   type="text" class="form-control" 
+                                   data-ng-model="phase_payload.start_date" 
+                                   is-open="popup4.opened" 
+                                   datepicker-options="dateStartOptions" 
+                                   data-ng-required="true" 
+                                   close-text="Close" 
+                                   data-ng-click="open4()" 
+                                   data-ng-change="setEndDateOptions()"
+                                   />
+                            <span class="input-group-btn">                                
+                                <button type="button" class="btn btn-default" data-ng-click="open4()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span> 
+                        <div data-ng-messages="create_phase.start_date.$error" class="text-danger" data-ng-if=" submitted || create_phase.start_date.$touched">
+                            <div data-ng-message="required">Start date is required</div>
+                        </div>
+
+                        </p>
+                    </div>
+
+                   
+                    <div class="form-group">
+                        <label for="end_date" >End Date</label>
+                        <p class="input-group">
+                            <input uib-datepicker-popup="yyyy-MM-dd" oncut="return false;" onkeypress="return false;"  onpaste="return false;" name="end_date"  placeholder="End date" type="text" class="form-control" data-ng-model="phase_payload.end_date" is-open="popup5.opened" datepicker-options="dateEndOptions" close-text="Close" data-ng-click="open5()" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" data-ng-click="open5()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+
+                    <div data-ng-show=" date_error" class="text-danger">End date cannot be less than start date </div>
+
+
+                    <div class="form-group">
+                        <label for="usr">Status<sup class="sup_star">*</sup>:</label>
+                        <select required  class="form-control capitalize" data-ng-model="phase_payload.status" name="status" required >
+                            <option value="">Select Status</option>
+                            <option value="1">Publish</option>
+                            <option value="2">Un-publish</option>
+                        </select>
+
+                        <div data-ng-messages="create_phase.status.$error" class="text-danger" data-ng-if=" submitted || create_phase.status.$touched">
+                            <div data-ng-message="required">Status is required.</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" >Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

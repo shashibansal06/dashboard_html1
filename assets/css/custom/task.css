@@ -1,0 +1,243 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17 Mar, 2017, 11:16:32 AM
+    Author     : igniva-php-07
+*/
+
+.shape{    
+    border-style: solid; border-width: 0 70px 40px 0; float:right; height: 0px; width: 0px;
+    -ms-transform:rotate(360deg); /* IE 9 */
+    -o-transform: rotate(360deg);  /* Opera 10.5 */
+    -webkit-transform:rotate(360deg); /* Safari and Chrome */
+    transform:rotate(360deg);
+}
+
+.shape-text{
+    color:#fff; font-size:12px; font-weight:bold; position:relative; right:-40px; top:2px; white-space: nowrap;
+    -ms-transform:rotate(30deg); /* IE 9 */
+    -o-transform: rotate(360deg);  /* Opera 10.5 */
+    -webkit-transform:rotate(30deg); /* Safari and Chrome */
+    transform:rotate(30deg);
+}
+
+.project {
+    min-height:120px;
+    height:auto;
+}
+
+.project{
+    background:#fff; border:1px solid #ddd; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); margin: 15px 0; overflow:hidden;
+}
+
+.project-radius{
+    border-radius:7px;
+}
+
+.project-default {    border-color: #999999; }
+.project-default .shape{
+    border-color: transparent #999999 transparent transparent;
+    border-color: rgba(255,255,255,0) #999999 rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
+.project-danger {    border-color: #d9534f; }
+.project-danger .shape{
+    border-color: transparent #d9534f transparent transparent;
+    border-color: rgba(255,255,255,0) #d9534f rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
+.project-success {	border-color: #5cb85c; }
+.project-success .shape{
+    border-color: transparent #5cb85c transparent transparent;
+    border-color: rgba(255,255,255,0) #5cb85c rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
+.project-primary {	border-color: #428bca; }
+.project-primary .shape{
+    border-color: transparent #428bca transparent transparent;
+    border-color: rgba(255,255,255,0) #428bca rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
+.project-info {	border-color: #5bc0de; }
+.project-info .shape{
+    border-color: transparent #5bc0de transparent transparent;
+    border-color: rgba(255,255,255,0) #5bc0de rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
+.project-warning {	border-color: #f0ad4e; }
+.project-warning .shape{
+    border-color: transparent #f0ad4e transparent transparent;
+    border-color: rgba(255,255,255,0) #f0ad4e rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
+.project-content {
+    padding:0 20px 10px;
+}
+.__sep{
+    border: 1px dashed #999;
+    margin-top: 6px;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.task_popup_parent{
+   position: relative;
+}
+.addTaskPopup{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.62);
+    padding: 10px;
+}
+.tasks_header .panel-heading {
+   /* background: transparent;
+    padding: 0 0 20px 0;
+    border-bottom: 2px solid #e0e0e0;*/
+    border-radius: 3px;
+    color: #fff;
+}
+
+.tasks_header {
+    margin: 40px -15px 20px -15px;
+}
+.task_row{
+    margin:0 -15px 0px -15px;
+}
+.tasks_header .col-sm-3  , .task_card_outer , .taskList .col-sm-12{
+    padding: 0 15px;
+}
+.task_card_outer .panel-body {
+    padding: 10px 22px 10px 70px;
+    position: relative;
+}
+.task_card_outer .stories .panel-body {
+    padding: 10px;
+}
+.task_card_outer .panel-body h4 {
+    margin-top: 0;
+}
+.taskList .panel-footer {
+    padding: 0;
+}
+.taskList .panel-footer a {
+    color: #666;
+}
+.taskList .panel-footer {
+    padding: 0;
+    display: table;
+    width: 100%;
+    border-top: 0;
+    background: #e8e8e8;
+}
+
+.task_heading label {
+    font-size: 22px;
+    vertical-align: middle;
+    color: #666;
+        margin-bottom: 0;
+        margin-right: 10px;
+}
+
+.task_heading i {
+    font-size: 12px;
+    vertical-align: middle;
+    color: #666;
+    line-height: 2;
+    margin-right: 10px;
+}
+
+.task_heading {
+    margin-bottom: 15px;
+}
+
+span.assignee_pic {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    margin: 0;
+}
+.task_card h5 {
+    margin-top: 0;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.task_card h5 span {
+    color: #666;
+    font-weight: normal;
+    font-size: 13px;
+}
+
+.task_card h5 label {
+    display: block;
+    margin: 5px 0;
+    font-size: 16px;
+    color: #9a9a9a;
+}
+.task_card h5 label i{
+    margin-right: 5px;
+}
+.taskList .panel {
+    border-width: 0;
+    border-left-width: 5px;
+    box-shadow: 1px 1px 4px -1px rgba(0, 0, 0, 0.74);
+    background: #f7f7f7;
+}
+.task_card select {
+      width: 100%;
+}
+.taskList {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(204, 204, 204, 0.53);
+}
+a.log_time {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 30px;
+}
+.taskList .panel-footer a {
+        font-size: 13px;
+    width: 30px;
+    height: 30px;
+    position: static;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 30px;
+    display: table-cell;
+}
+.taskList .panel-footer a:hover {
+    background: rgba(0, 0, 0, 0.11);
+    text-decoration: none;
+}
+.task_card_outer {
+    position: relative;
+}
+.task_card_outer:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    content: "";
+       border-right: 2px dotted #9a9a9a;
+}
+.task_card_outer:last-child:after {
+    display: none;
+}
+
+a.log_priority i {
+    font-size: 10px;
+    margin-left: 5px;
+}

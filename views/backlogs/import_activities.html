@@ -1,0 +1,52 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" name="importform">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-danger text-center"><i class="fa fa-book"></i> Import User Story</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="comment">Project:</label>
+                                <select required class="form-control" name="project" ng-model="phase">
+                                    <option value="">Select Project</option>
+                                </select>
+                                <div ng-messages="importform.project.$error" class="text-danger" data-ng-if=" submitted || importform.project.$touched">
+                                    <div ng-message="required">Project is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="sel1">Phase:</label>
+                                 <select required class="form-control" name="phase" ng-model="phase">
+                                    <option value="">Select Phase</option>
+                                </select>
+                                <div ng-messages="importform.phase.$error" class="text-danger" data-ng-if=" submitted || importform.phase.$touched">
+                                    <div ng-message="required">Phase is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="sel1">CSV Upload:</label>
+                                <input id="upload" type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

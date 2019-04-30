@@ -1,0 +1,50 @@
+.navbar-default .navbar-nav > li >a.dashboard {
+   background-color: #696969;
+    color: #fff;
+    font-size: 20px;
+}
+.navbar-default .navbar-nav > li.active >a.dashboard , .navbar-default .navbar-nav > li>a.dashboard:hover {
+    background-color: #333;
+     color: #fff;
+}
+ul#moreLi{
+ 
+}
+@media all and (min-width:1201px){
+    .hidden_ul{
+        display: block;
+    }
+}
+@media all and (max-width:1400px){
+    .nav>li>a , .navbar-default .navbar-nav>li>a{
+        padding:15px 10px; 
+    }
+}
+
+@media all and (max-width:1200px){
+    .nav>li>a , .navbar-default .navbar-nav>li>a{
+        padding:15px 20px; 
+    }
+    .nav>li.more_li {
+ display: block;
+}
+ul#moreLi {
+    position: absolute;
+    top: 50px;
+    background: #696969;
+    right: -50px;
+    min-width: 170px;
+}
+ul#moreLi li {
+    width: 100%;
+}
+.hidden_ul{
+   
+}
+}
+
+@media all and (max-width:980px){
+    .nav>li>a, .navbar-default .navbar-nav>li>a {
+    padding: 15px 8px;
+}
+}

@@ -1,0 +1,87 @@
+<section class="container-fluid" id="mainContainerSection" data-ng-init="getDeptProject();
+        getTimesheet();" submitted = true">
+    <div class="col-xs-12">		
+        <div class="page_title">
+            <h1> Spent Hours Sheet</h1>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!-- Search Form Timesheet -->
+                <div class="row">
+                    <div class="col-xs-12" style="padding:20px 20px;">
+                          <form name="timesheet" class="form-inline col-xs-12" novalidate  data-ng-submit="timesheet.$valid ? getTimesheet() : submitted = true">
+                        <div class="form-group">
+                            <select class="form-control" ng-options="(option.department_name | capitalize) for option in getDepartments track by option._id" ng-model="department_id" name="department" data-ng-change="getUsers(department_id)">
+                                <option value="">Select Department</option>
+                            </select>
+                            <div data-ng-messages="timesheet.department.$error" class="text-danger" role="alert" data-ng-if="submitted || timesheet.department.$touched">
+                                <div data-ng-message="required">Department is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div name="user" data-ng-dropdown-multiselect="" options="users" selected-model="selectedUsers" extra-settings="searchSelectAllSettings"></div>
+                            <div data-ng-messages="timesheet.user.$error" class="text-danger" role="alert" data-ng-if="submitted || timesheet.user.$touched">
+                                <div data-ng-message="required">User is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="start_date" data-ng-click="open1()" uib-datepicker-popup data-ng-model="start_date" is-open="popup1.opened" datepicker-options="dateOptions" placeholder="-- To --" data-ng-required="true" close-text="Close" readonly/>
+                            <div data-ng-messages="timesheet.start_date.$error" class="text-danger" role="alert" data-ng-if="submitted || timesheet.start_date.$touched">
+                                <div data-ng-message="required">To date is required.</div>
+                            </div>                   
+                        </div>
+
+                        <div class="form-group ">
+                            <input type="text" class="form-control" name="end_date" data-ng-click="open2()" uib-datepicker-popup data-ng-model="end_date" is-open="popup2.opened" datepicker-options="dateOptions" placeholder="-- From --" data-ng-required="true" close-text="Close" readonly/>
+                            <div data-ng-messages="timesheet.end_date.$error" class="text-danger" role="alert" data-ng-if="submitted || timesheet.end_date.$touched">
+                                <div data-ng-message="required">To date is required.</div>
+                            </div>                
+                        </div>
+                        <div class="form-group">
+                            <div name="project" data-ng-dropdown-multiselect="" options="getProjects" selected-model="project_ids" extra-settings="searchSelectAllSettings"></div>
+                            <!--<select name="project" class="form-control" ng-model="project_ids" ng-options="(option.title | capitalize) for option in getProjects track by option._id" multiple required>					 
+                            </select>-->
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    </div>
+                  
+                </div>	
+                <!-- Search Form Timesheet Ends Here -->
+                <div class="row">
+                    <div class="time-table col-xs-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th data-ng-repeat="days in headersDays" data-ng-bind="days.day"></th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    
+                                    <tr data-ng-if=" timesheetData.length == 0 ">
+                                        <td>No effort(s) log found</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td data-ng-repeat="dates in headersDates" data-ng-bind="dates.date"> </td>
+                                    </tr>
+                                    <tr data-ng-repeat="data in timesheetData" >
+                                        <td data-ng-bind="data.userData.first_name | capitalize "></td>
+                                        <td data-ng-repeat="times in data.loggings" data-ng-bind="times.effortLogged">
+                                            
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>		  
+        </div>
+    </div>	
+</section>
+

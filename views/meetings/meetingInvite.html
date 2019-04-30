@@ -1,0 +1,192 @@
+<!--  // * @file: meetingInvite.html
+ // * @description: meeting invitation view
+ //  * @author: prabhjot kaur
+ //   * @date: 26-04-2017 -->
+<!-- Main content -->
+<div ng-cloak>
+<section class="container-fluid meetings-font" id="mainContainerSection" >
+    <div  class="col-lg-12">
+           <div class="table table-bordered" ><!-- ng-if="meetingCancel!=true && eventObj.status==1" -->
+                <div class="invite-response">
+                    <!-- {{ event.id }} -->
+                    <h4>Meeting Invitation</h4><br>
+                    <p><strong>Meeting Invited By :</strong><span class="capitalize"> {{ eventObj.invited_by.first_name}}</span> - {{eventObj.invited_by.email}}</p>
+                        <p><strong>Event Organiser :</strong><span class="capitalize"> {{ eventObj.invited_by.first_name }}</span></p>
+                        <!--  <p><strong>Project :</strong><span class="capitalize"> {{ $rootScope.globalProjectId }}</span></p> -->
+                        <p><strong>Title :</strong><span class="capitalize"> {{ eventObj.title }}</span></p>
+                        <p><strong>Description :</strong><span class="firstCap" data-ng-bind-html="eventObj.description">  </span></p>
+                        <p><strong>Venue :</strong><span class="capitalize"> {{ eventObj.venue }}</span></p>
+                        <p><strong>Starts At :</strong> {{ eventObj.start_date_time | date : 'yyyy-MM-dd HH:mm'}} Hours</p>
+                        <p><strong>Ends At :</strong> {{ eventObj.end_date_time| date : 'yyyy-MM-dd HH:mm' }} Hours</p>
+                        <p><strong>Invitee :</strong> 
+                        <div>
+                        <span class="capitalize response-invitee-list" ng-repeat="user in eventObj.invitee">
+                        <span class="capitalize">{{user.user_id.first_name}}</span>
+                        <span ng-if="user.is_mandatory==1"> - Must Come</span>
+                        <span ng-if="user.is_mandatory==0"> - Optional</span>
+                         <span ng-if="user.is_confirmed==0 && user.reason!=''"> - Invitation Declined</span>
+                        <!--   <span class="" ng-if="user.is_confirmed==0 && user.reason!='' " > due to {{user.reason}}</span> -->
+                        <span ng-if="user.is_confirmed &&  user.is_confirmed==1"> - Invitation Accepted</span>
+                        <br>
+                        </span></div>
+                          
+                          <!-- <span data-ng-repeat="data in eventObj.tags">{{ data.name }}{{$last ? '' : ', '}}</span>   -->
+                        </p>
+                        <p ng-if="eventObj.attachment.length>0" ><strong>Attachments :</strong> 
+                        <div ng-repeat="file in eventObj.attachment"><a target="_blank" href="{{fileUrl}}{{file.name}}" download="{{file}}">{{file.original_name}}</a>
+                        
+                        </div>
+                        </p>
+                        <p ng-if="responseGiven==false && cancelReason.length==0">
+                            <button class="btn btn-primary" ng-click="inviteResponse(1)">Accept</button>
+                            <button class="btn" data-ng-click="inviteResponse(0)">Decline</button>
+                        </p>
+                    </div>
+                </div>
+            <div class="table table-bordered" ng-if="meetingCancel==true && eventObj.status==0 && responseGiven==true">
+                <div class="invite-response">
+                    <p ng-if="cancelReason.length>0" class="text-danger">Meeting has been cancelled</p>
+                 <p ng-if="cancelReason.length>0"><strong><span class="text-danger"> Cancel Reason :</span></strong> Meeting has been cancelled by <span ng-repeat="cancel in cancelReason"> <span class="capitalize">{{ cancel.cancelBy }} </span> due to {{cancel.cancelCause}}.</span></p><br>
+                </div>
+                </div>
+     <!--    <table class="table table-bordered">
+
+            <tr>
+                <td class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Event Organiser:</label> 
+                            <input type="text" class="form-control capitalize" name="title" data-ng-model="eventObj.invited_by.first_name" readonly="readonly">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Title:</label> 
+                            <input type="text" class="form-control capitalize" name="title" data-ng-model="eventObj.title" readonly="readonly">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Description:</label>
+                            <textarea class="form-control firstCap" data-ng-model="eventObj.description" name="description" readonly="readonly"></textarea>    
+                        </div> -->
+                   <!--      <div class="form-group">
+                            <label class="control-label">Your Presence:</label> 
+                            <input class="form-control" type="text" name="color" data-ng-model="eventObj.color" >
+                        </div>  -->
+                    <!-- </div> -->
+                    <!-- </div> -->                  
+                    
+                            
+                    
+       <!--              <div class="col-md-6">  
+                        
+                        {{$parent.available_users}}
+                        <div class="form-group">
+                                <label class="control-label">Invitee:</label>
+                                    <div class="capitalize" ng-repeat="user in eventObj.invitee">
+                                        <span class="capitalize">{{user.user_id.first_name}}</span>
+                                        <span ng-if="user.is_mandatory==1"> - Must Come</span>
+                                        <span ng-if="user.is_mandatory==0"> - Optional</span><br>
+                                    </div> -->
+                              <!--   <tags-input id="stopKeyPress"  ng-model="event.tags" name="tags" display-property="name" replace-spaces-with-dashes="false" readonly="true">
+                                    <auto-complete source="loadUsers($query)"
+                                        on-tag-added="true"       
+                                        max-results-to-show="{{1000*1000}}"
+                                        load-on-focus="true"
+                                        load-on-empty="true"
+                                        template="my-custom-template">
+                                    </auto-complete> 
+                                </tags-input>
+                                <script type="text/ng-template" id="my-custom-template">
+                                    <div class="right-panel">
+                                    <span ng-bind-html="$highlight($getDisplayText())"></span>
+
+                                    </div>
+                                </script>-->
+                                        
+                            </div>
+                        
+                        <!--<div class="form-group">
+                            <label class="control-label">Invitee<sup class="sup_star">*</sup>:</label>
+                          <div ng-repeat="invitee in invitees" >
+                                <span>{{invitee.name}}</span>
+                            </div>                                       
+                        </div> -->
+
+             <!--              <div class="form-group">
+                            <label class="control-label">Venue<sup class="sup_star">*</sup>:</label>
+                            <input type="text" class="form-control capitalize" data-ng-model="eventObj.venue" name="venue" readonly="true">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Attachments:</label>
+                             
+                    <div ng-if="eventObj.data.length>0" ng-repeat="file in eventObj.data"><a target="_blank" href="{{fileUrl}}{{file}}" download="{{file}}">{{file}}</a>
+                    </div>
+                    <div ng-if="eventObj.data.length==0"> No Attachment</div>
+                          
+                  </div>
+
+                </td>
+                <td>
+                    <p class="input-group" style="max-width: 250px">
+                        <input
+                            type="text"
+                            class="form-control"
+                            readonly
+                            uib-datepicker-popup="dd MMMM yyyy"
+                            data-ng-model="eventObj.start_date_time"
+                            is-open="event.startOpen"
+                            close-text="Close" >
+                        <span class="input-group-btn">
+                            <button
+                                type="button"
+                                class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                    <div
+                        uib-timepicker ng-disabled="true"
+                        data-ng-model="eventObj.start_date_time"
+                        hour-step="1"
+                        minute-step="15"
+                        show-meridian="true">
+                    </div>
+                </td>
+                <td>
+                    <p class="input-group" style="max-width: 250px">
+                        <input
+                            type="text"
+                            class="form-control"
+                            readonly
+                            uib-datepicker-popup="dd MMMM yyyy"
+                            data-ng-model="eventObj.end_date_time"
+                            is-open="event.endOpen"
+                            close-text="Close">
+                        <span class="input-group-btn">
+                            <button
+                                type="button"
+                                class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                    <div
+                        uib-timepicker ng-disabled="true"
+                        data-ng-model="eventObj.end_date_time"
+                        hour-step="1"
+                        minute-step="15"
+                        show-meridian="true">
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-primary" ng-click="inviteResponse(1)">Accept</button>
+                    <button class="btn" data-ng-click="inviteResponse(0)">Decline</button>
+                </td>
+            </tr> -->
+            <!-- </form> -->
+            <!--  </tbody> -->
+     <!--    </table> -->
+    </div>
+
+</section><!-- /.content -->
+</div>

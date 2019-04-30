@@ -1,0 +1,257 @@
+<section class="container-fluid sprint-view" id="mainContainerSection" ng-cloak >
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="xtraSpace">
+                <div class="page_title">
+                    <h1> SP{{sprint_payload.sprint_number}} <i class="fa fa-key" aria-hidden="true"></i> {{sprint_payload.sprint_name}}</h1>
+                </div>
+                <!--h4><label for="comment" class="capitalize"><!-- SP1-345&nbsp; -> SP{{sprint_payload.sprint_number}} <i class="fa fa-key" aria-hidden="true"></i> {{sprint_payload.sprint_name}}
+                            </label></h4-->
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>Basic Info </strong>
+                </div>
+                <div class="row padding-15x">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="sel1">Description :</label>
+                            <span class="black firstCap">{{sprint_payload.description ? sprint_payload.description : ' - ' }}<!-- As a User, I want on click in left bar drawer opens having options user stories, issues etc. --></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12" >
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Sprint Name :</label>
+                                    <span class="black capitalize">{{sprint_payload.sprint_name ? sprint_payload.sprint_name : ' - ' }}<!-- As a User, I want on click in left bar drawer opens having options user stories, issues etc. --></span>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Description :</label>
+                                    <span style="color: black;" class="firstCap">{{sprint_payload.description ? sprint_payload.description : ' - ' }}<!-- As a User, I want on click in left bar drawer opens having options user stories, issues etc. --> <!-- </span>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Project Name :</label>
+                                    <span class="black capitalize">{{globalProjectId ? globalProjectId.title : ' - ' }}<!-- As a User, I want on click in left bar drawer opens having options user stories, issues etc. --></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Start Date :</label>
+                                    <span>{{sprint_payload.start_date ? (sprint_payload.start_date | convert_dateformat) : ' - '}}</span>
+                                </div>
+                            </div>                         
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">End Date :</label>
+                                    <span>{{sprint_payload.end_date ? (sprint_payload.end_date | convert_dateformat) : ' - '}}</span>
+                                </div>
+                            </div> 
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Contigency Hours (%) :</label>
+                                    <span>{{sprint_payload.contigency_hours}}</span>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-12">                            
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Release Plan :</label>
+                                    <span class="capitalize">{{sprint_payload.release_plan_id.title}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Phase :</label>
+                                    <span>{{sprint_payload.phases[0].phase_name| capitalize}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Processes :</label>
+                                    <span ng-repeat="process in sprint_payload.phases[0].processes track by $index"><span class="capitalize"><span ng-if="$index != 0">,</span> {{process.process_name}}</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">                            
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Planned Time :</label>
+                                    <span class="capitalize">{{sprint_payload.planned_time ? sprint_payload.planned_time : ' 00:00' }} Hr(s)</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Sprint Status :</label>
+                                    <span class="capitalize">{{sprint_payload.sprint_status.name ? sprint_payload.sprint_status.name : ' - ' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Created By :</label>
+                                    <span style="color: black;" class="capitalize">{{sprint_payload.created_by ? sprint_payload.created_by.first_name : ' - ' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" >
+                    <b>Build and releases plan</b>
+                </div>
+                <div class="padding-15x">
+                    <table class="table table-striped table-bordered " cellspacing="0 " width="100% ">
+                        <thead class="thead-inverse ">
+                            <tr>
+                                <th>Build number</th>                               
+                                <th>Build status</th>
+                                <th>Total user stories</th>
+                                <th>Accepted user stories</th>   
+                                <th>Rejected user stories</th>  
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr data-ng-if="sprint_partial_builds.length > 0" data-ng-repeat="sprint in sprint_partial_builds track by $index">
+                                <td>
+                                    {{ sprint.build_number}}
+                                </td>  
+                                <td><a data-ng-show=" sprint.build_status == 3" class="btn btn-danger btn-round btn-sm m-b-xs m-r-xsm-r-xs">Rejected</a>
+                                    <a data-ng-show=" sprint.build_status == 2" class="btn btn-success btn-round btn-sm m-b-xs m-r-xsm-r-xs">Accepted</a>
+
+                                    <a data-ng-show=" !sprint.build_status || sprint.build_status == 0" href="javascript:void(0)" class="btn btn-warning btn-sm">Not received by qa</a>
+                                </td>
+                                <td>{{ sprint.total_userStories_in_build}}</td>
+                                <td>{{ sprint.total_accepted_US ? sprint.total_accepted_US : 0 }} </td>
+                                <td>{{ sprint.total_rejected_US ? sprint.total_rejected_US : 0 }} </td>
+                                <td> <a target="_blank" data-ui-sref="main.releases.buildDetail({id:sprint._id})" href="javascript:void(0)" title="View build detail"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr  data-ng-if=" sprint_partial_builds.length == 0">
+                                <td class="text-center no-userstory" colspan="6">
+                                    No build released yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>              
+            </div>              
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading" >
+                    Sprint Resources
+                </div>
+                <div class="padding-15x">
+                    <table class="table table-striped table-bordered " cellspacing="0 " width="100% ">
+                        <thead class="thead-inverse ">
+                            <tr>
+                                <th width="40%"></th>                               
+                                <th width="15%">Role</th>
+                                <th width="20%">Department</th>
+                                <th width="20%">Productivity Hours</th>                                                             
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr ng-if="sprint_payload.sprint_resources.length > 0" ng-repeat="resource in sprint_payload.sprint_resources track by $index">
+                                <td>
+                                    <div class="media-left">
+                                        <img class="user_pic" src=" {{!resource.resource_id.profile_pic  ? 'assets/img/default.png' :  baseUrl + 'attachment/admin/'+ resource.resource_id.profile_pic }} " class="media-object" width="50px" height="50px">
+                                    </div>
+                                    <div class="media-body">
+                                        <label class="media-heading capitalize ng-binding">{{resource.resource_id.first_name ? resource.resource_id.first_name : ''}} {{resource.resource_id.last_name ? resource.resource_id.last_name : ''}}</label><br>
+                                        <small class="ng-binding"> {{resource.resource_id.email ? resource.resource_id.email : ''}} </small>
+                                    </div>
+                                </td>  
+                                <td>{{resource.resource_id.role_id ? (resource.resource_id.role_id.role_name | capitalize) : ''}}</td>
+                                <td>{{resource.resource_id.dept_id ? (resource.resource_id.dept_id.department_name | capitalize) : ''}}</td>
+                                <td>{{resource.productivity_hours ? resource.productivity_hours : ' 0 '}} Hr(s)</td>
+                            </tr>
+                            <tr  <tr ng-if="sprint_payload.sprint_resources.length == 0">
+                                <td class="text-center no-userstory" colspan="6">
+                                    No Resource
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>               
+            </div>               
+            <div class="panel panel-default">
+                <div class="panel-heading" ng-if="sprint_userstories.length > 0" >
+                    <strong>User Stories</strong>
+                </div>
+                <div class="padding-15x">
+                    <table class="table table-striped table-bordered " cellspacing="0 " width="100% ">
+                        <thead class="thead-inverse ">
+                            <tr>
+                                <th>Key</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Effort Estimated</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr ng-if="sprint_userstories.length > 0" ng-repeat="userstory in sprint_userstories track by $index">
+                                <td><a target="_blank" data-ui-sref="main.userstory.section({ type: 'description', id : userstory.user_story_id._id , pid : userstory.user_story_id.project_id })" >#US-{{userstory.user_story_id.taskId}}</a></td>
+                                <td class="capitalize">{{userstory.user_story_id.name}} </td>
+                                <td style="width:200px" class="firstCap">{{userstory.user_story_id.user_story_details.context}}</td>
+                                <td>{{userstory.status.name ? (userstory.status.name | capitalize):' - '}}</td>
+                                <td>{{userstory.user_story_id.status.name}}</td>
+                                <td>{{userstory.user_story_id.created_at| convert_date}}</td>
+                                <td>{{userstory.user_story_id.modified ? (userstory.user_story_id.modified | convert_date) : ' - '}}</td>
+                                <td><span ng-repeat="process in userstory.user_story_id.estimations">
+                                        <span style="color: red;" ng-model="sprint_userstories[$index].totalhours" ></span>
+                                        {{process.process_id.process_name| capitalize}} - {{process.approved_hours}} Hours <br>
+
+                                    </span>
+                                    <!-- {{userstory.totalhours}} --></td>                                
+                                </td>
+                            </tr>
+                            <tr  <tr ng-if="sprint_userstories.length == 0">
+                                <td class="text-center no-userstory" colspan="13">
+                                    No User Story Added
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <!-- <div class="col-md-6"> -->                
+                <nav aria-label="Page navigation " class="text-center pull-right" >
+                    <ul class="pagination " uib-pagination total-items="totalRecords" ng-model="currentPageUserStory" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getsprintdet()">
+                    </ul>
+                </nav>
+
+                <!-- </div>                -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</section>

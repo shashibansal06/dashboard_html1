@@ -1,0 +1,263 @@
+
+<!-- Main content -->
+<section class="container-fluid" id="mainContainerSection" data-ng-init="getEvents()">
+    <div  class="col-lg-12">
+
+        <h2 class="text-center meetings-font">{{ calendarTitle}}</h2>
+
+        <div class="row">
+
+            <div class="col-md-6 text-center">
+                <div class="btn-group">
+
+                    <button
+                        class="btn btn-primary"
+                        mwl-date-modifier
+                        date="viewDate"
+                        decrement="calendarView"
+                        ng-click="cellIsOpen = false">
+                        Previous
+                    </button>
+                    <button
+                        class="btn btn-default"
+                        mwl-date-modifier
+                        date="viewDate"
+                        set-to-today
+                        ng-click="cellIsOpen = false">
+                        Today
+                    </button>
+                    <button
+                        class="btn btn-primary"
+                        mwl-date-modifier
+                        date="viewDate"
+                        increment="calendarView"
+                        ng-click="cellIsOpen = false">
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <br class="visible-xs visible-sm">
+           
+            <div class="col-md-6 text-center">
+                <div class="btn-group">
+                    <label class="btn btn-primary" data-ng-model="calendarView" uib-btn-radio="'year'" ng-click="cellIsOpen = false">Year</label>
+                    <label class="btn btn-primary" data-ng-model="calendarView" uib-btn-radio="'month'" ng-click="cellIsOpen = false">Month</label>
+                    <label class="btn btn-primary" data-ng-model="calendarView" uib-btn-radio="'week'" ng-click="cellIsOpen = false">Week</label>
+                    <label class="btn btn-primary" data-ng-model="calendarView" uib-btn-radio="'day'" ng-click="cellIsOpen = false">Day</label>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+     
+        <mwl-calendar
+            events="events"
+            view="calendarView"
+            view-title="calendarTitle"
+            view-date="viewDate"
+            on-event-click="eventClicked(calendarEvent)"
+            on-event-times-changed="eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+            cell-is-open="cellIsOpen"
+            day-view-start="00:00"
+            day-view-end="23:59"
+            day-view-split="20"
+            cell-modifier="modifyCell(calendarCell)"
+            cell-auto-open-disabled="true"
+            on-timespan-click="timespanClicked(calendarDate, calendarCell)">
+        </mwl-calendar>
+
+        <br><br><br>
+
+
+        <h3 id="event-editor">
+            Create Meeting
+            <button
+                class="btn btn-primary pull-right"
+                ng-click="openAddEventForm()">
+                Add New
+            </button>
+            <div class="clearfix"></div>
+        </h3>
+    
+        <table class="table table-bordered" ng-if="addEventForm">
+
+            <thead>
+                <tr>
+                    <th>Information</th>
+                    <th>Starts at<sup class="sup_star">*</sup></th>
+                    <th>Ends at<sup class="sup_star">*</sup></th>
+                    <!-- <th>Remove</th> -->
+                </tr>
+            </thead>
+
+            <tbody ng-form="addEventForm">
+                <!-- <form name="addEventForm" ng-submit="createEvent()" role="createEvent" novalidate> -->
+                <!--   <tr data-ng-repeat="event in events track by $index"> -->
+                <tr>
+                    <td class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                                <input type="text" class="form-control capitalize inputs" name="title" data-ng-model="eventObj.title" ng-required="true" ng-maxlength="50" focus tabindex="1" autofocus="true">
+                                <div class="sup_star" ng-show="addEventForm.title.$invalid && addEventForm.title.$dirty && addEventForm.title.$error.required">Please enter title</div>
+                                <div class="sup_star" ng-show="addEventForm.title.$invalid && addEventForm.title.$dirty && !addEventForm.title.$error.required && addEventForm.title.$error.maxlength">Title can have maximum 50 characters</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Description<sup class="sup_star">*</sup>:</label>
+                                <textarea class="form-control firstCap des-txt-area inputs" data-ng-model="eventObj.description" name="description" ng-required="true" ng-maxlength="150" tabindex="1" focus></textarea>    
+                                 <div class="sup_star" ng-show="addEventForm.description.$invalid && addEventForm.description.$dirty && addEventForm.description.$error.required">Please enter description</div>
+                                <div class="sup_star" ng-show="addEventForm.description.$invalid && addEventForm.description.$dirty && !addEventForm.description.$error.required && addEventForm.description.$error.maxlength">Description can have maximum 150 characters</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Colour:</label> 
+                                <div class="meetingColorPicker inputs" style="background-color: {{eventObj.colour}};" name="colour" data-ng-model="eventObj.colour" colorpicker tabindex="3" focus></div>
+                            </div> 
+                        </div>
+                        <!-- </div> -->
+                        <div class="col-md-6">
+                          <!--   {{ event.tags }} -->
+                            <div class="form-group"> 
+                                <label class="control-label">Invitee<sup class="sup_star">*</sup>:</label>
+                                
+                                <tags-input onkeypress="return false;" ondragstart="return false;" ondrop="return false;" id="stopKeyPress"  data-ng-model="user" class="capitalize inputs" name="user" display-property="email" placeholder="Select Users" replace-spaces-with-dashes="false" tabindex="4" >
+                                <div class="sup_star" ng-show="user.length==0 && addEventForm.user.$dirty">Please choose invitee</div>
+                                    <auto-complete source="loadUsers($query)"
+                                                   on-tag-added="true"       
+                                                   max-results-to-show="{{1000 * 1000}}"
+                                                   load-on-focus="true"
+                                                   load-on-empty="true"
+                                                   key-property="id"
+                                                   template="my-custom-template">
+                                    </auto-complete>
+                                </tags-input>
+                                <div class="text-danger" ng-show="available_users.length==0">No resource assigned to this project.</div>
+                                <script type="text/ng-template" id="my-custom-template">
+                                    <div class="right-panel">
+                                    <span ng-bind-html="$highlight($getDisplayText())"></span>
+                                    </div>
+                                </script>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Venue<sup class="sup_star">*</sup>:</label>
+                                <input type="text" class="form-control capitalize" name="venue" ng-required="true" data-ng-model="eventObj.venue" tabindex="5" ng-maxlength="50">
+                                <div class="sup_star" ng-show="addEventForm.venue.$invalid && addEventForm.venue.$dirty && addEventForm.venue.$error.required">Please type venue</div>
+                                 <div class="sup_star" ng-show="addEventForm.venue.$invalid && addEventForm.venue.$dirty && !addEventForm.venue.$error.required && addEventForm.venue.$error.maxlength">Venue can have maximum 50 characters</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Attachments:</label>
+                                <!-- <input type="file" > -->
+                               <!--  {{errorMeetingFile[0].$errorMessages.maxFiles==true}} and {{errorMeetingFile[0].$error==pattern}} and {{errorMeetingFile}} -->
+                                <input class="meeting-attachment" type="file" name="attachment" ngf-select ng-model="eventObj.attachment" id="uploadBtn" ngf-max-size="5MB" ngf-model-invalid="errorMeetingFile" ngf-pattern="'.pdf,.jpg,.gif,.ods,.png,.jpeg,.xls,.xlsx,.doc,.docx,.ppt'"  ngf-multiple="true" ngf-max-files="5" tabindex="5">
+                                <sub>(Maximum file limit 5 and extension can be .pdf, .jpg, .gif, .ods, .png, .jpeg, .xls, .xlsx, .doc, .docx, .ppt)</sub> 
+                                 <div class="sup_star" ng-show="addEventForm.attachment.$error.maxSize">File too large. Max size should be 5 MB</div>
+                                 <div class="sup_star" ng-show="(errorMeetingFile[0].$error!=pattern || errorMeetingFile[0].$errorMessages.maxFiles==true ) && addEventForm.attachment.$dirty && !addEventForm.attachment.$error.maxSize">File extension or maximum number of file is not valid.</div>
+                                <!-- </label> -->
+                                <!-- <span ng-if="eventObj.data.name">{{eventObj.data.name}}</span> ngf-multiple="true"  ngf-accept="''image/*,application/pdf'"-->
+                            </div>
+
+                        </div>
+
+                    </td>
+                    <td>
+                        <p class="input-group" style="max-width: 250px">
+                            <input
+                                type="text"
+                                class="form-control width-cal-input"
+                                readonly ng-required="true" name="startsAt"
+                                uib-datepicker-popup="yyyy-MM-dd"
+                                data-ng-model="obj.start_date_time" 
+                                ng-change="changeMinAndMaxDates()"
+                                datepicker-options=" dateOptions"
+                                is-open="event.startOpen"
+                                close-text="Close" tabindex="7" 
+                                ng-click="toggle($event, 'startOpen', event)">
+                            <span class="input-group-btn">
+                                <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    ng-click="toggle($event, 'startOpen', event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
+                        <div
+                            uib-timepicker tabindex="8"
+                            data-ng-model="obj.start_date_time"
+                            hour-step="1" 
+                            ng-change="changeMinAndMaxDates()"
+                            datepicker-options=" dateOptions"
+                            minute-step="1" min="minTime"
+                            show-meridian="false">
+                        </div>
+                         <div class="sup_star" ng-show="addEventForm.startsAt.$invalid && addEventForm.startsAt.$dirty && addEventForm.startsAt.$error.required">Please enter start date time</div>
+                    </td>
+                    <td>
+                        <p class="input-group" style="max-width: 250px">
+                            <input ng-required="true" name="endsAt" 
+                                type="text"
+                                class="form-control width-cal-input"
+                                readonly
+                                uib-datepicker-popup="yyyy-MM-dd"
+                                data-ng-model="obj.end_date_time" datepicker-options="toDateOptions"
+                                is-open="event.endOpen" tabindex="9"
+                                close-text="Close" ng-click="toggle($event, 'endOpen', event)">
+                            <span class="input-group-btn">
+                                <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    ng-click="toggle($event, 'endOpen', event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
+                        <div
+                            uib-timepicker datepicker-options="toDateOptions"
+                            data-ng-model="obj.end_date_time"
+                            hour-step="1" tabindex="10"
+                            minute-step="1" min="toMinTime"
+                            show-meridian="false">
+                        </div>
+                         <div class="sup_star" ng-show="addEventForm.endsAt.$invalid && addEventForm.endsAt.$dirty && addEventForm.endsAt.$error.required">Please enter end date time</div>
+                    </td>
+<!--                     <td>
+                        <button
+                            class="btn btn-primary" ng-disabled = "addEventForm.$invalid" ng-click="addEvent()">Create Meeting
+                        </button>
+                        <button class="btn" data-ng-click="cancel()">Cancel</button>                        
+                    </td> -->
+                </tr>
+                <tr>
+                    <td colspan="3" class="add-meeting-btn-align">
+                         <button
+                            class="btn btn-primary" ng-disabled = "addEventForm.$invalid || user.length==0" ng-click="addEvent()">Create Meeting 
+                        </button>
+                        <button class="btn" data-ng-click="cancel()">Cancel</button>  
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section><!-- /.content -->
+ <script type="text/javascript">
+//     $('table').keypress(function (event) {alert("ewfre")
+//         $(":focus").parents('td').next('td').find('[tabindex="1"]:first').focus(); //this is not working
+
+
+
+// });
+// ​angular.element('.inputs').keydown(function (e) {
+//          if (e.which === 9) {
+//                          var index = angular.element('.inputs').index(this) + 1;
+//              angular.element('.inputs').eq(index).focus();
+//          }
+//      });
+</script> 

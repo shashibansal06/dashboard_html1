@@ -1,0 +1,117 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" name="post_comment" novalidate data-ng-init=" submitted = false"  data-ng-submit=" post_comment.$valid ? postStatus() : submitted = true"  > 
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-danger text-center" ng-if="status_type == 0">Log your effort</h4>
+                    <h4 class="modal-title text-danger text-center" ng-if="status_type == 1">Log effort & assign to other</h4>
+                    <h4 class="modal-title text-danger text-center" ng-if="status_type == 2">Post Comment</h4>
+                    <h4 class="modal-title text-danger text-center" ng-if="status_type == 3">Assign to other</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="title">Title <sup class="sup_star">*</sup>:</label>
+                                <textarea data-ng-model="post_status.title" placeholder="Write few words related to your work status or comment ...." name="title" data-ng-maxlength="50" style="resize: vertical" required class="form-control" rows="1"></textarea>
+                                <div data-ng-messages="post_comment.title.$error" data-ng-if=" submitted || post_comment.title.$touched" class="text-danger">
+                                    <div data-ng-message="required">Title is required.</div>
+                                    <div data-ng-message="maxlength">Maximum 50 character allowed.</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment <sup class="sup_star">*</sup>:</label>
+                                <textarea placeholder="Any comment... " data-ng-model="post_status.comment" name="comment" class="form-control" rows="4" data-ng-maxlength="500" style="resize: vertical" required></textarea>
+                                <div data-ng-messages="post_comment.comment.$error" data-ng-if=" submitted || post_comment.comment.$touched" class="text-danger">
+                                    <div data-ng-message="required">Comment is required.</div>
+                                    <div data-ng-message="maxlength">Comment should not be greater than 500 characters</div>
+                                </div>
+                            </div>
+                            <input type="hidden" data-ng-modal="status_type" name="type" value="{{status_type}}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-ng-show="status_type == 0 || status_type == 1">
+                                <div class="col-md-6">  
+                                    <div class="form-group">
+                                        <label for="sel1">Log efforts <sup class="sup_star">*</sup>:</label>
+                                        <!--<input class="form-control" type="text" data-ng-model="post_status.logged_hours" name="logged_hours" placeholder="0" data-ng-pattern="/^[0-9]*$/" required/>-->
+                                        <div class="input-group" >
+                                            <input mask="99:99" class="form-control" data-ng-model="ctrl.timepicker" name="logged_hours" placeholder="00:00" data-ng-required="status_type == 0 || status_type == 1">
+                                        </div>
+                                        <div data-ng-messages="post_comment.logged_hours.$error" data-ng-if=" submitted || post_comment.logged_hours.$touched" class="text-danger">
+                                            <div data-ng-message="required">Effort hours is required.</div>
+                                            <div data-ng-message="mask">Valid format HH:MM (00:00).</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-ng-show="status_type == 0 || status_type == 1 || status_type == 3">
+                                <div class="col-md-6">  
+                                    <div class="form-group">
+                                        <label for="sel1">Status <sup class="sup_star">*</sup>:</label>
+                                        <select class="form-control" ng-options="(option.name | capitalize) disable when option.name == 'New' for option in activity_status track by option._id" ng-model="post_status.status" name="status" data-ng-required="status_type == 0 || status_type == 1 || status_type == 3">
+                                            <option value="">Select Status</option>
+                                        </select>
+                                        <div data-ng-messages="post_comment.status.$error" data-ng-if=" submitted || post_comment.status.$touched" class="text-danger">
+                                            <div data-ng-message="required">Status is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>		 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">                            
+                            <div data-ng-show="status_type == 1 || status_type == 3">
+                                <div class="col-md-12">  
+                                    <div class="form-group">
+                                        <label for="sel1">Assignee <sup class="sup_star">*</sup></label>
+                                        <select class="form-control" ng-options="(option.first_name | capitalize) + ' ' + ' ('+option.email+')' disable when option.status != 1 for option in activity_project_assignees track by option._id" ng-model="post_status.assigne_id" name="assigne" data-ng-required="status_type == 1 || status_type == 3">
+                                            <option value="">Select Assignee</option>
+                                        </select>
+                                        <div data-ng-messages="post_comment.assigne.$error" data-ng-if=" submitted || post_comment.assigne.$touched" class="text-danger">
+                                            <div data-ng-message="required">Assignee is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>		 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12"> 
+                            <div data-ng-show="status_type == 0 || status_type == 1">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="comment">Log Date<sup class="sup_star">*</sup></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="log_date" data-ng-click="open1()" uib-datepicker-popup data-ng-model="post_status.log_date" is-open="popup1.opened" datepicker-options="dateOptions" data-ng-required="status_type == 0 || status_type == 1" close-text="Close" readonly/>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" data-ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </div>
+                                        <div data-ng-messages="post_comment.log_date.$error" data-ng-if=" submitted || post_comment.log_date.$touched" class="text-danger">
+                                            <div data-ng-message="required">Log effort date is required.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>		 
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" >Post</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

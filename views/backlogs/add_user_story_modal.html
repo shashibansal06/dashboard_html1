@@ -1,0 +1,120 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content" data-ng-init="requestSend = false">
+
+            <!--- USER STORY ADD STEP ONE STARTS HERE -->
+            <form data-ng-show="step == 1" role="form" name="addUsStepOne" novalidate data-ng-submit=" addUsStepOne.$valid ? postUserStory(1 , true) : submitted = true " >
+                <div class="modal-header popup-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center">Add User Story</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="control-label">Name<sup class="sup_star">*</sup>:</label>
+                        <textarea  data-ng-model="us.name"  name="name" id="name" class="form-control" rows="2" cols="50" placeholder="User story name" data-ng-minlength="10" data-ng-maxlength="150" required autofocus="true"></textarea>
+                        <div data-ng-messages="addUsStepOne.name.$error" data-ng-if=" submitted || addUsStepOne.name.$touched" class="text-danger">
+                            <div data-ng-message="required">User story name is required</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 150 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Screen image<sup class="sup_star">*</sup>:</label>
+                        <input class="form-control upload-csv" ngf-max-size="5MB" ngf-select type="file" data-ng-model="us.screen_image" name="attachment" ngf-model-invalid="errorMeetingFile"
+                               ngf-pattern="'.jpg,.png,.jpeg'" ng-required>
+
+
+                        <div data-ng-show=" (errorMeetingFile.$error && errorMeetingFile.$error == 'pattern')"  class="text-danger">Images (.jpg, .jpeg, .png) allowed</div>
+                        <div data-ng-show=" (errorMeetingFile.$error && errorMeetingFile.$error == 'maxSize')"  class="text-danger">File(s) too large max 5mb allowed</div>
+                    </div>
+
+                    <sub>
+                        (extension can be .png, .jpg, .jpeg)
+                    </sub>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button data-ng-show="step == 1" type="button" data-ng-click="postUserStory(2, false)" class="btn btn-primary" >Next Step</button>
+                    <button data-ng-disabled="requestSend" data-ng-show="step == 1" type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+            <!--- USER STORY ADD STEP TWO STARTS HERE -->
+            <form data-ng-show="step == 2" role="form" name="addUsStepTwo" novalidate data-ng-submit=" addUsStepTwo.$valid ? postUserStory(2 , true) : submitted = true " >
+                <div class="modal-header popup-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center">Add User story</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="control-label">Role:</label>
+                        <input  data-ng-minlength="2" data-ng-maxlength="50" data-ng-model="us.role"  name="role" type="text" id="role" class="form-control" rows="2" cols="50" placeholder="User story Role" ></input>
+                        <div data-ng-messages="addUsStepTwo.role.$error" data-ng-if=" submitted || addUsStepTwo.role.$touched" class="text-danger">
+                            <div data-ng-message="required">User story role is required</div>
+                            <div data-ng-message="minlength">Minimum 2 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 50 characters allowed</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Feature:</label>
+                        <textarea  data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="us.feature"  name="feature" id="feature" class="form-control" rows="2" cols="50" placeholder="User story feature" ></textarea>
+                        <div data-ng-messages="addUsStepTwo.feature.$error" data-ng-if=" submitted || addUsStepTwo.feature.$touched" class="text-danger">
+                            <div data-ng-message="required">User story feature is required</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Context:</label>
+                        <textarea  data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="us.context"  name="context" id="context" class="form-control" rows="2" cols="50" placeholder="User story context" ></textarea>
+                        <div data-ng-messages="addUsStepTwo.context.$error" data-ng-if=" submitted || addUsStepTwo.context.$touched" class="text-danger">
+                            <div data-ng-message="required">User story context is required</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="control-label">Event:</label>
+                        <textarea  data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="us.event"  name="event" id="event" class="form-control" rows="2" cols="50" placeholder="User story event" ></textarea>
+                        <div data-ng-messages="addUsStepTwo.event.$error" data-ng-if=" submitted || addUsStepTwo.event.$touched" class="text-danger">
+                            <div data-ng-message="required">User story event is required</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Outcome:</label>
+                        <textarea  data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="us.outcome"  name="outcome" id="outcome" class="form-control" rows="2" cols="50" placeholder="User story outcome"></textarea>
+                        <div data-ng-messages="addUsStepTwo.outcome.$error" data-ng-if=" submitted || addUsStepTwo.outcome.$touched" class="text-danger">
+                            <div data-ng-message="required">User story outcome is required</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button data-ng-show="step == 2" type="button" data-ng-click="postUserStory(1, false)" class="btn btn-primary" >Previous Step</button>
+                    <button data-ng-disabled="requestSend" data-ng-show="step == 2" type="submit" class="btn btn-primary">Save</button>
+                    <button data-ng-show="step == 1" type="submit"  class="btn btn-primary" >Save & Next</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+

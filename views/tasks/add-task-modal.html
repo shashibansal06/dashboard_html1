@@ -1,0 +1,73 @@
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header popup-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-list"></i> Add Task</h4>
+            </div>  
+
+            <form class="form-horizontal form-border" name="add_task" data-ng-submit=" add_task.$valid ? addTask() : submitted = true" novalidate>
+                <div class="modal-body" style="padding:27px">
+                    <div class="form-group">
+                        <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control capitalize"name="title"  data-ng-model="task.title" data-ng-minlength="10" data-ng-maxlength="150" required placeholder="Title" >
+
+                        <!--<input type="hidden" data-ng-model="task.sprint_id">-->
+                        <div ng-messages="add_task.title.$error" class="text-danger" data-ng-if=" submitted || add_task.title.$touched">
+                            <div ng-message="required">Title is required.</div>
+                            <div ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div ng-message="maxlength">Maximum 150 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description:</label>
+                        <textarea  data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="task.description"  name="description" class="form-control" rows="2" cols="50" placeholder="Task Description"></textarea>
+                        <div data-ng-messages="add_task.description.$error" data-ng-if=" submitted || add_task.description.$touched" class="text-danger">
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Select process <sup class="sup_star">*</sup>:</label>
+                        <select class="form-control" name="process" data-ng-model="task.process" 
+                                data-ng-options="option.process_name | capitalize for option in processes track by option._id" required>
+                            <option style="display:none" value="">Select a your process</option>
+                        </select>
+                        <div ng-messages="add_task.process.$error" class="text-danger" data-ng-if=" submitted || add_task.process.$touched">
+                            <div ng-message="required">Process is required.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label class="control-label">Estimated Time<sup class="sup_star">*</sup>:</label>
+                        <input mask="99:99" class="form-control" data-ng-model="task.timepicker" name="log" placeholder="00:00" required>
+                        <div ng-messages="add_task.log.$error" class="text-danger" data-ng-if=" submitted || add_task.log.$touched">
+                            <div ng-message="required">Estimated is required.</div>
+                            <div data-ng-message="mask">Valid format HH:MM (00:00).</div>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label class="control-label">Date <sup class="sup_star">*</sup>:</label>
+                        <p class="input-group">                          
+                            <input name="logdate" ng-click="open()" placeholder="Please select a log effort date" type="text" class="form-control" uib-datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="task.date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" required readonly />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        <div ng-messages="add_task.logdate.$error" class="text-danger" data-ng-if=" submitted || add_task.logdate.$touched">
+                            <div ng-message="required">Log effort date is required.</div>
+                        </div>
+                        </p>
+                    </div>-->
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="close_modal btn btn-primary" type="button" >Close</button>
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

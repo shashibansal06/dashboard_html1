@@ -1,0 +1,55 @@
+   <!-- 
+// @file create_sprint.html
+// @description - sprint page
+// @author prabhjot_kaur
+// @date  23 May 2017
+-->    
+<div ng-cloak>
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form  method="post">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Sprint</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Sprint Name<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" data-ng-model="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description:</label>
+                        <textarea class="form-control" data-ng-model="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Sprint Number<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" data-ng-model="title" readonly="true" ng-value="#SP-4">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">No. of User Stories<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" data-ng-model="title" >
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Start Date<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" data-ng-model="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">End Date<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" data-ng-model="title">
+                    </div>     
+                    <div class="form-group">
+                        <label class="control-label">Planned Hours<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" data-ng-model="title">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" > Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

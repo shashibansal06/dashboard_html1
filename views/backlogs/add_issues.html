@@ -1,0 +1,52 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="color: #fff; background-color: #337ab7;border-color: #2e6da4;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="close">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-bug" aria-hidden="true"></i>
+                    &nbsp;Quick Add </h4>
+            </div>
+            <form data-ng-init=" submitted = false;" class="form-horizontal form-border" name="add_issues" data-ng-submit=" add_issues.$valid ? addIssues() : submitted = true"  enctype="multipart/form-data" novalidate>
+                <div class="modal-body" style="padding:27px">
+                    <div class="form-group">
+                        <label class="control-label">Title<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control curve capitalize" name="title" ng-model="issues.title" maxlength="255" required autofocus="true">
+                        <div ng-messages="add_issues.title.$error" class="text-danger" data-ng-if=" submitted || add_issues.title.$touched">
+                            <div ng-message="required">Title is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Summary<sup class="sup_star">*</sup>:</label>
+                        <textarea class="form-control" data-ng-model="issues.summary" name="summary" required></textarea>
+                        <div ng-messages="add_issues.summary.$error" class="text-danger" data-ng-if=" submitted || add_issues.summary.$touched">
+                            <div ng-message="required">Summary is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Assignee<sup class="sup_star">*</sup>:</label>
+                        <select required class="form-control"  style="text-transform: capitalize;" name="assigne"
+                        ng-options="(option.first_name + ' ' + ' ('+option.email+')' | capitalize) disable when option.status != 1  for option in issues_assignee track by option._id"  ng-model="issues.assigne_id">
+                            <option value="">Select assignee</option>
+                        </select>
+
+                        <div ng-messages="add_issues.assigne.$error" class="text-danger" data-ng-if=" submitted || add_issues.assigne.$touched">
+                            <div ng-message="required">Assignee is required.</div>
+                        </div>
+                    </div>
+                   <div class="form-group">
+                        <label class="control-label">Severity<sup class="sup_star">*</sup>:</label>
+                        <select required class="form-control"  style="text-transform: capitalize;"  name="severity" ng-options="option.name | capitalize for option in Severity track by option._id" ng-model="issues.severity">
+                            <option value="">Select Severity</option>
+                        </select>
+                        <div ng-messages="add_issues.severity.$error" class="text-danger" data-ng-if=" submitted || add_issues.severity.$touched">
+                            <div ng-message="required">Severity is required.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

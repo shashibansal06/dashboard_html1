@@ -1,0 +1,203 @@
+
+
+<div class="modal fade bs-example-modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form role="form" name="create_sprint" novalidate data-ng-init=" submitted = false"  data-ng-submit=" create_sprint.$valid ? createSprint() : submitted = true" >
+
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{request_type}} Sprint</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class='row'>
+                        <div class="form-group col-xs-12 col-md-12">
+                            <label class="control-label">Select Phase <sup class="sup_star">*</sup></label>                           
+
+                            <select class="form-control capitalize" name="phase_id"  data-ng-model="sprint_payload.phase_id" required>
+                                <option value="">Select Phase</option>
+                                <option value="{{option._id}}" data-ng-repeat=" option  in phases track by option._id">{{ option.phase_name}}</option>
+                            </select>
+
+                            <div data-ng-messages="create_sprint.phase_id.$error" class="text-danger" data-ng-if=" submitted || create_sprint.phase_id.$touched">
+                                <div data-ng-message="required">Phase is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xs-12 col-md-6">
+                            <label class="control-label">Sprint Number </label>
+                            <input type="text" value='{{coming_sprint_number}}' disabled="" class="form-control" />
+
+
+                        </div>
+
+                        <div class="form-group col-xs-12 col-md-6">
+                            <label class="control-label">Sprint Name<sup class="sup_star">*</sup>:</label>
+                            <input type="text" class="form-control" data-ng-model="sprint_payload.sprint_name" name="sprint_name" required>
+                            <div data-ng-messages="create_sprint.sprint_name.$error" class="text-danger" data-ng-if=" submitted || create_sprint.sprint_name.$touched">
+                                <div data-ng-message="required">Name is required.</div>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <label class="control-label">Description:</label>
+                            <textarea class="form-control" data-ng-model="sprint_payload.description" name="description"></textarea>
+                            <!--                        <div data-ng-messages="create_sprint.description.$error" class="text-danger" data-ng-if=" submitted || create_sprint.description.$touched ">
+                                                        <div data-ng-message="required">Description is required.</div>
+                                                    </div>-->
+                        </div>
+
+
+
+                        <div class="form-group col-xs-12 col-sm-12 col-md-4">
+                            <label class="control-label">Total user-stories<sup class="sup_star">*</sup>:</label>
+                            <input type="text" class="form-control"  data-ng-model="sprint_payload.total_user_stories" name="total_user_stories" required  data-ng-pattern="/^[1-9][0-9]*$/">
+                            <div data-ng-messages="create_sprint.total_user_stories.$error" class="text-danger" data-ng-if=" submitted || create_sprint.total_user_stories.$touched">
+                                <div data-ng-message="required">Total number of user stories are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>                    
+                        <div class="form-group col-xs-12 col-sm-12 col-md-4">
+                            <label for="end_date">Start Date<sup class="sup_star">*</sup>:</label>
+                            <div class="input-group">
+                                <input uib-datepicker-popup oncut="return false;" data-ng-click="open1()" onkeypress="return false;"  onpaste="return false;"  name="start_date" placeholder="Start date" type="text" class="form-control" data-ng-model="sprint_payload.start_date" is-open="popup1.opened" datepicker-options="dateOptionsold" data-ng-required="true" close-text="Close" /> <span class="input-group-btn">
+
+                                    <button type="button" class="btn btn-default" data-ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+
+                                    <div data-ng-messages="create_sprint.start_date.$error" class="text-danger" data-ng-if=" submitted || create_sprint.start_date.$touched">
+                                        <div data-ng-message="required">Start date is required</div>
+                                    </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xs-12 col-sm-12 col-md-4">
+                            <label for="end_date" >End Date<sup class="sup_star">*</sup></label>
+                            <p class="input-group">
+                                <input  type="text" placeholder='End date' class="form-control" data-ng-click="open6()" oncut="return false;" onkeypress="return false;"  onpaste="return false;" name="end_date" uib-datepicker-popup data-ng-model="sprint_payload.end_date" is-open="popup6.opened" datepicker-options="dateOptionsold" close-text="Close" required />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-ng-click="open6()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                        <div data-ng-messages="create_sprint.end_date.$error" class="text-danger" data-ng-if=" submitted || create_sprint.end_date.$touched">
+                            <div data-ng-message="required">End date is required</div>
+                        </div>
+                        <div data-ng-show=" date_error" class="text-danger">End date cannot be less than start date </div>
+
+
+
+                        <div class="form-groupc col-xs-12">
+                            <label class="control-label">Planned Hours<sup class="sup_star">*</sup>:</label>
+                            <input type="text" class="form-control" placeholder='00:00' data-ng-model="sprint_payload.planned_hours" name="planned_hours" data-ng-pattern="/^[1-9][0-9]*$/" required>
+                            <div data-ng-messages="create_sprint.planned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.planned_hours.$touched">
+                                <div data-ng-message="required">Planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+                        <div class="form-groupc col-xs-12">
+                            <label class="control-label">Burned Hours:</label>
+                            <input type="text" class="form-control" placeholder='00:00' data-ng-model="sprint_payload.burned_hours" name="burned_time" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.burned_time.$error" class="text-danger" data-ng-if=" submitted || create_sprint.burned_time.$touched">
+                                <!--<div data-ng-message="required">Burned hours are required.</div>-->
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='row'>
+
+                        <div class="col-xs-12">
+                            <hr/>
+                            <h3>Activity</h3>
+                        </div>
+
+                        <div class="form-group col-xs-12 col-sm-6">
+                            <label class="control-label">Planned Hours:</label>
+                            <input type="text" placeholder='00:00' class="form-control" data-ng-model="sprint_payload.activity_planned_hours" name="activity_planned_hours" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.activity_planned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.activity_planned_hours.$touched">
+                                <div data-ng-message="required">Activity planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-xs-12 col-sm-6">
+                            <label class="control-label">Burned Hours:</label>
+                            <input type="text" placeholder='00:00' class="form-control" data-ng-model="sprint_payload.activity_burned_hours" name="activity_burned_hours" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.activity_burned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.activity_burned_hours.$touched">
+                                <div data-ng-message="required">Activity planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='row'>
+
+
+                        <div class="col-xs-12">
+                            <hr/>
+                            <h3>User story</h3>
+                        </div>
+
+
+                        <div class="form-group col-xs-12 col-sm-6">
+                            <label class="control-label">Planned Hours:</label>
+                            <input type="text" placeholder='00:00' class="form-control" data-ng-model="sprint_payload.userstory_planned_hours" name="userstory_planned_hours" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.userstory_planned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.userstory_planned_hours.$touched">
+                                <div data-ng-message="required">User story planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-xs-12 col-sm-6">
+                            <label class="control-label">Burned Hours:</label>
+                            <input type="text" placeholder='00:00' class="form-control" data-ng-model="sprint_payload.userstory_burned_hours" name="userstory_burned_hours" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.userstory_burned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.userstory_burned_hours.$touched">
+                                <div data-ng-message="required">Activity planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='row'>
+                        <div class="col-xs-12">
+                            <hr/>
+                            <h3>Issues</h3>
+                        </div>
+
+
+                        <div class="form-group col-xs-12 col-sm-6">
+                            <label class="control-label">Planned Hours:</label>
+                            <input type="text" placeholder='00:00' class="form-control" data-ng-model="sprint_payload.issue_planned_hours" name="issue_planned_hours" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.issue_planned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.issue_planned_hours.$touched">
+                                <div data-ng-message="required">Activity planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-xs-12 col-sm-6">
+                            <label class="control-label">Burned Hours:</label>
+                            <input type="text" placeholder='00:00' class="form-control" data-ng-model="sprint_payload.issue_burned_hours" name="issue_burned_hours" data-ng-pattern="/^[1-9][0-9]*$/" >
+                            <div data-ng-messages="create_sprint.issue_burned_hours.$error" class="text-danger" data-ng-if=" submitted || create_sprint.issue_burned_hours.$touched">
+                                <div data-ng-message="required">Activity planned hours are required.</div>
+                                <div data-ng-message="pattern">Only digit's allowed</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" > Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

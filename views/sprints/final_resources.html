@@ -1,0 +1,27 @@
+<div class="modal fade" id="modalID" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" data-backdrop="false" data-keyboard="false">
+            <form method="post" name="selectResourceForm" data-ng-init=" submitted = false"  >
+                <div class="modal-header" style="color: #ffffff !important;background-color:#35b1ce !important;
+                     border-color: #56b9d0 !important;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeResourceModal()" >&times;</button>
+                    <h4 class="modal-title">Add Resources</h4>
+                </div>
+                <div class="modal-body">                   
+                    <div class="form-group">
+                        <label class="control-label">Add Productivity Hours<sup class="sup_star">*</sup>:</label>
+                        <input type="text" class="form-control" name="productivity_hours" ng-required="true" ng-model="productivity_hours" placeholder="Productivity Hours" data-ng-pattern="/^[0-9]*$/" />
+                        <!-- data-ng-pattern="/^[1-8]{1}$/" -->
+                        <div data-ng-messages="selectResourceForm.productivity_hours.$error" class="text-danger" data-ng-if=" submitted || (selectResourceForm.productivity_hours.$touched || selectResourceForm.productivity_hours.$dirty)">
+                            <div data-ng-message="required">Productivity hours are required.</div>
+                            <div ng-show="selectResourceForm.productivity_hours.$dirty" data-ng-message="pattern">Enter valid productivity hours.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" style="color: #ffffff !important;background-color:#35b1ce !important;
+                                border-color: #56b9d0 !important;" ng-click=" selectResourceForm.$valid ? selectResource() : submitted = true" >Save</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>

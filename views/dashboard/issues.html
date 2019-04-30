@@ -1,0 +1,17 @@
+<div class="panel panel-info" data-ng-init="getDashboardIssues();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Issues Statistics
+            <span collapse-toggler  data-toggle="collapse" data-target="#issues" class="pull-right" style="cursor:pointer">
+                <i class="fa fa-minus"></i>
+            </span>
+    </div>
+    <div class="panel-body  collapse in" id="issues">
+        <div class="panel_inner"> 
+            <!--<select class="form-control capitalize" data-ng-change="getDashboardIssues();" data-ng-model="sprint_id" data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >
+                <option value="">All Sprint Data</option>
+            </select>-->
+
+            <div id="container"></div>
+        </div>
+    </div>
+</div>

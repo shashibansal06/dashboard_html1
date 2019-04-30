@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1 , maximum-scale=1 , minimum-scale=1" name="viewport">
+    <title>Babble | User management</title>
+    <!--bootstrap-->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <!--custom-css-->
+    <link href="css/style.css" rel="stylesheet" />
+    <!--font-css-->
+    <link href="fonts/custom-font/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="main_outer afterlogin">
+        <!-- header start -->
+        <header>
+            <div class="container-fluid">
+                <!-- mobile header start -->
+                <div class="row mobile-header">                    
+                    <div class="col-xs-6 col-sm-push-6 col-sm-6">
+                        <div class="logo-mobile"><a href="#"><img src="images/white-logo.png" alt=""></a></div>
+                    </div>
+                    <div class="col-xs-6 col-sm-pull-6 col-sm-6 menu-icon">
+                        <button class="c-hamburger c-hamburger--htx mobile-menu showing-menu">
+                            <span>toggle menu</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- mobile header end -->
+                <div class="row search-row"> 
+                     <!-- searchbar start -->
+                    <div class="col-xs-12 col-sm-6 col-lg-4">                                      
+                        <div class="input-group search-top-btn">
+                            <input type="text" class="form-control input-lg" placeholder="Search" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-lg" type="button">
+                                    <i class="icon-search"></i>
+                                </button>
+                            </span>
+                        </div>                                      
+                    </div> 
+                     <!-- searchbar end -->
+                     <!-- userprofile start -->
+                     <div class="col-xs-12 col-sm-6 text-right pull-right user-info">                                      
+                        <h3>Stephen</h3>
+                        <div class="b_useru-img">
+                            <img src="images/user-img.png" alt="">
+                        </div>                                  
+                    </div>  
+                    <!-- userprofile end -->                             
+                </div> 
+            </div>
+        </header>
+        <!-- header end -->
+
+        <!-- sidebar start -->
+            <div class="sidebar">
+                <div class="logo-dashborad">
+                    <a href="#"><img src="images/white-logo.png" alt=""></a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" ><span class="icon-profile-img"></span><i>Profile</i></a></li>
+                        <li class="b_drp"><a href="#" class="active"><span class="icon-user-management"></span><i>User Management</i></a>
+                            <ul>
+                                <li><a href="#" ><i>Communities Management</i></a></li>
+                                <li><a href="#"><i>Community Members</i></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><span class="icon-content-management"></span><i>Content Management</i></a></li>
+                        <li><a href="#"><span class="icon-page-management"></span><i>Pages Management</i></a></li>
+                        <li><a href="#"><span class=" icon-logout-icon"></span><i>Log Out</i></a></li>  
+                    </ul>
+                </nav>                
+            </div>
+        <!-- sidebar end -->
+
+        <!-- main section start -->
+       <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                    <!-- view user content start -->
+                         <!-- top row start -->
+                        <div class="row top-row">
+                            <div class="col-xs-12 col-sm-6">
+                                <h2>User Management</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 text-right">
+                                <a href="#" class="custom-btn">Filter <i class="icon-filter-icon"></i></a>
+                                <a href="#" class="custom-btn blue-btn">Reset</a>
+                            </div>
+                        </div>   
+                         <!-- top row end --> 
+                         <!-- content start -->                    
+                        <div class="row">                          
+                            <div class="table-responsive custom-table">
+                                    <table class="table">
+                                        <thead>
+                                           <tr>
+                                           <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Photo</th>
+                                            <th>Community joined</th>
+                                            <th>DOJ</th>
+                                            <th>Status</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>                                                
+                                            <td>1</td>
+                                            <td>John Doe</td>
+                                            <td></td>
+                                            <td>Fashion</td>
+                                            <td>13/7/17</td>
+                                            <td>Active</td>
+                                            <td><a href="#">Edit</a></td>
+                                        </tr>
+                                         <tr>                                                
+                                            <td>1</td>
+                                            <td>John Doe</td>
+                                            <td></td>
+                                            <td>Fashion</td>
+                                            <td>13/7/17</td>
+                                            <td>Active</td>
+                                            <td><a href="#">Edit</a></td>
+                                        </tr>
+                                         <tr>                                                
+                                            <td>1</td>
+                                            <td>John Doe</td>
+                                            <td></td>
+                                            <td>Fashion</td>
+                                            <td>13/7/17</td>
+                                            <td>Active</td>
+                                            <td><a href="#">Edit</a></td>
+                                        </tr>
+                                        </tbody>
+                                        
+                                    </table>
+                            </div>                                                      
+                        </div>
+                        <!-- content end -->
+                        <!-- pagination row start -->  
+                        <div class="row bottom-row">
+                            <div class="col-xs-12 col-sm-6">
+                                <p>Showing 1 to 11 of 60 entries</p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <ul class="pagination pagination-custom pagination-sm pull-right">
+                                    <li><a href="#"><i class="icon-leftchevron"></i></a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#" class="active">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">6</a></li>
+                                    <li><a href="#"><i class="icon-rightchevron""></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- pagination row end -->  
+                    <!-- view user content end -->
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- main section end -->
+    </div>
+</body>
+</html>

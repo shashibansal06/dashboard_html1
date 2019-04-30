@@ -1,0 +1,100 @@
+.beforelogin {	
+	background-color:$skycolor;
+	.outer-contain{
+		height:100vh;
+		@media screen and (max-width:$ptablet){
+			height:auto;
+			@include margin(30 0);
+		}
+		.before-container{
+			@include pos(a, null);
+			position: absolute;
+			width: 100%;
+			top: 50%;
+			transform: translateY(-50%);
+			-moz-transform: translateY(-50%);
+			-webkit-transform: translateY(-50%);
+			@media screen and (max-width:$ptablet){
+				position: static;
+				margin:0;
+				transform: translateY(0%);
+				-moz-transform: translateY(0%);
+				-webkit-transform: translateY(0%);
+			}		
+			
+			.logo{
+				width:100%;
+				@include margin-bottom(140);
+				@media screen and (max-width:$desktop){
+					@include margin-bottom(50);
+				}
+				img{
+					@media screen and (max-width:$desktop){
+						width:200px;
+					}
+				}
+
+			}
+		
+			.login-form{				
+				@media screen and (max-width:$desktop){
+					@include padding(25 30);
+				}
+				@media screen and (max-width:$mini-desktop){
+					@include padding(15 20);
+				}
+				/* .alert {
+					font-weight: 400;
+					color:$color-42;
+					@include font-size(18);	
+					@include border-round(0);
+					@include margin-bottom(5);
+					@include padding(5);
+					@media screen and (max-width:$mini-desktop){
+						@include font-size(14);	
+					}
+					&.alert-success{
+						border-color:$darkgreen-color;						
+						background-color: #f2fbf5;	
+					} 
+				} */
+				.form-group{
+					@include margin-bottom(32);
+					@media screen and (max-width:$desktop){
+						@include margin-bottom(15);
+					}				
+						input{
+							&[type="submit"]{
+								@include margin-top(90);
+								color:$color-e7;
+								border-color: $blue-color;
+								&:hover{
+									color: $blue-color;
+								}
+								@media screen and (max-width:$desktop){
+									@include margin-top(50);
+								}
+							}							
+							&.purple-btn{
+								margin-top: 5px;
+								display: inline-block;
+								width:100%;
+							}
+						}
+					.forget-pswd{
+						@include font-size(30);
+						color: $blue-color;
+						text-decoration: underline;
+						line-height: 32px;
+						@media screen and (max-width:$desktop){
+							@include font-size(20);
+						}
+					}
+					&:last-child{
+						@include margin-bottom(0);
+					}
+				}
+			}		
+		}
+	}
+}      

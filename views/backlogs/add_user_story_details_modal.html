@@ -1,0 +1,129 @@
+<div class="modal fade">
+    <div class="modal-dialog" style="width:100%">
+        <div class="modal-content">
+            <form method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="background-color: rgb(224, 221, 219);height: 160px;background-size: contain;">
+                        <div class="text-center">No File Selected</div>
+                    </h4>
+                </div>
+                <div class="modal-body col-lg-12">
+                    <div class="col-lg-12">
+                        <h4><input type="text" placeholder="US Title" class="form-control"></h4>
+                        <h5>Description</h5>
+                        <p><textarea rows="3" class="form-control"></textarea></p>
+                    </div>
+                    <div class="col-lg-8">   
+                        <div class="attachments">
+                            <div class="col-lg-12">
+                                <h3 class="col-lg-10"><i class="fa fa-paperclip attachment_icon" aria-hidden="true"></i>&nbsp;&nbsp;Attachments</h3>
+                                <h3><i class="col-lg-2 glyphicon glyphicon-cloud-upload pull-left" title="Upload Attachment"></i></h3>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="panel panel-default" >
+                                    <div class="panel-body text-center">No File Selected</div>
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="form-group">
+                            <h4><i class="fa fa-comments-o" aria-hidden="true"></i>
+                                &nbsp;&nbsp;Add Comment</a></h4>
+                            <form class="ng-pristine ng-valid">
+                                <div class="form-group">
+                                    <label for="comment">Your Comment</label>
+                                    <textarea name="comment" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-default pull-right">Comment</button>
+                            </form>
+
+                            <div class="timeline-centered">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <h4 class="col-lg-12">Assignments</h4>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Phase</label>
+                            <select class="form-control">
+                                <option value="">Select Phase</option>
+                                <option value="">Unassigned</option>
+                                <option value="">Analysis</option>
+                                <option value="">Development</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Sprint</label>
+                            <select class="form-control">
+                                <option value="">Select Sprint</option>
+                                <option value="">#SP-1</option>
+                                <option value="">#SP-2</option>
+                                <option value="">#SP-3</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Priority</label>
+                            <select class="form-control">
+                                <option value="">Select Priority</option>
+                                <option value="">Minor</option>
+                                <option value="">Critical</option>
+                                <option value="">Major</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Status</label>
+                            <select class="form-control">
+                                <option value="">Select Status</option>
+                                <option value="">New</option>
+                                <option value="">In-progress</option>
+                                <option value="">Done</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Epic</label>
+                            <select class="form-control">
+                                <option value="">Select Epic</option>                                
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Theme</label>
+                            <select class="form-control">
+                                <option value="">Select Theme</option>
+                            </select>
+                        </div>
+
+
+                        <h4 class="col-lg-12">Estimations</h4>
+                        <div class="form-group col-lg-12">
+                            <label class="control-label">Total Estimation</label>
+                            <input type="text" placeholder="HH:MM" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">JS Estimation</label>
+                            <input type="text" placeholder="HH:MM" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Android Estimation</label>
+                            <input type="text" placeholder="HH:MM" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">                    
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" data-ng-click="addUser()" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+   

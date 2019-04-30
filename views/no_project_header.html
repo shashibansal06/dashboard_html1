@@ -1,0 +1,107 @@
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" class="dashboard" title="Dashboard" data-ui-sref="welcome"><i class="fa fa-tachometer"></i></a></li>                                      
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="users">Users</a></li>
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="roles">Roles</a></li>
+                    <li data-ui-sref-active="active"><a data-ui-sref-opts="{reload: true}" data-ui-sref="allprojects">Projects</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">                   
+                    <li class="dropdown ">
+                        <a side-bar href="javascript:void(0);">
+                            <i class="glyphicon glyphicon-bell"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a data-ui-sref-opts="{reload: true}" data-ui-sref="editProfile" href="javascript:void(0);">Edit Profile</a></li>
+                            <li><a data-ui-sref-opts="{reload: true}" data-ui-sref="changePassword" href="javascript:void(0);">Change Password</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);" data-ng-click="logout()">Logout</a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+
+
+
+
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<div notification></div>
+<style type="text/css">
+    .glyphicon-bell {
+
+        font-size:1.5rem;
+    }
+    .notifications {
+        min-width:420px;
+    }
+
+    .notifications-wrapper {
+        overflow:auto;
+        max-height:250px;
+    }
+
+    .menu-title {
+        color:#ff7788;
+        font-size:1.5rem;
+        display:inline-block;
+    }
+
+    .glyphicon-circle-arrow-right {
+        margin-left:10px;
+    }
+
+
+    .notification-heading, .notification-footer  {
+        padding:2px 10px;
+    }
+
+
+    .dropdown-menu.divider {
+        margin:5px 0;
+    }
+
+    .item-title {
+
+        font-size:1.3rem;
+        color:#000;
+
+    }
+    .notifications a.content {
+        text-decoration:none;
+        background:#ccc;
+
+    }
+    .notification-item {
+        padding:10px;
+        margin:5px;
+        background:#ccc;
+        border-radius:4px;
+    }
+</style>

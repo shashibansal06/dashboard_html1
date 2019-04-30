@@ -1,0 +1,520 @@
+<section class="container-fluid project_add" id="mainContainerSection" data-ng-init="viewProject();">
+
+    <div class="page_title">
+        <h1>Project - <span class="sub_title">{{ project_info.title | capitalize }}</span></h1>
+    </div>
+    <div class="project_manage_outer row">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 push-right">
+            <div class='project_right'>
+
+
+
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <span class="project_logo" 
+                              data-ng-style="{'background-image':'url(' + project_logo + ')', 'background-repeat': 'no - repeat', 'background-position': 'center'}" >
+                        </span>
+                        <h4>{{ project_info.title | capitalize }}
+                            <br/>
+                            <small>
+                                <b>Project Owner: </b>{{ project_info.project_manager.first_name | capitalize }}
+                            </small>
+                        </h4>
+                        <p class="left-align">{{ project_info.description | capitalize}}</p>
+                        <div class="panel panel-info panel_sprint">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"> Project Information </h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+
+                                    <tr>
+                                        <th>Client Name</th>
+                                        <td data-ng-bind="project_info.client_name">  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Project Start Date</th>
+                                        <td>{{ (project_info.start_date && project_info.start_date != 'undefined') ? (project_info.start_date | convert_dateformat) : ' - ';
+                                            }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Actual Start Date </th>
+                                        <td>{{ (project_info.project_actual_start_date && project_info.project_actual_start_date != 'undefined') ? (project_info.project_actual_start_date | convert_dateformat) : ' - ';
+                                            }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Estimated End Date </th>
+                                        <td>{{ (project_info.estimated_end_date && project_info.estimated_end_date != 'undefined') ? (project_info.estimated_end_date | convert_dateformat) : ' - ';
+                                            }}</td>
+                                    </tr>
+
+                                </table>
+
+                            </div>	 
+                        </div>	
+
+
+                        <div class="panel panel-info panel_sprint">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"> Project Estimation And Logged Hours </h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+
+                                    <tr>
+                                        <th>Project Estimated Hours</th>
+                                        <td><span ng-if="project_info.estimate_hour">{{project_info.estimate_hour}} Hr(s)</span><span ng-if="!project_info.estimate_hour"> 0 Hr(s)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Contingency Hours</th>
+                                        <td><span ng-if="project_info.contingency_hours">{{project_info.contingency_hours}} Hr(s)</span><span ng-if="!project_info.contingency_hours"> 0 Hr(s)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Burned Hours </th>
+                                        <td><span ng-if="project_info.project_burned_hours">{{project_info.project_burned_hours}} Hr(s)</span><span ng-if="!project_info.project_burned_hours"> 0 Hr(s)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th> {{ project_info.estimate_hour >= project_info.project_burned_hours ? 'Remaining Hours' : 'Extra Burned Hours'  }}  </th>
+                                        <td data-ng-if="project_info.estimate_hour >= project_info.project_burned_hours">
+                                            {{ project_info.estimate_hour - project_info.project_burned_hours}}  
+                                        </td>
+                                        <td data-ng-if="project_info.estimate_hour < project_info.project_burned_hours">
+                                            {{ project_info.project_burned_hours - project_info.estimate_hour}} 
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>	 
+                        </div>	
+                    </div>
+                </div>
+
+
+                <!--<div class="row">
+                    <div class="col-xs-12 text-center">
+
+                        <span class="project_logo" data-ng-style="{'background-image':'url('+ project_logo +')','background-repeat': 'no - repeat','background-position': 'center center'}" ></span>
+                        <h4>{{ project_info.title | capitalize }}<br/><small><b>Project Owner: </b>{{ project_info.project_manager.first_name | capitalize }}</small></h4>
+
+                        <p class="left-align">{{ project_info.description | capitalize}}</p>
+
+                        <div class="panel panel-info panel_sprint">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Current Sprint <span class="label label-warning  pull-right">{{ (currentSprintData.sprint_status.name && currentSprintData.sprint_status.name != 'undefined') ? currentSprintData.sprint_status.name : ' - '; }}</span></h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Total Sprints</th>
+                                        <td>{{ (project_info.total_sprints && project_info.total_sprints != 'undefined') ? project_info.total_sprints : ' 0 '; }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Project Estimated Hours</th>
+                                        <td><span ng-if="project_info.estimate_hour">{{project_info.estimate_hour}} Hr(s)</span><span ng-if="!project_info.estimate_hour"> 0 Hr(s)</span></td>
+                                    </tr>
+                <!-- <tr>
+                 <th>Project Confirmed Date</th>
+                 <td>{{ (project_info.confirmed_date && project_info.confirmed_date != 'undefined') ? (project_info.confirmed_date | convert_dateformat) : ' - '; }}</td>
+               </tr> -->
+                <!--<tr>
+                    <th>Sprint Estimated Hours</th>
+                    <td><span ng-if="currentSprintData.burnedHour">{{currentSprintData.planned_hours}} Hr(s)</span><span ng-if="!currentSprintData.planned_hours"> 0 Hr(s)</span></td>
+                </tr>  
+                <tr>
+                    <th>Sprint Burned Hours</th>
+                    <td><span ng-if="currentSprintData.burnedHour">{{currentSprintData.burnedHour}} Hr(s)</span><span ng-if="!currentSprintData.burnedHour"> 0 Hr(s)</span></td>
+                </tr> 
+                <tr>
+                    <th>Sprint Start Date</th>
+                    <td>{{ (currentSprintData.start_date && currentSprintData.start_date != 'undefined') ? (currentSprintData.start_date | convert_dateformat) : ' - '; }}</td>
+                </tr>
+                <tr>
+                    <th>Sprint End Date</th>
+                    <td>{{ (currentSprintData.end_date && currentSprintData.end_date != 'undefined') ? (currentSprintData.end_date | convert_dateformat) : ' - '; }}</td>
+                </tr>
+                <tr>
+                    <th>Sprint Contingency Hours</th>
+                    <td><span ng-if="currentSprintData.contigency_hours">{{currentSprintData.contigency_hours}} %</span><span ng-if="!currentSprintData.contigency_hours"> - </span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>-->
+            </div> 
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+            <div class="manage_inner">
+                <button class="accordion  accordion_style1 " data-ng-click="openTabs($event, 'basic_info');">Basic information</button>
+                <div class="panel col-xs-12 basic_info" id="basic_info">
+                    <div class="panel_inner">
+                        <form role="form" name="basic_info_form" novalidate data-ng-init=" basic_submitted = false" data-ng-submit=" basic_info_form.$valid ? saveBasicInfo('basic_info') : basic_submitted = true">
+                            <div class="row">
+                                <div class="col-lg-6 col-xs-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Title<sup class="sup_star">*</sup></label>
+                                        <input data-ng-maxlength="50" type="text" name="title" data-ng-model=" project_basic_info.title" class="form-control capitalize" placeholder="Title" required/>
+                                        <div data-ng-messages="basic_info_form.title.$error" class="text-danger" data-ng-if=" basic_submitted || basic_info_form.title.$touched">
+                                            <div data-ng-message="required">Title is required.</div>
+                                            <div data-ng-message="maxlength">Max 50 characters allowed</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea  name="description" data-ng-model=" project_basic_info.description" class="form-control firstCap" placeholder="Description" rows="8"></textarea>
+                                        <!--<div data-ng-messages="basic_info_form.description.$error" class="text-danger" data-ng-if=" submitted || basic_info_form.description.$touched">
+                                            <div data-ng-message="required">Description is required.</div>
+                                            <div data-ng-message="maxlength">Max 500 characters allowed</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xs-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Select Owner:<sup class="sup_star">*</sup></label>
+                                        <select class="form-control capitalize" data-ng-model=" project_basic_info.project_manager" name="project_manager" required>
+                                            <option value="{{ onwner._id}}" data-ng-repeat="onwner in project_owners">{{ onwner.first_name}} {{ (onwner.last_name != undefined) ? '-' + onwner.last_name : ''}} -{{ onwner.email}}- ({{ onwner.role_id.role_name}})</option>                        
+                                        </select>
+                                        <div data-ng-messages="basic_info_form.project_manager.$error" class="text-danger" data-ng-if=" basic_submitted || basic_info_form.project_manager.$touched">
+                                            <div data-ng-message="required">Owner is required.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>client name</label>
+                                        <input name="client_name" data-ng-model="project_basic_info.client_name" class="form-control firstCap" placeholder="client name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Logo</label>
+                                        <div class="sup_star" ng-show="basic_info_form.file.$error.maxSize">File too large {{errorMeetingFile.size / 1000000|number:1}}MB: Max 5MB</div>
+                                        <div class='logo_container'> 
+
+                                            <span class='project_logo' data-ng-style="{'background-image':'url(' + project_logo + ')', 'background-repeat': 'no - repeat', 'background-position': 'center center'}" ></span>
+                                            <div class="btn btn-primary btn_custom_upload"> Choose File
+                                                <input class="img-upload-btn" style="cursor: pointer" ngf-select ngf-accept="'image/*'" type="file" data-ng-model="project_basic_info.file" name="file" ngf-model-invalid="errorMeetingFile" ngf-max-size="5MB" > 
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <input class="btn btn-primary" type="submit" value="Submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <button class="accordion  accordion_style1" data-ng-click="openTabs($event, 'budget_info');">Budget & Estimations</button>
+                <div class=" panel basic_info col-xs-12" id="budget_info">
+                    <div class="panel_inner">
+                        <form name="budget_info_form" novalidate data-ng-init=" submitted = false" data-ng-submit=" budget_info_form.$valid ? saveBasicInfo('budget_info') : submitted = true">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="end_date">Confirmed Date<sup class="sup_star">*</sup>:</label>
+
+                                    <p class="input-group">
+
+                                        <input uib-datepicker-popup="yyyy-MM-dd" oncut="return false;" onkeypress="return false;"  onpaste="return false;" name="confirmed_date" placeholder="Confirmed date(yyyy-mm-dd)" type="text" class="form-control" data-ng-model="budget_payload.confirmed_date" is-open="popup1.opened" datepicker-options="dateOptions" data-ng-required="true" close-text="Close" data-ng-click="open1()"/> <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    <div data-ng-messages="budget_info_form.confirmed_date.$error" class="text-danger" data-ng-if=" submitted || budget_info_form.confirmed_date.$touched">
+                                        <div data-ng-message="required">Confirmed date is required.</div>
+                                        <!--                                <div data-ng-message="pattern">Invalid date format</div>-->
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="end_date">Start Date<sup class="sup_star">*</sup>:</label>
+                                    <p class="input-group">
+                                        <input uib-datepicker-popup oncut="return false;" onkeypress="return false;"  onpaste="return false;"  name="start_date" placeholder="Start date(yyyy-mm-dd)" type="text" class="form-control" data-ng-model="budget_payload.start_date" is-open="popup2.opened" datepicker-options="dateOptions" data-ng-required="true" close-text="Close" data-ng-click="open2()" /> 
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+
+                                            <div data-ng-messages="budget_info_form.start_date.$error" class="text-danger" data-ng-if=" submitted || budget_info_form.confirmed_date.$touched">
+                                                <div data-ng-message="required">Start date is required</div>
+                                            </div>
+                                        </span> 
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contingency Hours<sup class="sup_star">*</sup></label>
+                                    <input data-ng-pattern="/^[1-9][0-9]*$/" required placeholder="contingency hours" type="text" id="contingency_hours" name="contingency_hours" data-ng-model="budget_payload.contingency_hours" class="form-control" placeholder="Contingency Hours" />
+                                    <div data-ng-messages="budget_info_form.contingency_hours.$error" class="text-danger" data-ng-if=" submitted || budget_info_form.contingency_hours.$touched">
+                                        <div data-ng-message="required">Contingency hours are required</div>
+                                        <div data-ng-message="pattern">Only digit's allowed</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Estimated Hours<sup class="sup_star">*</sup></label>
+                                    <input data-ng-pattern="/^[1-9][0-9]*$/" required type="text" id="estimate_hour" name="estimate_hour" data-ng-model="budget_payload.estimate_hour" class="form-control" placeholder="Estimated Hours" />
+                                    <div data-ng-messages="budget_info_form.estimate_hour.$error" class="text-danger" data-ng-if=" submitted || budget_info_form.estimate_hour.$touched">
+                                        <div data-ng-message="required">Estimated hours are required</div>
+                                        <div data-ng-message="pattern">Only digit's allowed</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Estimated End Date</label>
+
+                                    <p class="input-group">
+                                        <input uib-datepicker-popup oncut="return false;" onkeypress="return false;"  onpaste="return false;"  type="text" id="estimated_end_date" name="estimated_end_date" is-open="popup3.opened" data-ng-model="budget_payload.estimated_end_date" class="form-control" placeholder="Estimated end date(yyyy-mm-dd)" data-ng-click="open3()" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-ng-click="open3()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                    <div data-ng-show=" budget_date_error" class="text-danger">Estimated end date cannot be less than start date </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <div class="col-lg-12 ">
+                                        <input class="btn btn-primary" type="submit" value="Submit">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <button class="accordion  accordion_style1" data-ng-click="openTabs($event, 'phase_info');"> Project Phases</button>
+                <div class="panel basic_info" id="phase_info">
+                    <div class="panel_inner">
+                        <div class="row">
+                            <div class="col-xs-12" data-ng-show=" project_phase_info.length > 0"> <a href="javascript:void(0);" data-ng-click="addProjectPhaseModal($event);" class="btn btn-primary pull-right">Add Phases</a> <span class="capitalize"> {{phase_process.process_name}} </span>
+                            </div>
+                            <div class="col-xs-12" data-ng-show=" project_phase_info.length == 0"> No Phase found
+                                <a href="javascript:void(0);" data-ng-click="addProjectPhaseModal($event);" class="btn btn-primary pull-right">Add Phases</a> 
+                            </div> 
+
+
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 client-image" data-ng-repeat=" phase_data in project_phase_info">
+                                <div class="team-list basic_info  ">
+                                    <h4><strong>{{ phase_data.phase_name | capitalize_filter }}</strong></h4>
+                                    <p> 
+                                        <i class="fa fa-tags fa-1x"></i>
+                                        <span data-ng-repeat=" phase_process_data in phase_data.processes" class=" capitalize" aria-hidden="true" title="{{ phase_process_data.process_name}}">
+                                            {{ phase_process_data.process_name | capitalize_filter }}
+                                        </span> 
+
+                                        <a data-ng-show=" phase_data.status == 2" class="edit_project" data-ng-click="viewPhaseModal(phase_data._id)" href="javascript:void(0);"><i class="fa fa-edit" title="Edit Phase"></i></a>
+                                        <a data-ng-show=" phase_data.status == 2" data-ng-click="deletePhase(phase_data._id)" href="javascript:void(0);"><i class="fa fa-remove " title="Remove Phase"></i></a>
+
+                                    </p>
+                                    <table class="table">
+                                        <tr>
+                                            <td>Estimated Hours</td>
+                                            <td>{{ (phase_data.estimate_hour != '') ? phase_data.estimate_hour : '0'; }} Hrs</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Start Date</td>
+                                            <td>{{ (phase_data.start_date != '') ? (phase_data.start_date | convert_dateformat) : '-'; }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>End Date</td>
+                                            <td>{{ (phase_data.end_date != '' && phase_data.end_date != 0 && phase_data.end_date != null && phase_data.end_date != undefined) ? (phase_data.end_date | convert_dateformat): '-'; }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="accordion  accordion_style1" data-ng-click="openTabs($event, 'resources_info');">Resources</button>
+                <div class="panel" id="resources_info">
+                    <div class="panel_inner basic_info">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-lg-4 available_outer" data-ng-init="getProjectResources()">
+                                <div class="col_height">
+                                    <label>Available Users & Clients({{ project_available_resources.length}})</label>
+                                    <div class="basic_info " >
+
+                                        <div class='basic_info_search'>
+
+                                            <!-- <a href="javascript:void(0);" class="pull-right" data-ng-click="addProjectClientModal();">
+                                                                  Add New User/Client
+                                                              </a>-->
+                                            <div class="input-group col-xs-12">
+                                                <input class="form-control" data-ng-model='search_user' name='search_user' placeholder="Search" type="text"> 
+                                            </div>
+                                        </div>
+
+                                        <div class="resources_inner" style="max-height: 330px;">
+                                            <div data-ng-repeat=" resource in project_available_resources| filter : search_user" class="media available_res" data-ng-show=" {{ project_available_resources.length > 0}}">
+                                                <div class="media-left">
+                                                    <a href="javascript:void(0);" class="user_pic" style="background: url('{{  !resource.profile_pic  ? 'assets/img/default.png' :  baseUrl + 'attachment/admin/'+ resource.profile_pic }}')center no-repeat;">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <label class="media-heading capitalize"> 
+                                                        <span class="capitalize"> {{ resource.first_name}}</span> 
+                                                        {{ (resource.role_id.role_name != undefined) ? '-' + resource.role_id.role_name : '' | capitalize}}
+                                                        {{ (resource.dept_id.department_name != undefined) ? '-' + resource.dept_id.department_name  : '' | capitalize}}
+                                                    </label> <small>{{ !resource.email ? '' : resource.email }} </small>
+                                                </div>
+                                                <div class="media-right">
+                                                    <a href="javascript:void(0);" data-ng-click="assignResource(resource._id, 1)"> <i class="glyphicon glyphicon-plus" title="Add"></i> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-lg-8 project_users">
+                                <div class='col_height'>
+                                    <label>Project Users ({{ project_assigned_resources.length}})</label>
+                                    <div class="basic_info table_outer " style="max-height: 395px;"> 
+                                        <div class='table-responsive '>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>User</th>
+                                                        <th>Department</th>
+                                                        <th>Role</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr data-ng-show="  project_assigned_resources.length > 0" data-ng-repeat="assigned_resource in project_assigned_resources">
+                                                        <td>
+                                                            <div class="media">
+                                                                <div class="media-left">
+                                                                    <a class='user_pic' href="javascript:void(0);" style="background: url({{(assigned_resource.profile_pic && assigned_resource.profile_pic != undefined)  ? baseUrl + 'attachment/admin/' + assigned_resource.profile_pic : 'assets/img/default.png'}})center no-repeat;"> 
+
+                                                                    </a>
+                                                                </div>
+                                                                <div class="media-body">
+
+                                                                    <label class="media-heading capitalize">{{ (assigned_resource.first_name != undefined && assigned_resource.first_name) ? assigned_resource.first_name : ''}} {{ (assigned_resource.last_name != undefined && assigned_resource.last_name) ? assigned_resource.last_name : ''}}</label>
+                                                                    <small> {{ (assigned_resource.email != undefined && assigned_resource.email) ? assigned_resource.email : ''}} </small>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td> {{ (assigned_resource.dept_id.department_name != undefined && assigned_resource.dept_id.department_name) ? assigned_resource.dept_id.department_name : '-' | capitalize}} </td>
+                                                        <td> {{ (assigned_resource.role_id.role_name != undefined && assigned_resource.role_id.role_name) ? assigned_resource.role_id.role_name : '-' | capitalize}} </td>
+                                                        <td class='media_action'>
+                                                            <a href="javascript:void(0);" data-ng-click="assigned_resource.status != 3 ? deleteResource(assigned_resource._id, 2) : ''" > <i data-ng-class="{'glyphicon glyphicon-remove':assigned_resource.status != 3, 'glyphicon glyphicon-ban-circle alert-danger':assigned_resource.status == 3}" title="Remove"></i> </a>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr data-ng-show="  project_assigned_resources.length <= 0">
+                                                        <td colspan="3"><span style="text-align: center">No resource found</span></td>
+                                                    </tr>
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button class="accordion  accordion_style1" data-ng-click="openTabs($event, 'attachment_info');">Attachments</button>
+                <div class="panel" id="attachment_info">
+                    <div class='panel_inner basic_info'>
+
+                        <div class="team-list">
+                            <div class='row'>
+                                <div class='col-xs-12'>
+                                    <div class=" drop-box"
+                                         name="file"
+                                         ngf-keep="distinct"
+                                         ngf-max-size="5MB"
+                                         ngf-pattern="'.pdf,.jpg,.gif,.ods,.png,jpeg,.xls,.xlsx,.doc,.docx,.ppt'"
+                                         ngf-select="uploadFiles($files)"
+                                         ngf-drop="uploadFiles($files)"
+                                         ngf-drag-over-class="'dragover'"
+                                         ngf-multiple="true"
+                                         ngf-model-invalid="invalidFile"
+                                         style="margin-top: 15px;margin-bottom: 15px;border: 1px dashed; cursor: pointer">
+                                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                                        Select/Drop Files :
+                                        <div>
+                                            Images(jpg, gif, png) doc(pdf, xlsx, doc, docx, ppt, xls) and 5 at a time allowed
+                                        </div>
+
+                                        <ul>
+                                            <li data-ng-repeat="f in files" style="font:smaller">
+                                                {{f.name}}
+                                            </li>
+                                        </ul>
+
+                                        <div class="progress" data-ng-show=" files.length > 0">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{progress}}%">
+                                                <span data-ng-bind="progress + '%'">Complete</span>
+                                            </div>
+                                        </div>
+
+                                        <div style="padding-top: 10px;font-size: 20px;">
+                                            <div data-ng-show="file_max_limit" class="text-danger">You cannot select more than 5 files at a time</div> 
+                                            <div data-ng-show=" (invalidFile[0].$error && invalidFile[0].$error == 'pattern')"  class="text-danger">Images(jpg, gif, png) doc(pdf, xlsx, doc, docx, ppt, xls) allowed</div>
+                                            <div data-ng-show=" (invalidFile[0].$error && invalidFile[0].$error == 'maxSize')"  class="text-danger">File(s) Too large max 5mb allowed</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xs-12 team-list client-image" data-ng-show=" project_attachment_info.length == 0">
+                                    <p>No attachment found</p>
+                                </div>
+
+                                <div  data-ng-repeat=" attachment in project_attachment_info track by $index" class="project_attachment_info col-xs-6 col-sm-4 col-md-3 col-lg-2 client-image">
+                                    <div class='attach_inner'>
+                                        <i class="fa fa-paperclip attachment_icon" aria-hidden="true"></i>
+                                        <h5 class='attach_title'>   
+                                            <strong>Attachment {{ $index + 1}} </strong></h5>
+                                        <span class='attach_name'>{{ attachment.original_name}}</span>
+                                        <a title="Click to download" target="_blank"  download="{{ attachment.name}}" href=" {{ baseUrl}}attachment/admin/{{ attachment.name}}" ></a>
+                                        <a title='Delete Attachment' class='attach_delete' href="javascript:void(0);" data-ng-click="deleteProjectAttachment(attachment._id)"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="accordion  accordion_style1" data-ng-click="openTabs($event, 'repo_info');">Repository</button>
+
+                <div class="panel" id="repo_info">
+                    <div class="panel_inner">
+                        <div class="row">
+                            <div class="col-xs-12" data-ng-init="getRepositories()">
+                                <div data-ng-show="total_repo > 0">
+                                    Repos Name: <p data-ng-repeat="repoName in repositories_name"> {{ repoName}}</p>
+                                </div>
+                                <i class="fa fa-plus-circle pull-right" title="Add Repo" aria-hidden="true" data-ng-click="cloneItem()"></i>
+                                <form name="repo_info_form" novalidate data-ng-init=" submitted = false" data-ng-submit=" repo_info_form.$valid ? createRepo('repos') : submitted = true">
+                                    <div data-ng-repeat="repo in repos">
+                                        <label for="repo_name">Repo Name :</label>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" data-ng-model="repo.name" name="repo_name_{{$index}}" required />
+                                            <i class="fa fa-remove pull-right delete-field-{{$index}}" aria-hidden="true" data-ng-click="removeItem(repo)"></i>
+                                        </div>
+                                        <div data-ng-messages="repo_info_form['repo_name_' + $index].$error" class="text-danger" data-ng-if=" submitted || repo_info_form['repo_name_' + $index].$touched">
+                                            <div data-ng-message="required">Repo name is required</div>
+                                        </div>                                        
+                                    </div>
+                                    <input type="submit" class="btn btn-primary" name="button" value="Submit">
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

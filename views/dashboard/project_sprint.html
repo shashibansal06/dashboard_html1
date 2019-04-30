@@ -1,0 +1,25 @@
+                
+<div class="position_for_grid_content panel panel-success" data-ng-init="getDashboardSprints();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Sprints<a data-ui-sref="sprints">View all</a>
+            <span class="pull-right clickable" data-toggle="collapse" data-target="#sprints">
+                <i class="fa fa-minus"></i>
+            </span></h3>
+    </div>
+    <div class="panel-body collapse in" id="sprints">
+        <div class="panel_inner">
+            <span ng-if="dasboard_sprints.length <= 0"> No sprints found.</span>
+            <ul class="list-group task-list">
+                <li class="list-group-item" data-ng-repeat="dashSprint in dasboard_sprints">
+                    <span data-ng-class="{'label label-primary  pull-right' : dashSprint.sprint_status.name == 'New','label label-warning  pull-right' : dashSprint.sprint_status.name == 'In Progress','label label-success  pull-right' : dashSprint.sprint_status.name == 'Completed','label label-danger  pull-right' : dashSprint.sprint_status.name == 'On Hold'}">{{dashSprint.sprint_status.name}}</span>
+                    <a data-ui-sref="ViewSprint({sid : dashSprint._id , pid : dashSprint.phases[0] })">#SP-{{dashSprint.sprint_number}} {{dashSprint.sprint_name | capitalize }}</a> <small>({{dashSprint.start_date| convert_dateformat}} <span ng-if="dashSprint.end_date"> - </span> {{dashSprint.end_date? (dashSprint.end_date| convert_dateformat) :''}})</small>
+                    <br/>
+                    <small>{{dashSprint.description}}</small>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+

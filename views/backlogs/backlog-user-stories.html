@@ -1,0 +1,221 @@
+
+<div class="tab-container" data-ng-init="getUserStories('all');">
+    <!-- Backlog user stories search form -->
+
+    <div class="row" style="padding:0 0 20px 0;">
+        <div class="col-md-12">
+            <div class="col-md-2" data-ng-init="getPhasesByProjectId()">
+                <select data-ng-change="getUserStories()" class="form-control" data-ng-model="phase" ng-options="option.phase_name for option in phaseList track by option._id">
+                    <option value=""> All </option>
+                </select>
+
+            </div>
+            <div class="col-md-3">
+                <form name="search_issues" data-ng-submit="search_issues.$valid ? getUserStories('search') : ''">
+                    <div class="input-group">
+                        <input type="text" name="backlog_userstory_search" data-ng-model="search" class="form-control" placeholder="Search ..." data-ng-pattern="/^[a-zA-Z0-9 ]*$/">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">Go!</button>
+                        </span>
+                    </div>
+                    <div ng-messages="search_issues.backlog_userstory_search.$error" class="text-danger" role="alert" ng-if="submitted || search_issues.backlog_userstory_search.$touched">
+                        <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-secondary" type="button" data-ng-click="clearFilter()">Reset</button>
+            </div>
+            <div class="col-md-2">
+                <button data-ng-click="addUserStory();" class="btn btn-primary">Add User Story</button>
+            </div>
+            <div class="col-md-2">
+                <select data-ng-change="getUserStories('all');" data-ng-model="limit" class="form-control" id="sel1">
+                    <option ng-value=10000>All</option>
+                    <option ng-value=10>10</option>
+                    <option ng-value=20>20</option>
+                    <option ng-value=30>30</option>
+                    <option ng-value=40>40</option>
+                    <option ng-value=50>50</option>
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <div class="pull-right">
+
+                    <a title="Grid View" href="javascript:void(0);" data-ng-click="userStoryView('grid');">
+                        <i class="fa fa fa-th fa-2x"></i>
+                    </a>
+                    &nbsp; &nbsp;
+                    <a title="List View" href="javascript:void(0);" data-ng-click="userStoryView('list');">
+                        <i class="fa fa-list fa-2x"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backlog user stories search form  Ends here -->
+
+    <!-- end col sm 3 -->
+    <div class="gridview" data-ng-show="view == 'grid'">
+        <div class="row">
+            <div class="col-md-3" data-ng-repeat="list in backlogUserStorydata.allUserStories">
+
+                <div class="card-container manual-flip">
+                    <div class="card">
+                        <div class="front">
+                            <div class="cover">         
+                                <img ng-show="list.screen_image && list.screen_image.length > 0" data-ng-src="{{ (list.screen_image[0].name != undefined) ? baseUrl + 'attachment/admin/' + list.screen_image[0].name : ''}}" >
+                                <img ng-show="list.screen_image && list.screen_image.length == 0 || (list.file_extension != 'png' || list.file_extension != 'jpeg' || list.file_extension != 'jpg' || list.file_extension == '')" src="assets/img/placeholder.png">
+                            </div>                                   
+                            <div class="content">
+                                <div class="main">
+
+                                    <h6>
+                                        <b data-ng-bind="'US-' + list.taskId"></b>
+                                        <a class="capitalize" data-ng-bind="list.name" target="_blank" data-ui-sref="main.userstory.section({ type: 'description', id : list._id , pid : list.project_id })"></a> <!-- data-ng-click="userStoryModal(list._id)" -->
+                                        <i class="fa fa-pencil pull-right" aria-hidden="true" data-ng-click="quickEditUS(1, list._id)"></i>
+                                    </h6>
+                                    <h5>
+                                        <span uib-rating data-ng-click="setRating(list._id, list.task_complexity)" data-ng-model="list.task_complexity" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three','four','five']" aria-labelledby="default-rating"></span>
+                                    </h5> 
+
+                                    <p class="estimation" data-ng-if="phase._id != undefined && list.estimations.length > 0">
+                                        <strong>Process Estimations</strong>
+                                    </p>
+
+                                    <div data-ng-if="phase._id != undefined && list.estimations.length > 0" class="stats-container">
+                                        <div class="stats" data-ng-repeat=" approved_eta in list.estimations" >
+                                            <h5>E - {{ (approved_eta.approved_hours && approved_eta.approved_hours != '' && approved_eta.approved_hours != undefined) ? approved_eta.approved_hours : '00:00'}}  </h5>
+                                            <h5>S - {{ (approved_eta.total_logged_efforts && approved_eta.total_logged_efforts != '' && approved_eta.total_logged_efforts != undefined) ? approved_eta.total_logged_efforts : '00:00'}} </h5>
+                                            <p>{{ approved_eta.process_id.process_name}}</p>
+                                        </div>
+                                    </div>
+
+                                    <p class="estimation" data-ng-if="phase._id == undefined">
+                                        <strong>Estimations And Burned Hours </strong>
+                                    </p>
+                                    <div class="stats-container" data-ng-if="phase._id == undefined">
+                                        <span>Estimations : {{ list.total_US_Estimated_time}} </span> | <span> Burned : {{ list.total_userstory_logged_hours}} </span>
+                                    </div>
+
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <button class="btn btn-simple pull-right " rotate-card=""><i class="fa fa-mail-forward" title="View Details"></i></button>
+                                <div class="social-links text-center">
+                                    <a target="_blank" data-ui-sref="main.userstory.section({ type: 'comments', id : list._id , pid : list.project_id })" ><i class="fa fa-comment fa-fw" title="Comments"></i></a><small>{{list.total_comments}}</small>
+                                    <a target="_blank" data-ui-sref="tasks"><i class="fa fa-tasks fa-fw" title="Tasks"></i></a><small>{{list.total_tasks}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end front panel -->
+                        <div class="back">
+                            <div class="header">
+                                <h4 class="motto"><strong>{{ list.name | capitalize }}</strong> <i class="fa fa-pencil pull-right" aria-hidden="true" data-ng-click="quickEditUS(2, list._id)"></i></h4>
+
+                            </div>
+                            <div class="content">
+                                <div class="main">
+                                    <p data-ng-show="list.user_story_details.epicName"><strong>Epic : </strong>{{ list.user_story_details.epicName | capitalize}}</p>
+                                    <p data-ng-show="list.user_story_details.themeName"><strong>Theme :</strong> {{ list.user_story_details.themeName | capitalize}}</p>
+                                    <p class="text-center scrollPara">
+                                        <strong>As a : </strong>{{ list.user_story_details.role | capitalize}} <br>
+                                        <strong>I want : </strong> {{ list.user_story_details.feature | capitalize}} <br>
+                                        <strong>Given : </strong> {{ list.user_story_details.context | capitalize}} <br>
+                                        <strong>Quick view when : </strong> {{ list.user_story_details.event|capitalize}} <br>
+                                        <strong>Then : </strong> {{ list.user_story_details.outcome}}
+
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <button class="btn btn-simple" rel="tooltip" title="Flip Card" rotate-card="">
+                                    <i class="fa fa-reply"></i> Back
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end card-container -->
+            </div>
+            <div data-ng-show="backlogUserStorydata.totalUserStories == 0">
+                No records.
+            </div>
+        </div>
+    </div>
+    <!--list view-->
+    <div class="gridview" data-ng-show="view == 'list'">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color: #31708f;background-color: #d9edf7;border-color: #bce8f1;">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>User Stories</h4>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="pull-right">
+                            <i class="fa fa-copy" aria-hidden="true" title="Copy to Phase" data-ng-click="copyIntoPhase();" style="margin:5px;"></i>
+                            <i class="fa fa-archive" aria-hidden="true" title="Delete" data-ng-click="deleteUserStoryModal();" style="margin:5px;"></i>
+                            <i class="fa fa-clock-o" aria-hidden="true" title="Estimate" data-ng-click="estimateUserStoriesModal();" style="margin:5px;"></i>
+                            <i class="fa fa-cog" aria-hidden="true" title="Quick Estimate" data-ng-click="QuickEstimateUserStoriesModal();" style="margin:5px;"></i>
+                            <i class="fa fa-reply" aria-hidden="true" title="Import" data-ng-click="uploadCsv();" style="margin:5px;"></i>
+                            <i class="fa fa-share-square-o" aria-hidden="true" title="Export" data-ng-click="exportCsv(phase);" style="margin:5px;" target="_self"  download="{{ exportUs.name}}" href=" {{ baseUrl}}attachment/admin/{{ exportUs.name}}"></i>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-striped table-bordered " cellspacing="0 " width="100% ">
+                    <thead class="thead-inverse ">
+                        <tr>
+                            <th data-ng-hide="backlogUserStorydata.totalUserStories == 0">
+                                <input data-ng-change="checkAll()" type="checkbox" data-ng-model="masterChecklist"></label>
+                            </th>
+                            <th>Key</th>
+                            <th>Title</th>
+                            <th>Phase</th>
+                            <th>Estimated Hours</th>
+                            <th>Burned Hours</th>
+                            <th data-ng-if="phase._id != undefined">Status</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th data-ng-hide="phase_id != ''">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="list in backlogUserStorydata.allUserStories">
+                            <td> <input type="checkbox" ng-change="checkUnCheck(backlogUserStorydata.allUserStories[$index].isChecked, $index, list._id)" ng-true-value="true" ng-false-value="false" data-ng-model="backlogUserStorydata.allUserStories[$index].isChecked"></td>
+
+
+                            <td><a target="_blank" data-ui-sref="main.userstory.section({ type: 'description', id : list._id , pid : list.project_id })" data-ng-bind="'US-' + list.taskId"></a></td>
+                            <!-- data-ng-click="userStoryModal(list._id);" --> 
+                            <td style="text-transform:capitalize" data-ng-bind="list.name"></td>
+                            <td>{{ list.allPhases.join(', ')}}</td>
+                            <td>{{(list.total_US_Estimated_time && list.total_US_Estimated_time != undefined && list.total_US_Estimated_time != '') ? list.total_US_Estimated_time:'00:00'}}</td>
+                            <td>{{(list.total_userstory_logged_hours && list.total_userstory_logged_hours != undefined && list.total_userstory_logged_hours != '')?list.total_userstory_logged_hours :'00:00'}}</td>
+                            <td data-ng-if="phase._id != undefined" style="text-transform:capitalize" data-ng-bind="list.status.name != undefined ? list.status.name : '-'"></td>
+                            <td data-ng-bind="list.created_at | convert_date"></td>
+                            <td data-ng-bind="list.modified | convert_date"></td>
+                            <td data-ng-hide="phase_id != ''" data-ng-click="usDelete(list._id);"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div data-ng-show="backlogUserStorydata.totalUserStories == 0">
+                    No records.
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--end list view-->
+    <nav data-ng-show="backlogUserStorydata.totalUserStories > limit" class="pull-right" aria-label="Page navigation">
+        <ul class="pagination" items-per-page="limit" uib-pagination total-items="backlogUserStorydata.totalUserStories" ng-model="currentPage" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getUserStories()"></ul>
+    </nav>
+
+</div>

@@ -1,0 +1,114 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="addsprint" name="addSprintForm" novalidate data-ng-init=" submitted = false " data-ng-submit=" addSprintForm.$valid ? addsprint() : submitted = true "  >
+                <div class="modal-header" >
+               <button type="button" class="close" title="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create New Sprint</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="comment">Project Start Date: </label><!-- {{projectStartDate}} or {{prjStartDate}} -->
+                               
+                                <span class="form-control capitalize" >{{projectStartDate | convert_dateformat}}</span>
+                                <!-- <input type="text" name="sprint_name" ng-model="projectStartDate" class="form-control capitalize" readonly="true" /> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Sprint Name<sup class="sup_star">*</sup>: </label>
+                                <input type="text" name="sprint_name" ng-model="sprintObj.sprint_name" placeholder="Sprint Name" class="form-control capitalize" ng-required="true" ng-maxlength="50"/>
+                                <div data-ng-messages="addSprintForm.sprint_name.$error" class="text-danger" data-ng-if=" submitted || addSprintForm.sprint_name.$touched">
+                                    <div data-ng-message="required">Sprint name is required.</div>
+                                    <div data-ng-message="maxlength">Max 50 characters allowed.</div>
+                                </div>
+
+                                <!-- <div class="text-danger" ng-show="addSprintForm.sprint_name.$invalid && addSprintForm.sprint_name.$touched && addSprintForm.sprint_name.$error.required">Sprint name required.</div>
+                                <div class="text-danger" ng-show="addSprintForm.sprint_name.$invalid && addSprintForm.sprint_name.$touched && !addSprintForm.sprint_name.$error.required && addSprintForm.sprint_name.$error.maxlength">Sprint name can have maximum 50 characters</div> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Description: </label>
+                                <textarea class="form-control firstCap" name="description"  ng-model="sprintObj.description" placeholder="Description" rows="4" id="comment"  ng-maxlength="250" style="resize: vertical"></textarea>
+                                <div data-ng-messages="addSprintForm.description.$error" class="text-danger" data-ng-if=" submitted || addSprintForm.description.$touched">
+                                    <div data-ng-message="required">Description is required.</div>
+                                    <div data-ng-message="maxlength">Max 250 characters allowed.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="sel1">Start Date<sup class="sup_star">*</sup>: </label>
+                                     <p class="input-group">
+                                    <input uib-datepicker-popup oncut="return false;" onkeypress="return false;"  onpaste="return false;" name="start_date" placeholder="Start date (yyyy-mm-dd)" type="text" class="form-control" data-ng-model="start_date" is-open="popup1.opened" datepicker-options="dateOptions" ng-change="setEndDate()" data-ng-required="true" close-text="Close" data-ng-click="open1()"/> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" data-ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>  
+                                    <div data-ng-messages="addSprintForm.start_date.$error" class="text-danger" data-ng-if=" submitted || addSprintForm.start_date.$touched">
+                                        <div data-ng-message="required">Start date is required.</div>
+                                    </div>                              
+                                    <!-- <div class="text-danger" ng-show="addSprintForm.start_date.$invalid && addSprintForm.start_date.$touched && addSprintForm.start_date.$error.required">Start date required.</div> -->
+                                </p>                                    
+                                </div>
+                            </div>
+                         <!--    <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sel1">End Date:</label>
+                                        <p class="input-group">
+                                    <input uib-datepicker-popup oncut="return false;" onkeypress="return false;"  onpaste="return false;" name="end_date" placeholder="End date (yyyy-mm-dd)" type="text" class="form-control" data-ng-model="sprintObj.end_date" is-open="popup2.opened" datepicker-options="dateEndOptions" close-text="Close" data-ng-click="open2()"/> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" data-ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>  
+                                </p>
+                            </div>                          
+                        </div> -->
+                    </div>
+                      <!-- <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="sel1">Planned Hours<sup class="sup_star">*</sup>: </label>
+                                    <input type="text" name="planned_hours" ng-model="sprintObj.planned_hours" placeholder="Planned hours" class="form-control" ng-required="true" data-ng-pattern="/^[0-9]*$/" />
+                                    <div data-ng-messages="addSprintForm.planned_hours.$error" class="text-danger" data-ng-if=" submitted || addSprintForm.planned_hours.$touched">
+                                        <div data-ng-message="required">Planned hours are required.</div>
+                                        <div data-ng-message="pattern">Enter valid planned hours.</div>
+                                    </div>
+                                     
+                                </div>
+                            </div> -->
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="comment">Release Plan<sup class="sup_star">*</sup>: </label>
+                                    <!-- 59097e7b35ee1b71034bdfa1 -->
+                                      <select ng-selected="sprintObj.release_plan_id" class="form-control capitalize" name="release_plan" ng-options="option.title | capitalize for option  in release_plans track by option._id" ng-model="sprintObj.release_plan_id" ng-required="true" >
+                                            <option value="">Select Release Plan</option>
+                                        </select>                                      
+                                    <div data-ng-messages="addSprintForm.release_plan.$error" class="text-danger" data-ng-if=" submitted || addSprintForm.release_plan.$touched ">
+                                        <div data-ng-message="required">Release plan is required.</div>
+                                    </div> 
+                                    <!-- <div class="text-danger" ng-show="addSprintForm.release_plan.$invalid && addSprintForm.release_plan.$touched && addSprintForm.release_plan.$error.required">Release plan required.</div>   -->                             
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="comment">Contingency Hours %<sup class="sup_star">*</sup>: </label>
+                                    <input type="text" ng-model="sprintObj.contigency_hours" name="contigency_hours" placeholder="Contingency Hours" data-ng-pattern="/^[0-9:]*$/" class="form-control capitalize" ng-required="true" />
+                                    <div data-ng-messages="addSprintForm.contigency_hours.$error" class="text-danger" data-ng-if=" submitted || (addSprintForm.contigency_hours.$touched || addSprintForm.contigency_hours.$dirty)">
+                                        <div data-ng-message="required">Contingency hours are required.</div>
+                                        <div  ng-show="addSprintForm.contigency_hours.$dirty" data-ng-message="pattern">Enter valid contingency hours.</div>
+                                    </div>
+                                    <!-- <div class="text-danger" ng-show="addSprintForm.contigency_hours.$invalid && addSprintForm.contigency_hours.$touched && addSprintForm.contigency_hours.$error.required">Contigency hours required.</div>   
+                                     <div class="text-danger" ng-show="addSprintForm.contigency_hours.$invalid && addSprintForm.contigency_hours.$touched && !addSprintForm.contigency_hours.$error.required && addSprintForm.contigency_hours.$error.pattern">Enter valid contigency hours.</div> -->     
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                    <button type="submit" class="btn btn-primary" >Save & Continue&nbsp;&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                    </button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

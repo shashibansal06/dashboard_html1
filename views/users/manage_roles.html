@@ -1,0 +1,38 @@
+
+   <section class="container-fluid" id="mainContainerSection">
+        <div class="col-lg-12">
+          <div class="page_title">
+            <h1>Manage Roles &amp; Permissions</h1>
+            <div  class="pull-right btn btn-primary" data-ng-click="createRole()"><i class="fa fa-plus"></i>Add New Role</div>
+          </div>
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+                  <div class="panel_inner  table-responsive">
+                    <table class="table table-bordered table-striped" data-ng-init="getRoles()">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            <tr data-ng-repeat="records in list.records">
+                                <td style="text-transform: capitalize;" data-ng-bind="records.role_name">Admin</td>
+                                <td>
+                                    <a href="javascript:void(0)" data-ng-click="getRolesPermissions(records._id)"> Manage Permissions </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+            <nav class="pull-right" aria-label="Page navigation">
+                <ul class="pagination" uib-pagination items-per-page="limit" total-items="list.total_records" data-ng-model="currentPage" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getRoles()"></ul>
+            </nav>
+        </div>   <!-- /.row -->
+            
+    </section><!-- /.content -->
+    
+    

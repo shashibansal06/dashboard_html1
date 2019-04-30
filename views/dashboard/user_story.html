@@ -1,0 +1,19 @@
+
+<div class="position_for_grid_content panel panel-danger" data-ng-init="getDashboardUserStory();
+        onload();">
+    <div class="panel-heading">
+        <h3 class="panel-title">User Story Statistics
+            <span class="pull-right clickable" data-toggle="collapse" data-target="#user_story" style="cursor:pointer">
+                <i class="fa fa-minus"></i>
+            </span>
+        </h3>
+    </div>
+    <div class="panel-body collapse in" id="user_story" >
+        <div class="panel_inner" >
+            <!--<select class="form-control capitalize" data-ng-change="getDashboardUserStory();" data-ng-model="sprint_id_user" data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >
+                <option value="">All Sprint Data</option>
+            </select>-->
+            <div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="panel panel-info" data-ng-init="getDashboardBuildsChart();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Build and Releases
+            <span collapse-toggler  data-toggle="collapse" data-target="#builds-releases" class="pull-right" style="cursor:pointer;">
+                <i class="fa fa-minus"></i>
+            </span>
+    </div>
+
+    <div class="panel-body  collapse in" id="builds-releases">
+        <div class="panel_inner">  
+            <select class="form-control capitalize" data-ng-change="getDashboardBuildsChart(builds_sprint_id);" data-ng-model="builds_sprint_id"  data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >
+                <option value="">Select partial</option>
+            </select>
+            <div data-ng-if="nobuild_data != 0" style="text-align: center;margin-top: 30px">No data to display</div>
+            <div data-ng-if="nobuild_data == 0" id="build_containers" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </div>
+    </div>
+</div>

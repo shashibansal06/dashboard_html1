@@ -1,0 +1,469 @@
+<div class="modal fade" id="parent_us_modal">
+    <div class="modal-dialog" style="width:80%">
+        <div class="modal-content">
+
+            <div class="modal-header popup-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-center">
+                    <b data-ng-bind="'US-' + userstory_detail.taskId"></b> <span class="capitalize" data-ng-bind="userstory_detail.name"></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12">
+                    <!--<div class="col-sm-6">
+                        <label>Phase</label>
+                        No Phase
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Sprint</label>
+                        Sprint -1
+                    </div>-->
+
+                    <div class="col-sm-4" data-ng-show=" userstory_detail.estimations.length > 0" data-ng-repeat=" approved_estimations in userstory_detail.estimations">
+                        <label> Estimations {{ approved_estimations.process_id.process_name + '- '}} </label>
+                        {{ (approved_estimations.approved_hours != 0) ? approved_estimations.approved_hours : '0'}}
+                    </div>
+
+                </div>
+
+                <form class="form-horizontal" name="usform" novalidate data-ng-init=" submitted = false" data-ng-submit=" usform.$valid ? updateUserStory() : submitted = true ">
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">Description <i class="fa fa-pencil"></i></div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="email" >US-  {{userstory_detail.taskId}}<sup class="sup_star">*</sup> </label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="1" name="name" data-ng-minlength="10" data-ng-maxlength="150" data-ng-model="userstory_detail.name" required></textarea>
+                                        <div data-ng-messages="usform.name.$error" class="text-danger" data-ng-if=" submitted || usform.name.$touched">
+                                            <div data-ng-message="required">Name is required.</div>
+                                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                                            <div data-ng-message="maxlength">Maximum 150 characters allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"> As a<sup class="sup_star">*</sup> </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control capitalize" name="role" data-ng-minlength="2" data-ng-maxlength="50" data-ng-model="userstory_detail.user_story_details.role" required>
+                                        <div data-ng-messages="usform.role.$error" class="text-danger" data-ng-if=" submitted || usform.role.$touched">
+                                            <div data-ng-message="required">Role is required.</div>
+                                            <div data-ng-message="minlength">Minimum 2 characters allowed</div>
+                                            <div ng-message="maxlength">Maximum 50 characters allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"> I want<sup class="sup_star">*</sup> </label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" data-ng-minlength="10" data-ng-maxlength="5000" name="feature" data-ng-model="userstory_detail.user_story_details.feature"  required></textarea>
+                                        <div data-ng-messages="usform.feature.$error" class="text-danger" data-ng-if=" submitted || usform.feature.$touched">
+                                            <div data-ng-message="required">Feature is required.</div>
+                                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"> Given<sup class="sup_star">*</sup> </label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" data-ng-minlength="10" data-ng-maxlength="5000" name="context"  data-ng-model="userstory_detail.user_story_details.context"  required></textarea>
+                                        <div data-ng-messages="usform.context.$error" class="text-danger" data-ng-if=" submitted || usform.context.$touched">
+                                            <div data-ng-message="required">Given is required.</div>
+                                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"> View when<sup class="sup_star">*</sup> </label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" name="event" data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="userstory_detail.user_story_details.event"  required></textarea>
+                                        <div data-ng-messages="usform.event.$error" class="text-danger" data-ng-if=" submitted || usform.event.$touched">
+                                            <div data-ng-message="required">When is required.</div>
+                                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"> Then outcome<sup class="sup_star">*</sup> </label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" name="outcome" data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="userstory_detail.user_story_details.outcome"  required></textarea>
+                                        <div data-ng-messages="usform.outcome.$error" class="text-danger" data-ng-if=" submitted || usform.outcome.$touched">
+                                            <div data-ng-message="required">Outcome is required.</div>
+                                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                                            <div ng-message="maxlength">Maximum 5000 characters allowed</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Epic</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control capitalize" name="epic_id" data-ng-model="userstory_detail.user_story_details.epic_id">
+                                            <option value="">Select Epic</option>
+                                            <option data-ng-value="epic_detail._id"  data-ng-repeat=" epic_detail in epic_data">{{ epic_detail.name | capitalize}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Status</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="status" data-ng-model="userstory_detail.status" >
+                                            <option value="">Select Status</option>
+                                            <option data-ng-value="status_detail._id"  data-ng-repeat=" status_detail in status_data">{{ status_detail.name | capitalize}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Priority</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="priority_id" data-ng-model="userstory_detail.user_story_details.priority_id">
+                                            <option value="">Select Priority</option>
+                                            <option data-ng-value="priority_detail._id"  data-ng-repeat=" priority_detail in priority_data">{{ priority_detail.name | capitalize}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Theme</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control capitalize" name="theme_id" data-ng-model="userstory_detail.user_story_details.theme_id">
+                                            <option value="">Select Theme</option>
+                                            <option data-ng-value="theme_detail._id"  data-ng-repeat=" theme_detail in theme_data">{{ theme_detail.name | capitalize}}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2"></label>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <i class="glyphicon glyphicon-list-alt"></i> Check List &nbsp;&nbsp; <i class="glyphicon glyphicon-plus-sign pull-right" title="Add CheckList" data-ng-click="checkListModal('0')"></i>
+
+                                <div class="well" style="max-height: 300px;overflow: auto;">
+
+                                    <form>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10%"><input data-ng-model="main_checklist" data-ng-click="checkListAll('0');" type="checkbox"></th>
+                                                    <th width="80%">Title</th>
+                                                    <th width="10%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-show=" checklist_data.length == 0" >
+                                                    <td width="10%" colspan="3">No check list found</td>
+                                                </tr>
+
+                                                <tr data-ng-show=" checklist_data.length > 0" data-ng-repeat="checklist in checklist_data">
+                                                    <td width="10%">
+                                                        <input type="checkbox" data-ng-true-value="1" data-ng-false-value="0" data-ng-model="checklist_data[$index].status"></td>
+                                                    <td width="80%">{{ checklist.title | capitalize }}</td>
+                                                    <td  width="10%"><a href="javascript:void(0);" data-ng-click="deleteCheckList(checklist._id, 0)">Delete</a></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <nav class="pull-right" aria-label="Page navigation" data-ng-show="  checklist_data.length > 0">
+                                            <ul class="pagination" items-per-page="checklist_limit" uib-pagination total-items="checklist_data_total" data-ng-model="currentPageCheckList"
+                                                boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getCheckList()">
+                                            </ul>
+                                        </nav>
+
+
+
+                                        <button type="button" class="btn btn-primary" data-ng-show=" checklist_data.length > 0" data-ng-click='updateCheckList("0");'>Done</button>
+                                    </form>
+                                </div>
+
+
+                                <i class="glyphicon glyphicon-list-alt"></i> Test Cases &nbsp;&nbsp; <i class="glyphicon glyphicon-plus-sign pull-right" title="Add Test Cases" data-ng-click="checkListModal('1')"></i>
+
+                                <div class="well" style="max-height: 300px;overflow: auto;">
+                                    <form>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10%"><input data-ng-model="main_test_case"  data-ng-click="checkListAll('1');" type="checkbox"></th>
+                                                    <th>Key</th>
+                                                    <th>Title</th>
+                                                    <th>Summary</th>
+                                                    <th>Steps</th>
+                                                    <th>Required</th>
+                                                    <th>Result</th>
+                                                    <th>Priority</th>
+                                                    <th>Created By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr data-ng-show=" testcase_data.length == 0" >
+                                                    <td width="10%" colspan="10">No test case found</td>
+                                                </tr>
+
+                                                <tr data-ng-show=" testcase_data.length > 0" data-ng-repeat="testcase in testcase_data">
+                                                    <td width="10%"><input  type="checkbox" data-ng-true-value="1" data-ng-false-value="0" data-ng-model="testcase_data[$index].status"></td>
+                                                    <td>{{ testcase.checklistId}}</td>
+                                                    <td>{{ testcase.title | capitalize  }}</td>
+                                                    <td class="firstCap">{{ testcase.summary}}</td>
+                                                    <td class="firstCap">{{ testcase.testSteps}}</td>
+                                                    <td class="firstCap">{{ testcase.testData}}</td>
+                                                    <td class="firstCap">{{ testcase.result}}</td>
+                                                    <td>{{ testcase.priority.name | capitalize }}</td>
+                                                    <td>{{ testcase.user_id.first_name | capitalize  }}</td>
+                                                    <td><a href="javascript:void(0);" data-ng-click="deleteCheckList(testcase._id, 1)">Delete</a></td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+
+                                        <nav class="pull-right" aria-label="Page navigation" data-ng-show="  testcase_data.length > 0">
+                                            <ul class="pagination" items-per-page="testcase_limit" uib-pagination total-items="testcase_data_total" data-ng-model="currentPageTestCase"
+                                                boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getTestCaseList()"></ul>
+                                        </nav>
+                                        <button type="button" class="btn btn-primary" data-ng-show="  testcase_data.length > 0" data-ng-click='updateCheckList("1");'>Done</button>
+                                    </form>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+                <!--                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <i class="fa fa-tasks" aria-hidden="true"></i> Tasks
+                                                <i class="glyphicon glyphicon-plus-sign pull-right" title="Add CheckList" data-ng-click="checklistModal()"></i>
+                
+                                                <div class="well" style="max-height: 300px;overflow: auto;">
+                                                    <div class="timeline-centered">
+                                                        <article class="timeline-entry">
+                                                            <div class="timeline-entry-inner">
+                                                                <div class="timeline-icon bg-success">
+                                                                    <img src="assets/img/roundedProfile.png" class="img-rounded" alt="Cinque Terre" width="41" height="41">
+                                                                </div>
+                                                                <div class="timeline-label">
+                                                                    <h2>Navneet Kumar <span class="pull-right text-danger">Status - New</span></h2>
+                                                                    <h2 class="pull-right">23 March 2017 - 3:17PM </h2>
+                                                                    <h2><u><a> #TK-01 - Develop open drawer functionality.</a> </u>
+                                                                    </h2>
+                                                                    <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                                                                    <ul class="list-inline">
+                                                                        <li title="Effort Logged">
+                                                                            Effort Logged <i class="fa fa-clock-o" aria-hidden="true"></i> 2:00 hrs
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </article>
+                                                        <article class="timeline-entry">
+                                                            <div class="timeline-entry-inner">
+                                                                <div class="timeline-icon bg-success">
+                                                                    <img src="assets/img/roundedProfile.png" class="img-rounded" alt="Cinque Terre" width="41" height="41">
+                                                                </div>
+                                                                <div class="timeline-label">
+                                                                    <h2>Navneet Kumar <span class="pull-right text-danger">Status - New</span></h2>
+                                                                    <h2 class="pull-right">23 March 2017 - 3:17PM </h2>
+                                                                    <h2><u><a> #TK-01 - Develop open drawer functionality.</a> </u>
+                                                                    </h2>
+                                                                    <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                                                                    <ul class="list-inline">
+                                                                        <li title="Effort Logged">
+                                                                            Effort Logged <i class="fa fa-clock-o" aria-hidden="true"></i> 2:00 hrs
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                </div>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <i class="drop-box fa fa-pencil col-lg-12"
+                                   ngf-keep="distinct"
+                                   ngf-max-size="25MB"
+                                   ngf-pattern="'.pdf,.jpg,.gif,.ods,.png,jpeg,.xls,.xlsx,.doc,.docx,.ppt'"
+                                   ngf-select="uploadFiles($files,userstory_detail._id,userstory_detail.project_id)"
+                                   ngf-drop="uploadFiles($files,userstory_detail._id,userstory_detail.project_id)"
+                                   ngf-drag-over-class="'dragover'"
+                                   ngf-model-invalid="invalidFile"
+                                   ngf-multiple="true" style="cursor:pointer;border: 1px dashed;margin-bottom: 10px; padding: 40px;"> Attachments
+                                    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                                    <div>
+                                        Select/Drop Files : images(jpg,gif,png) doc(pdf,xlsx,doc,docx,ppt,xls) and 5 at a time allowed
+                                    </div>
+
+
+                                    <div class="progress" data-ng-show="userstoryprogress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{userstoryprogress}}%">
+                                            <span data-ng-bind="userstoryprogress + '%'">Complete</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div data-ng-show="file_max_limit" class="text-danger">You cannot select more than 5 files at a time</div> 
+                                        <div data-ng-show=" (invalidFile[0].$error && invalidFile[0].$error == 'pattern')"  class="text-danger">Images(jpg, gif, png) doc(pdf, xlsx, doc, docx, ppt, xls) allowed</div>
+                                        <div data-ng-show=" (invalidFile[0].$error && invalidFile[0].$error == 'maxSize')"  class="text-danger">File(s) Too large max 25mb allowed</div>
+                                    </div>
+
+                                </i>
+
+                                <div class="well" style="max-height: 300px;overflow: auto;">
+
+                                    <style>
+                                        ul {
+                                            list-style-type: none;
+                                            margin: 0;
+                                            padding: 0;
+                                            overflow: hidden;
+                                        }
+                                        li {
+                                            float: left;
+                                            padding-left: 10px;
+                                        }
+                                    </style>
+
+                                    <ul>
+                                        <li  data-ng-repeat=" attachment in userstory_detail.attachments track by $index" data-ng-show=" userstory_detail.attachments.length > 0">
+
+
+                                            <img class="thumbnail img-responsive pull-left" src=" {{ (attachment.extension != 'gif' && attachment.extension != 'png' && attachment.extension != 'jpeg' && attachment.extension != 'jpg') ? 'assets/img/default-document-icon.jpg' : baseUrl + 'attachment/admin/' + attachment.name}} " height="100" width="100">
+                                            <div style="padding-left:130px">
+                                                <strong>{{ (attachment.original_name != undefined) ? attachment.original_name : ''}}</strong><br/>
+                                                <small class="text-muted">{{attachment.created_at| convert_date}} </small><br/>
+
+                                                <a title="Click to download" target="_blank"  download="{{ attachment.name}}" href=" {{ baseUrl}}attachment/admin/{{ attachment.name}}" > <span class="glyphicon glyphicon-download-alt"> </span></a>
+
+
+
+                                                <a href="javascript:void(0);" data-ng-click="deleteAttachment(userstory_detail._id, attachment._id)"><span class="glyphicon glyphicon-remove"></span></a>
+
+                                            </div>
+                                        </li>
+                                        <li data-ng-show=" userstory_detail.attachments.length == 0">
+                                            No attachment found
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- comments --->
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="panel-body"><i class="fa fa-comments-o"></i> Comments</div>
+
+                                <div class="well" >
+
+                                    <form class="form-horizontal form-border" name="commentform" data-ng-submit=" commentform.$valid ? commentPost() : submitted = true;
+                                        
+                                        
+                                        
+                                        
+                                          " novalidate >
+
+                                        <div class="form-group">
+                                            <label for="comment">Your Comment</label>
+                                            <textarea  data-ng-minlength="2" data-ng-maxlength="5000" name="comment_description" class="form-control" rows="3" data-ng-model="comments.comment_description" required></textarea>
+                                            <div ng-messages="commentform.comment_description.$error" class="text-danger" data-ng-if=" submitted || commentform.comment_description.$touched">
+                                                <div data-ng-message="required">Comment is required.</div>
+                                                <div data-ng-message="minlength">Minimum 2 characters allowed</div>
+                                                <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary align-center" ng-disabled="commentform.$invalid">Comment</button>
+                                    </form>
+                                    <div id="autoscroll" class="timeline-centered" style="max-height: 300px;overflow: auto;">
+
+                                        <span data-ng-if=" userstory_detail.comments.length <= 0"><h4 style="margin-left:470px;"> No Comments Found</h4></span>
+
+                                        <article class="timeline-entry" data-ng-repeat="x in userstory_detail.comments">
+                                            <div class="timeline-entry-inner">
+                                                <div class="timeline-icon bg-success">
+                                                    <i class="entypo-feather"></i>
+                                                    <img src="{{(x.user_id.profile_pic == ''|| x.user_id.profile_pic == undefined) ? 'assets/img/default-user.png' : baseUrl+'attachment/admin/'+x.user_id.profile_pic}}" class="img-circle avatar img-responsive">
+                                                </div>
+                                                <div class="timeline-label">
+                                                    <h2><a href="javascript:void(0);">{{x.user_id.first_name| capitalize}}&nbsp;</a> <span>posted a status update</span><span class="pull-right"><i class="glyphicon glyphicon-time"></i>{{x.created_at| convert_date}}</span></h2>
+                                                    <p class="pre-text">{{x.comment}}</p>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <div class="col-lg-12" data-ng-if="loadmoreButton"  >
+                                            <button type="button" style="margin-left: 43%;" class="btn btn-primary" data-ng-click="loadMore();">Load More</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

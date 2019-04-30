@@ -1,0 +1,264 @@
+
+<!-- Main content -->
+<section class="container-fluid" id="mainContainerSection" data-ng-init="getProjects()">
+    <div class="page_title">
+        <h1>Projects</h1>
+        <!--            <div  class="pull-right btn btn-primary" data-ng-click="createRole()"><i class="fa fa-plus"></i>Add New Role</div>-->
+        <div  class="pull-right btn_dropdown">
+            <button type="button" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i>Add Project<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0);" data-ng-click="addProjectModal('quick');">Quick add</a></li>
+                <li><a href="javascript:void(0);" data-ng-click="addProjectModal('detailed');">Add project with
+                        details</a>
+                </li>
+            </ul>
+        </div> 
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form name="project_search_form" novalidate data-ng-init=" submitted = false"
+                          data-ng-submit=" project_search_form.$valid ? getProjects() : submitted = true">
+
+                        <div class="pull-left form-group  col-xs-12">
+                            <h4>Manage Projects {{total_records}}</h4>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6">
+                                    <div class="input-group pull-left">
+                                        <input type="text" class="  search-query form-control" placeholder="Search"  data-ng-model="project_search" name="project_search" data-ng-pattern="/^[a-zA-Z0-9 ]*$/" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-secondary" type="submit">
+                                                <span class=" glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4">
+                                    <div class="pull-left">
+                                        <button class="btn btn-secondary" type="button" data-ng-click="clearFilter()">Reset</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="pull-right">
+
+                                        <a title="Grid View" href="javascript:void(0);" data-ng-click="projectView('grid');">
+                                            <i class="fa fa fa-th fa-2x"></i>
+                                        </a>
+                                        &nbsp; &nbsp;
+                                        <a title="List View" href="javascript:void(0);" data-ng-click="projectView('list');">
+                                            <i class="fa fa-list fa-2x"></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-messages="project_search_form.project_search.$error" class="text-danger" role="alert" ng-if="submitted || project_search_form.project_search.$touched">
+                                <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <!--    data-ng-init=" getProjects(); "-->
+        <div class="gridview panel" data-ng-show="view == 'grid'">
+            <div class="panel_inner">
+
+                <div class="row">
+
+                    <div class="col-xs-12" data-ng-if=" project_data.length == 0">
+                        <div class="no_result_found">
+                            No result found matching your search criteria
+                        </div>
+                    </div>
+
+                    <div data-ng-show=" project_data.length > 0" data-ng-repeat=" project_detail in project_data track by $index"
+                         class="project_outer col-xs-12 col-md-6 col-sm-6 col-lg-4">
+                        <div class="project project-radius project-default">
+                            <div class="project-content">
+                                <h3 class="lead">
+
+                                    <span class="project_image" style="background:url('{{ (project_detail.logo != '' && project_detail.logo && project_detail.logo != undefined) ? baseUrl + 'attachment/admin/' + project_detail.logo.name : 'assets/img/default_project.png'}}')">
+                                    </span>
+                                    <a class="project-title" data-ui-sref="projectView({ id :  project_detail._id })"> {{
+                                                project_detail.title | capitalize}} </a>
+                                    <a class="edit_project" data-ui-sref="editProject({ id :  project_detail._id })"><i
+                                            class="fa fa-edit pull-right" title="Edit Project"></i></a>
+                                </h3>
+
+                                <div class="project_desciption">
+                                    {{ project_detail.description | capitalize }}
+                                </div>
+                                <div class="project_timeline">
+                                    <div class="col-md-5 col-xs-12 content-padding">Estimate: <strong>{{ (project_detail.estimate_hour
+                                                        && project_detail.estimate_hour != undefined) ? project_detail.estimate_hour + ' hr(s)' : '-'}} </strong>
+                                    </div>
+                                    <div class="col-md-7 col-xs-12 content-padding">Burned:  <strong>{{ (project_detail.burned_hours &&
+                                                        project_detail.burned_hours != undefined) ? project_detail.burned_hours + ' hr(s)' : '-'}}</strong>
+                                    </div>
+
+                                    <div class="col-md-5 col-xs-12 content-padding">Start Date: <strong>{{ (project_detail.start_date && project_detail.start_date != undefined) ? (project_detail.start_date * 1000 | dateformat) : ''}}</strong>
+                                    </div>
+                                    <div class="col-md-7  col-xs-12 content-padding">Expected Finish: <strong>{{ (project_detail.estimated_end_date && project_detail.estimated_end_date != undefined) ? (project_detail.estimated_end_date * 1000 | dateformat) : ''}}</strong>
+                                    </div>
+                                </div>
+
+                                <div class="project-inner-content">
+                                    <strong>Activities</strong> ({{project_detail.activities_totalcount}}) 
+                                    <div ng-if="project_detail.activities_totalcount != 0" class="progress">
+                                        <div ng-repeat="activity in project_detail.activies">
+                                            <div ng-if="activity.count > 0" data-uib-popover="{{activity.count}} {{activity.name}}" data-popover-trigger="'mouseenter'"
+                                                 class="progress-bar" ng-class="{'bg-success': activity._id == '58f9f85e19d64c0a3890cafd', 'bg-warning': activity._id == '58f9f82019d64c0a3890cafc', 'bg-danger': activity._id == '58f9ed7f40627c492c8689f7' }" role="progressbar" style="width: {{project_detail.activities_ratio * activity.count}}%"  aria-valuenow="{{(project_detail.activities_ratio * activity.count)}}" aria-valuemin="0" aria-valuemax="100">{{(project_detail.activities_ratio * activity.count|number:0)}} %
+                                            </div>
+                                        </div>
+                                        <!-- <div data-uib-popover="34 activities are in progress"
+                                             data-popover-trigger="'mouseenter'" class="progress-bar bg-warning"
+                                             role="progressbar" style="width: 34%" aria-valuenow="34" aria-valuemin="0"
+                                             aria-valuemax="100">34%
+                                        </div>
+                                        <div data-uib-popover="20 activities are pending" data-popover-trigger="'mouseenter'"
+                                             data-popover-placement="top-right" class="progress-bar bg-danger"
+                                             role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0"
+                                             aria-valuemax="100">20%
+                                        </div> -->
+                                    </div>
+                                    <div ng-if="project_detail.activities_totalcount == 0" class="progress">
+                                        <div data-uib-popover="No activity" data-popover-trigger="'mouseenter'"
+                                             class="progress-bar bg-noactivity" role="progressbar" style="width: 100%"
+                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="10">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-inner-content"><strong>Issues</strong> ({{project_detail.issue_totalcount}})
+                                    <div ng-if="project_detail.issue_totalcount > 0" class="progress" >
+                                        <div ng-repeat="issue in project_detail.issue" >
+                                            <div  ng-if="issue.count > 0" data-uib-popover="{{issue.count}} {{issue.name}}" data-popover-trigger="'mouseenter'"
+                                                  class="progress-bar" ng-class="{'bg-success': issue._id == '593539e13bc228b726ca67eb', 'bg-warning': issue._id == '5935380f3bc228b726ca67e3', 'bg-danger': issue._id == '593536663bc228b726ca67e0', 'bg-info': issue._id == '593539513bc228b726ca67e5' }" role="progressbar" style="width: {{project_detail.issue_ratio * issue.count}}%"
+                                                  aria-valuenow="{{project_detail.issue_ratio * issue.count}}" aria-valuemin="0" aria-valuemax="100">{{project_detail.issue_ratio * issue.count|number:0}} %
+                                            </div>
+                                        </div>
+                                        <!--  <div data-uib-popover="24 activities are in progress"
+                                              data-popover-trigger="'mouseenter'" class="progress-bar bg-warning"
+                                              role="progressbar" style="width: 24%" aria-valuenow="24" aria-valuemin="0"
+                                              aria-valuemax="100">24%
+                                         </div>
+                                         <div data-uib-popover="20 activities are pending" data-popover-trigger="'mouseenter'"
+                                              data-popover-placement="top-right" class="progress-bar bg-danger"
+                                              role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0"
+                                              aria-valuemax="100">20%
+                                         </div> -->
+                                    </div>
+                                    <div ng-if="project_detail.issue_totalcount == 0" class="progress">
+                                        <div data-uib-popover="No issue" data-popover-trigger="'mouseenter'"
+                                             class="progress-bar bg-noactivity" role="progressbar" style="width: 100%"
+                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="10">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-inner-content"><strong>User Stories</strong>({{project_detail.userStroies_totalcount}})
+                                    <div ng-if="project_detail.userStroies_totalcount > 0" class="progress" >
+                                        <div ng-repeat="userstory in project_detail.userStroies">
+                                            <div ng-if="userstory.count > 0" data-uib-popover="{{userstory.count}} {{userstory.name}}" data-popover-trigger="'mouseenter'" class="progress-bar" ng-class="{'bg-success': userstory._id == '59394a768fb742d92ca63e2b', 'bg-info': userstory._id == '590876e3bc5624447505163c', 'bg-warning': userstory._id == '590876bebc5624447505163a', 'bg-danger': userstory._id == '5908769bbc56244475051636' }" role="progressbar" style="width: {{project_detail.userStroies_ratio * userstory.count}}%"
+                                                 aria-valuenow="{{project_detail.userStroies_ratio * userstory.count}}" aria-valuemin="0" aria-valuemax="100">{{project_detail.userStroies_ratio * userstory.count|number:0}} %
+                                            </div>
+                                        </div>
+                                        <!-- <div data-uib-popover="80 activities completed" data-popover-trigger="'mouseenter'"
+                                             class="progress-bar bg-success" role="progressbar" style="width: 80%"
+                                             aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80%
+                                        </div> -->
+                                        <!-- <div data-uib-popover="10 activities are in progress"
+                                             data-popover-trigger="'mouseenter'" data-popover-placement="top-right"
+                                             class="progress-bar bg-warning" role="progressbar" style="width: 10%"
+                                             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">10%
+                                        </div>
+                                        <div data-uib-popover="10 activities are pending" data-popover-trigger="'mouseenter'"
+                                             data-popover-placement="top-right" class="progress-bar bg-danger"
+                                             role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0"
+                                             aria-valuemax="100">10%
+                                        </div> -->
+                                    </div>
+                                    <div ng-if="project_detail.userStroies_totalcount == 0" class="progress">
+                                        <div data-uib-popover="No userstory" data-popover-trigger="'mouseenter'"
+                                             class="progress-bar bg-noactivity" role="progressbar" style="width: 100%"
+                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="10">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-ng-show="  project_detail.phases_of_project.length > 0" class="project-inner-content project_phase"><strong>Phase</strong>
+                                    <uib-accordion class='ng_accordion' close-others="oneAtATime">
+                                        <div data-ng-repeat=" phase_detail in  project_detail.phases_of_project"  uib-accordion-group class="panel-default col-lg-12" data-ng-click="openTabs()">
+                                            <uib-accordion-heading>
+                                                {{ phase_detail.phase_name | capitalize }}
+                                            </uib-accordion-heading>
+                                            <div class="col-xs-12">
+                                                <span>Started: <strong>{{ (phase_detail.start_date && phase_detail.start_date != undefined) ? (phase_detail.start_date * 1000 | dateformat) : '';}}</strong> </span>
+                                                <br>
+                                                <span>Expected End: <strong>{{ (phase_detail.end_date && phase_detail.end_date != undefined) ? (phase_detail.end_date * 1000 | dateformat) : '';}}</strong> </span>
+                                                <br>
+                                            </div>
+                                        </div>
+
+                                    </uib-accordion>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   <!-- /.row -->
+
+        <div class="panel gridview" data-ng-show="view == 'list'">
+            <div class="panel_inner">
+                <div class="panel-heading" style="color: #31708f;background-color: #d9edf7;border-color: #bce8f1;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>Projects</h4>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="table table-striped table-bordered " cellspacing="0 " width="100% ">
+                        <thead class="thead-inverse ">
+                            <tr>                                
+                                <th>Project Name</th>
+                                <th>Estimated Hours</th>
+                                <th>Burned Hours</th>
+                                <th>Start Date</th>
+                                <th>Expected Finish</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-show=" project_data.length > 0" data-ng-repeat=" project_detail in project_data track by $index">                                
+                                <td><a class="project-title" data-ui-sref="projectView({ id :  project_detail._id })"> {{
+                                    project_detail.title | capitalize}} </a></td>
+                                <td>{{ (project_detail.estimate_hour && project_detail.estimate_hour != undefined) ? project_detail.estimate_hour + ' hr(s)' : '-'}} </td>
+                                <td>{{ (project_detail.burned_hours && project_detail.burned_hours != undefined) ? project_detail.burned_hours + ' hr(s)' : '-'}}</td>
+                                <td>{{ (project_detail.start_date && project_detail.start_date != undefined) ? (project_detail.start_date * 1000 | dateformat) : '-'}}</td>
+                                <td>{{ (project_detail.estimated_end_date && project_detail.estimated_end_date != undefined) ? (project_detail.estimated_end_date * 1000 | dateformat) : '-'}}</td>
+                                <td><a data-ui-sref="editProject({ id :  project_detail._id })"><i class="fa fa-edit" title="Edit Project"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div data-ng-show="project_data.length == 0">
+                        No records.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="pull-right" aria-label="Page navigation" data-ng-show="  project_data.length > 0">
+            <ul class="pagination" uib-pagination items-per-page="project_limit" total-items="total_records" data-ng-model="currentPage"
+                boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getProjects()"></ul>
+        </nav>
+    </div>
+</section><!-- /.content -->

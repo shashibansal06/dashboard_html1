@@ -1,0 +1,111 @@
+<section data-ng-init="releaseBuild()" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="page_title margin-top-2x">
+                        <h1>Create build</h1>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive span12 ">
+                    <form data-ng-init=" build_submitted = false;
+                            userstoryUnselected = false;" class="form-horizontal release-new-form" name="build_form" data-ng-submit=" build_form.$valid ? createBuild() : build_submitted = true " novalidate>
+
+                        <fieldset>
+                            <!-- Form Name -->
+                            <!--legend>Create build</legend-->
+                            <!-- Select Basic -->
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="control-label">Sprint <sup class="sup_star">*</sup> :</label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <select required data-ng-change="getUserStoriesOfSprint();" name="sprint_id" data-ng-model="payload.sprint_id" class="form-control" >
+                                        <option value="">Select Sprint</option>
+                                        <option value="{{ sprint._id}}" data-ng-repeat=" sprint in sprint_data">{{sprint.sprint_name}}</option>
+                                    </select>
+
+                                    <div data-ng-messages="build_form.sprint_id.$error" class="text-danger error-message" data-ng-if=" build_submitted || build_form.sprint_id.$touched">
+                                        <div data-ng-message="required">Please select sprint</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Text input-->
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="control-label margin-bottom-2x">Release Notes <sup class="sup_star">*</sup> :</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <textarea required name="release_notes" data-ng-model="payload.release_notes" class="form-control" placeholder="Enter Release Notes" rows="5">
+                                    </textarea>
+                                    <div data-ng-messages="build_form.release_notes.$error" class="text-danger error-message" data-ng-if=" build_submitted || build_form.release_notes.$touched">
+                                        <div data-ng-message="required">Please enter release notes</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-ng-show="partial_build_count">
+                                <div class="col-md-12">
+                                    <label class="control-label">Build Number - {{ partial_build_count}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="control-label">User Stories <sup class="sup_star" ng-if="user_stories.length > 0">*</sup></label>
+                                    <!--                                                {{userstoryUnselected}} and {{ckeckList.length}} and {{build_submitted}}-->
+                                </div>
+                                <div class="col-md-12">
+
+                                    <table class="table table-striped table-bordered menu" cellspacing="0 " width="100%">
+                                        <thead class="thead-inverse ">
+                                            <tr>
+                                                <th><input data-ng-click='checkListAll()' data-ng-model='main_checklist' data-ng-show=" user_story_total > 0" type="checkbox" name="user_story" /></th>
+                                                <th>US</th>
+                                                <th>Mosocow Principle</th>
+                                                <th>Completed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="accordion">
+                                            <tr  data-ng-show=" !user_story_total || user_story_total == 0">
+                                                <td colspan="4" class="align-center">No user stories found</td>
+                                            </tr>
+                                            <tr data-ng-show=" user_story_total > 0" data-ng-repeat=" user_story_detail in user_stories track by $index" class="accordion-group">
+                                                <td>
+                                                    <input name="user_story" data-ng-change="clearError()" data-ng-model="user_stories[$index].user_story_id.selected" data-ng-true-value="1" data-ng-false-value="0" type="checkbox" ng-click="checkSelected($event, user_stories[$index])" />
+                                                </td>
+                                                <td>{{ user_stories[$index].user_story_id.name | capitalize_filter }}</td>
+                                                <td>{{ user_stories[$index].status.name | capitalize_filter}}</td>
+                                                <td>
+                                                    <select class="form-control" data-ng-model="user_stories[$index].development_status" data-ng-init=" user_stories[$index].development_status = user_story_status[0]._id">
+                                                        <option value="{{ status._id}}" data-ng-repeat="status in user_story_status">{{ status.name}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="text-danger error-message" data-ng-if="ckeckList.length == 0 && (build_submitted || userstoryUnselected)">
+                                        <div>Please select atleast one user story.</div>
+                                    </div>
+                                    <!--  <div data-ng-show="( selected_userstory_error && user_story_total > 0 )" class="text-danger" data-ng-if=" build_submitted ">
+                                      <div>Please select at least one user-story</div>
+                                     </div> -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <button data-ui-sref="main.releases.manageRealeses" type="button" class="btn btn-primary btn-info-full next-step ">Go Back</button>
+                                    <button type="submit" class="btn btn-primary btn-info-full next-step pull-right">Release Build</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

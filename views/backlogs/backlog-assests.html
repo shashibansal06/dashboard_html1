@@ -1,0 +1,50 @@
+<div class="tab-container" data-ng-init="getAttachments('all');">
+    <div class="row">
+        <div class="col-lg-12">
+            <span><b>Show files Sorted by</b>&nbsp;
+                <span  style="cursor: pointer;">
+                    <b>Newest</b></span>
+                <a data-ng-click="attachmentSort('name', attachment_sort_by.name.order == 'asc' ? 'desc' : 'asc')" data-ng-class="{ 'text-danger' : attachment_sort_by.name.isCurrentSort == true }" href="javascript:void(0);">
+                    <i data-ng-class="{ 'fa fa-sort-amount-desc' : attachment_sort_by.name.order == 'desc' , 'fa fa-sort-amount-asc' : attachment_sort_by.name.order == 'asc' }"  aria-hidden="true"></i>
+                </a>&nbsp;<b>and Filter By:</b>
+            </span>            
+        </div>
+        <div class="col-lg-12 pull-left margin-top-4x margin-bottom-6x">
+            <form name="search_assets" data-ng-submit=" search_assets.$valid ? getAttachments('search') : '' ">
+                <div class="col-md-6">                    
+                    <input  type="text" name="backlog_assets_search" data-ng-model="search" class="form-control" placeholder="Search..." data-ng-pattern="/^[a-zA-Z0-9 ]*$/">  
+                    <div ng-messages="search_assets.backlog_assets_search.$error" class="text-danger" role="alert" ng-if="submitted || search_assets.backlog_assets_search.$touched">
+                            <div ng-message="pattern">Only alphanumeric are allowed.</div>                    
+                        </div>                  
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary reset-btn" type="submit">Search</button>
+                    <button class="btn btn-secondary reset-btn" type="button" data-ng-click="clearFilter()">Reset</button>
+                </div>                
+            </form>      
+          
+            </div>
+        </div>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 assets-wrap col-padding" ng-repeat="attachments in assets">
+                    <div class="assets-img margin-bottom-1x">
+                <a title="{{attachments.original_name}}" href="javascript:void(0) " data-ng-click="attachmentModal(attachments)">
+                            <img class="thumbnail img-responsive"
+                                 src="{{ (attachments.extension != 'gif' && attachments.extension != 'png' && attachments.extension != 'jpeg' && attachments.extension != 'jpg') ? 'assets/img/doc-512.png' :  baseUrl + 'attachment/admin/' + attachments.name}}">
+                </a>
+                    </div>    
+                <b><strong>{{attachments.original_name}}</strong></b><br/>
+                <small class="text-muted " style="text-transform: capitalize;">Added by {{attachments.uploaded_by.first_name + " " + attachments.uploaded_by.last_name}}   on {{attachments.created_at| convert_date}} </small>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <span ng-if="total_records == 0" class="text-danger"><h4><b>No Record(s) Found</b></h4></span>
+    <nav class="pull-right" aria-label="Page navigation">
+        <ul class="pagination" uib-pagination total-items="total_records" ng-model="currentPage" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="getAttachments()"></ul>
+    </nav>
+</div>

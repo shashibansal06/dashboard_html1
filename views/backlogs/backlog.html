@@ -1,0 +1,32 @@
+
+<section class="container-fluid" id="mainContainerSection">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="xtraSpace bg-white padding-15x">
+
+                <!--ul class="list-group">
+                    <li class="list-group-item"> <a data-ui-sref="main.backlogs.backlogs_activity" href="javascript:void(0);">Activities</a> </li>
+                    <li class="list-group-item"> <a data-ui-sref="main.backlogs.backlogs_user_stories" href="javascript:void(0);">User Stories</a> </li>
+                    <li class="list-group-item"> <a data-ui-sref="main.backlogs.backlogs_assests" href="javascript:void(0);">Assets</a> </li>
+                    <li class="list-group-item"> <a data-ui-sref="main.backlogs.backlogs_issues" href="javascript:void(0);">Issues</a> </li>
+                </ul-->
+                <div id="tab" class="btn-group padding-15x" data-toggle="buttons-radio">
+                  <a data-ui-sref="main.backlogs.backlogs_activity" class="btn btn-large btn-primary" href="javascript:void(0);">Activities</a>
+                  <a data-ui-sref="main.backlogs.backlogs_user_stories" class="btn btn-large btn-primary"  href="javascript:void(0);">User Stories</a>
+                  <a data-ui-sref="main.backlogs.backlogs_assests" class="btn btn-large btn-primary" href="javascript:void(0);">Assets</a>
+                  <!--<a data-ui-sref="main.backlogs.backlogs_issues" class="btn btn-large btn-primary"  href="javascript:void(0);">Issues</a>-->
+                </div>
+
+                 <section data-ui-view="backlogView"></section>
+                <!--
+                 <div data-ng-show="currentActiveTab == 'activities' " data-ng-include="'views/backlogs/backlog-activities.html'"></div>
+                 <div data-ng-show="currentActiveTab == 'user-stories' " data-ng-include="'views/backlogs/backlog-user-stories.html'"></div>
+                 <div data-ng-show="currentActiveTab == 'assests' " data-ng-include="'views/backlogs/backlog-assests.html'"></div>
+                 <div data-ng-show="currentActiveTab == 'issues' " data-ng-include="'views/backlogs/backlog-issues.html'"></div>
+             -->
+            </div>
+        </div>
+    </div>
+</section>
+
+

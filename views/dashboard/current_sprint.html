@@ -1,0 +1,23 @@
+<div class="position_for_grid_content panel panel-warning" data-ng-init="getDashboardCurrentSprint()">
+    <div class="panel-heading">
+        <h3 class="panel-title">Current Sprint<!--<a data-ui-sref="allprojects">View all</a>-->
+            <span class="pull-right clickable" data-toggle="collapse" data-target="#projectsList" style="cursor:pointer">
+                <i class="fa fa-minus"></i>
+            </span>
+        </h3>
+    </div>
+    <div class="panel-body collapse in" id="projectsList">
+        <div class="panel_inner">
+            <span data-ng-if="length == 0">No current sprint found.</span>
+            <ul class="list-group" data-ng-if="length > 0">
+                <li class="list-group-item">#SP-{{dasboard_current_sprint.sprint_number}} {{dasboard_current_sprint.sprint_name| capitalize}} <span class="badge">{{dasboard_current_sprint.start_date| convert_dateformat}} - {{dasboard_current_sprint.end_date| convert_dateformat}}</span></li>
+                <li class="list-group-item">Current Delivery <span class="badge">{{dasboard_current_sprint.end_date| convert_dateformat}}</span></li>
+                <li class="list-group-item">Planned Hours <span class="badge">{{dasboard_current_sprint.planned_hours}} Hours</span></li>
+                <li class="list-group-item">Burned Hours <span class="badge">{{dasboard_current_sprint.burnedHour}} Hours</span></li>
+                <li class="list-group-item">Contingency <span class="badge">{{dasboard_current_sprint.contigency_hours}} %</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

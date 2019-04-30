@@ -1,0 +1,85 @@
+.user-profilebox{
+	@include pos(r, null);
+	width: 164px !important;
+	.user-prfl-img{
+	    @include square(164px); 
+	    overflow: hidden;
+	}
+	.upload-btn{
+		overflow: hidden;
+		@include pos(a, auto 2px -10px auto);  
+		background-color: $blue-color;
+		@include square(64px); 
+		@include radius(50%);
+		border:1px solid $color-f4;		
+		input{
+			@include height(64);
+			opacity: 0;
+			@include pos(r, null);
+			z-index: 9;
+			cursor: pointer;
+		}
+		span{
+			@include pos(a, 16px 0 auto auto); 
+			width: 100%;
+    		text-align: center;
+			@include font-size(21);
+		}
+	}
+}
+.profile-tab{
+	background-color: $white;
+	@include box-shadow(0, 0, 6px, rgba(0,0,0,0.1));
+	.tab-links{
+		
+		ul{
+			li{
+				display: inline-block;
+				vertical-align: top;
+				@include margin(-5 2 0 0);
+				@include min-width(175);
+				text-align: center;
+				a{
+					color:$color-88;
+					background-color: $color-e7;
+					@include font-size(14);					
+					@include padding(12 20);
+					font-weight: 300;
+					display: inline-block;
+					width:100%;
+					letter-spacing: 0.05em;
+					text-transform: uppercase;
+					&:hover, &.active{
+						background-color: $blue-color;
+						color: $white;
+					}
+				}
+			}
+		}				
+	}
+	.tab-content{
+		@include padding(30);
+		input{
+			&.form-control{
+				@include radius(0);
+				border-bottom: 1px solid $color-d3;
+				border-top:0px none;
+				border-left:0px none;
+				border-right:0px none;
+				@include box-shadow(0, 0, 0px, rgba(0,0,0,0));
+				@include padding(15 0);
+				height:auto;
+				@include font-size(16);
+				font-weight: 300;
+				color: $blue-color;
+			}
+		}
+		.submit-btn{
+			@include margin-top(40);
+			.custom-btn{
+				@include margin(0);
+			}
+		}
+	}		
+}
+

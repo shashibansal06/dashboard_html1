@@ -1,0 +1,49 @@
+<div class="panel panel-default padding-15x" data-ng-init="getComments();">
+    <div class="page_title">
+        <h1><i class="fa fa-comments-o"></i> Comments</h1>
+    </div>
+
+    <div class="panel-body">
+        <div class="well" >
+
+            <form class="form-horizontal form-border margin-bottom-6x" name="commentform" data-ng-submit=" commentform.$valid ? commentPost() : submitted = true;" novalidate >
+
+                <div class="form-group">
+                    <label for="comment">Your Comment</label>
+                    <textarea  data-ng-minlength="2" data-ng-maxlength="5000" name="comment_description" class="form-control" rows="5" data-ng-model="comments.comment_description" required></textarea>
+                    <div ng-messages="commentform.comment_description.$error" class="text-danger" data-ng-if=" submitted || commentform.comment_description.$touched">
+                        <div data-ng-message="required">Comment is required.</div>
+                        <div data-ng-message="minlength">Minimum 2 characters allowed</div>
+                        <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary align-center margin-top-2x">Comment</button>
+            </form>
+            <div id="autoscroll" class="timeline-centered padding-15x" style="max-height: 600px;overflow: auto;">
+
+                <span data-ng-if=" comments.length <= 0"><h4 class="align-center"> No Comments Found</h4></span>
+
+                <article class="timeline-entry" data-ng-repeat="x in comments">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-success">
+                            <i class="entypo-feather"></i>
+                            <img height="50" width="50" ng-src="{{(x.user_id.profile_pic == ''|| x.user_id.profile_pic == undefined) ? 'assets/img/default-user.png' : baseUrl+'compressed/'+x.user_id.profile_pic}}" class="img-circle avatar img-responsive">
+
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="javascript:void(0);">{{x.user_id.first_name| capitalize}}&nbsp;</a> <span>posted a status update</span><span class="pull-right"><i class="glyphicon glyphicon-time"></i> {{ x.created_at | convert_date_ago }}</span></h2>
+                            <p class="pre-text firstCap">{{x.comment}}</p>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="col-lg-12 align-center margin-top-2x" data-ng-if="loadmoreButton"  >
+                    <button type="button" class="btn btn-primary" data-ng-click="loadMore();">Load More</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,127 @@
+<div header></div>
+<div notification></div>
+<section class="container-fluid" id="mainContainerSection" ng-init="fetchProfile();">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-md-2 personal-info">
+                <form data-ng-init=" submitted = false;" class="form-horizontal form-border" enctype="multipart/form-data" name="pic_profile" novalidate>
+                    <div class="form-group">
+
+                        <div class="align-center">
+                            <label class="control-label"></label>
+                            <img class="avatar img-circle" class="profile-pic" id="myimg" width="100" style="display:inline-block;position:relative;" src="{{(user.profile_pic == ''|| user.profile_pic == undefined) ? '../assets/img/default.png' : url}}">
+                            <div class="fileUpload margin-top-4x">
+                                <input class="file-upload upload" type="file" ngf-select ng-model="user.profile_pic" ng-change="uploadpic(user.profile_pic)" name="file" accept="image/*" ngf-max-size="5MB" ngf-model-invalid="errorFile">
+                                <i ng-show="pic_profile.file.$error.maxSize" style="color:#a94442;">File too large 
+                                    {{errorFile.size / 1000000|number:1}}MB: max 5MB</i>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <div class="col-md-10 personal-info">
+                <div class="page_title">
+                    <h1>Edit Profile</h1>
+                </div>
+                <div class="panel">
+                    <div class="panel-body">
+                        <form data-ng-init=" submitted = false;" class="form-horizontal form-border margin-top-6x margin-bottom-2x"  name="Admin_profile" data-ng-submit=" Admin_profile.$valid ? Adminprofile() : submitted = true " novalidate >
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Email:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control"  placeholder="E-mail" name="email" type="email" ng-model="user.email" id="email" autofocus="true" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">First Name <sup class="sup_star">*</sup>:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control curve capitalize" name="first_name" ng-model="user.first_name" required ng-pattern='/^[a-zA-Z ]*$/'>
+
+                                    <div ng-messages="Admin_profile.first_name.$error" class="text-danger" data-ng-if=" submitted || Admin_profile.first_name.$touched">
+                                        <div ng-message="required">First name is required.</div>
+                                    </div>
+                                    <div class="text-danger" ng-show="Admin_profile.first_name.$invalid && Admin_profile.first_name.$dirty && !Admin_profile.first_name.$error.required && Admin_profile.first_name.$error.pattern">Please enter valid first name</div>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Last Name:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control curve capitalize" name="last_name" ng-model="user.last_name" ng-pattern='/^[a-zA-Z ]*$/' >
+                                    <div class="text-danger" ng-show="Admin_profile.last_name.$invalid && Admin_profile.last_name.$dirty && !Admin_profile.last_name.$error.required && Admin_profile.last_name.$error.pattern">Please enter valid last name</div>
+                                    <!--<div ng-messages="Admin_profile.last_name.$error" class="text-danger" data-ng-if=" submitted || Admin_profile.last_name.$touched">
+                                        <div ng-message="required">Last name is required.</div>
+                                    </div>-->
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Git Username:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control"  placeholder="Git Username" name="git_user_name" type="text" ng-model="user.git_user_name" id="git_user_name" >
+
+                                    <!--<div ng-messages="Admin_profile.skype_id.$error" class="text-danger" data-ng-if=" submitted || Admin_profile.skype_id.$touched">
+                                        <div ng-message="required">Skype is required.</div>
+                                    </div>-->
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Department <sup class="sup_star">*</sup>:</label>
+                                <div class="col-lg-8">
+                                    <select required class="form-control" name="dept_id" ng-options="option.department_name | capitalize for option in departments track by option._id" ng-model="user.dept_id">
+                                        <option value="">Select Department</option>
+                                    </select>
+                                    <div ng-messages="Admin_profile.dept_id.$error" class="text-danger" data-ng-if=" submitted || Admin_profile.dept_id.$touched">
+                                        <div ng-message="required">Department is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Gender:</label>
+                                <div class="col-lg-8">
+                                    <select class="form-control" ng-model="user.gender"  name="gender">
+                                        <option value="">Select Gender</option>
+                                        <option value="female">Female</option>
+                                        <option value="male">Male</option>
+                                    </select>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Phone Number:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" type="text" data-ng-model="user.phone_number" name="phone_number" data-ng-pattern="/^[0-9]*$/" data-ng-minlength="10" data-ng-maxlength="10" >
+                                    <div ng-messages="Admin_profile.phone_number.$error" class="text-danger" role="alert" data-ng-if=" submitted || Admin_profile.phone_number.$touched">
+                                        <div ng-message="pattern">Please enter only numeric.</div>
+                                        <div ng-message="minlength">Mobile number must be 10 digits</div>
+                                        <div ng-message="maxlength">Mobile number must be 10 digits.</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                    <button class="btn btn-primary align-center"  type="submit"> Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

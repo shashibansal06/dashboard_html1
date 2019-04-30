@@ -1,0 +1,100 @@
+﻿<section class="container-fluid" id="mainContainerSection" data-ng-init="approveBuildDetail()">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="xtraSpace">
+                <div class="tab-container">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color: #31708f; background-color:#d9edf7; border-color: #bce8f1;">
+                                Build Acceptance
+                            </div>
+                            <div class="panel-body table-responsive span12">
+                                <form data-ng-init=" submitted = false;
+                                       " class="form-horizontal" name="form" data-ng-submit=" form.$valid ? acceptBuild() : submitted = true " novalidate>
+
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label class="control-label">User Stories</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered menu" cellspacing="0 " width="100%">
+                                                    <thead class="thead-inverse ">
+                                                        <tr>
+                                                            <th>US</th>
+                                                            <th>Mosocow Principle</th>
+                                                            <th>Development Status</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="accordion">
+                                                        <tr  data-ng-show=" build_detail.length == 0">
+                                                            <td colspan="3">No user stories found</td>
+                                                        </tr>
+                                                        <tr   class="accordion-group" data-ng-repeat=" detail in build_detail.user_stories_for_partial_builds">
+                                                            <td><a target="_blank" href="javascript:void(0);" data-ui-sref="main.userstory.section({ type: 'description', id : detail.user_story_id._id , pid : project_id })">{{ detail.user_story_id.name}}</a></td>
+                                                            <td>{{ detail.user_story_priority.name | capitalize_filter }}</td>
+                                                            <td>{{ detail.user_story_status.name | capitalize_filter }}</td>
+                                                            <td>
+                                                                Accept <input required type="radio" data-ng-model="build_detail.user_stories_for_partial_builds[$index].user_story_id.accepted_rejected_status" name="accepted_rejected_status_{{$index}}" data-ng-value="1">
+                                                                Reject <input required type="radio" data-ng-model="build_detail.user_stories_for_partial_builds[$index].user_story_id.accepted_rejected_status" name="accepted_rejected_status_{{$index}}"  data-ng-value="2">
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                                <div>
+                                                    <textarea data-ng-model="build_detail.user_stories_for_partial_builds.rejection_notes" required data-ng-minlength="2" data-ng-minlength="240" name="build_detail.user_stories_for_partial_builds." rows="7" style="width:100%" placeholder="Enter your acceptance notes "></textarea>
+                                                        <div data-ng-messages="build_detail.user_stories_for_partial_builds.rejection_notes.$error" class="text-danger" data-ng-if=" submitted || build_detail.user_stories_for_partial_builds.$touched ">
+                                                            <div data-ng-message="required">Acceptance note is required.</div>
+                                                            <div data-ng-message="maxlength">Max 240 characters allowed</div>
+                                                            <div data-ng-message="minlength">Min 2 characters required</div>
+                                                        </div>
+                                                </div>
+                                              
+                                                <div data-ng-show="!form.$valid" class="text-danger" data-ng-if=" submitted ">
+                                                    <div>Please select all acceptance status and enter acceptance notes</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <div class="col-md-12">
+                                                <button data-ui-sref="main.releases.manageRealeses" type="button" class="btn btn-primary btn-info-full next-step ">Go Back</button>
+                                                <button type="submit" class="btn btn-primary btn-info-full next-step pull-right">Approve Build</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    li.active a.ng-binding {
+        color: #000 !important;
+        text-decoration: none;
+    }
+
+    li a.ng-binding {
+        text-decoration: none;
+    }
+
+    .tab-container {
+        border-style: solid;
+        border-width: 0px 1px 1px 1px;
+        padding: 15px;
+        border-color: #eee;
+    }
+
+    .xtraSpace {
+        margin: 20px 20px;
+    }
+</style>

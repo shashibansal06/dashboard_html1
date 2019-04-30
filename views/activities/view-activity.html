@@ -1,0 +1,169 @@
+
+<!-- Main content -->
+
+<section class="container-fluid" id="mainContainerSection" data-ng-init="viewActivity();">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <a data-ng-click="postStatus('0');" ng-model="type" title="Log your efforts on activity" class="text-danger right-padding" href="javascript:void(0);"><i class="fa fa-clock-o fa-2x" aria-hidden="true"></i></a>
+                            <a data-ng-click="postStatus('1');" title="Log effort and assign to other" class="text-danger right-padding" href="javascript:void(0);"><i class="fa fa-comments-o fa-2x" aria-hidden="true"></i></a>
+                            <a data-ng-click="postStatus('2');" title="Post a comment" class="text-danger right-padding" href="javascript:void(0);"><i class="fa fa-book fa-2x" aria-hidden="true"></i></a>
+                            <a data-ng-click="postStatus('3');" title="Assign to other" class="text-danger right-padding" href="javascript:void(0);"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i></a>
+                        </div>
+                    </div>		
+                </div>	
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="title-activity text-danger"> <b><u> #ACT-{{activity_data.taskId}} - {{activity_data.name| capitalize}} </b></u> <!--<span class="pull-right">Estimated - {{activity_data.estimated_time}} Hours</span>--></p> 
+                        <p class="title-activity description-activity firstCap">{{activity_data.description}}</p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body table-responsive">
+                <div class="row">
+                    <div class="timeline-centered">
+
+                        <!--<article data-ng-if="activity_data.comments.length == 0">
+                            <div>No Record(s) Found.</div>
+                        </article>-->
+
+                        <article class="timeline-entry" data-ng-repeat="record in activity_data.comments">
+                            <div class="timeline-entry-inner">
+                                <div class="timeline-icon bg-success">
+                                    <img width="50" height="50" class="img-circle"  src="{{(record.comment_by_pic == ''|| record.comment_by_pic == undefined) ? 'assets/img/default.png' : url+record.comment_by_pic+'/50x50'}}">                                   
+                                </div>
+                                <div class="timeline-label">
+                                    <h2 class="pull-right">{{ record.comment_at | convert_date_ago }} </h2>
+                                    <h2><a href="javascript:void(0);" style="text-decoration: none;">{{record.title}}</a> &nbsp; &nbsp; &nbsp; <span>{{record.comment_by| capitalize}}</span> </h2>
+                                    <p class="firstCap">
+                                        {{record.description}}
+                                        <span class="pull-right"><b>Logged Effort - {{ record.logged_time}} Hours</b></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <nav class="pull-right" aria-label="Page navigation" data-ng-show="totalRecords_comment > 0">
+                            <ul class="pagination" uib-pagination total-items="totalRecords_comment" ng-model="currentPage" boundary-link-numbers="true" max-size="maxSize" rotate="false" data-ng-change="viewActivity()"></ul>
+                        </nav>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <form class="col-md-10" role="form" name="postComment" novalidate data-ng-init=" submitted = false"  data-ng-submit=" postComment.$valid ? addComment() : submitted = true" style="padding-left: 70px;" >                    
+                        <h4 style="font-family:Noto Sans,sans-serif; color:#a94442;font-weight: bold;">Post your status and effort log</h4>
+                        <hr>
+                        <div class="form-group">
+                            <label for="comment">Status or comment title <sup class="sup_star">*</sup></label>
+                            <textarea data-ng-model="effort.title" placeholder="Write few words related to your work status or comment ...." name="title" data-ng-maxlength="50" required class="form-control" rows="1"></textarea>
+                            <div data-ng-messages="postComment.title.$error" data-ng-if=" submitted || postComment.title.$touched" class="text-danger">
+                                <div data-ng-message="required">Title is required.</div>
+                                <div data-ng-message="maxlength">Maximum 50 character allowed.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="radio">
+                                <label><input type="radio" data-ng-model="effort.type" value='0' name="optradio" ng-required="!effort.type">Log effort</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" data-ng-model="effort.type" value='1' name="optradio" ng-required="!effort.type">Log effort and assign to other</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" data-ng-model="effort.type" value='2' name="optradio" ng-required="!effort.type">Post a comment</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" data-ng-model="effort.type" value='3' name="optradio" ng-required="!effort.type">Assign to other</label>
+                            </div>
+                            <div data-ng-messages="postComment.optradio.$error" data-ng-if=" submitted || postComment.optradio.$touched" class="text-danger">
+                                <div data-ng-message="required">Please select status type</div>
+                            </div>
+                        </div>
+
+
+                        <div data-ng-show="effort.type == 0 || effort.type == 1 || effort.type == 2 || effort.type == 3">
+                            <div class="form-group">
+                                <label for="comment">Comment <sup class="sup_star">*</sup></label>
+                                <textarea placeholder="Any comment... " data-ng-model="effort.comment" name="comment" class="form-control" rows="4" rows="4" data-ng-maxlength="500" data-ng-required="effort.type == 0 || effort.type == 1 || effort.type == 2 || effort.type == 3"></textarea>
+                                <div data-ng-messages="postComment.comment.$error" data-ng-if=" submitted || postComment.comment.$touched" class="text-danger">
+                                    <div data-ng-message="required">Comment is required.</div>
+                                    <div data-ng-message="maxlength">Comment should not be greater than 500 characters</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-show="effort.type == 0 || effort.type == 1">
+                            <div class="form-group">
+                                <label for="comment">Log Efforts <sup class="sup_star">*</sup></label>
+
+                                <div class="input-group">
+                                    <input mask="99:99" class="form-control" data-ng-model="ctrl.timepicker" name="logged_hours" placeholder="00:00" data-ng-required="effort.type == 0 || effort.type == 1">
+                                </div>
+
+                                <!--<input class="form-control" type="text" data-ng-model="effort.logged_hours" name="logged_hours" placeholder="0" data-ng-pattern="/^[0-9]*$/" required/>-->
+                                <div data-ng-messages="postComment.logged_hours.$error" data-ng-if=" submitted || postComment.logged_hours.$touched" class="text-danger">
+                                    <div data-ng-message="required">Effort hours is required.</div>    
+                                    <div data-ng-message="mask">Valid format HH:MM (00:00).</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-show="effort.type == 1 || effort.type == 3" >
+                            <div class ="form-group">
+                                <label for="comment">Assign to <sup class="sup_star">*</sup></label>
+
+                                <select class="form-control"  ng-options="(option.first_name | capitalize) + ' ' + ' ('+option.email+')' disable when option.status != 1 for option in activity_project_assignees track by option._id" ng-model="effort.assigne_id" name="assigne" data-ng-required="effort.type == 1 || effort.type == 3">
+                                    <option value="">Select Assignee</option>
+                                </select>
+                                <div data-ng-messages="postComment.assigne.$error" data-ng-if=" submitted || postComment.assigne.$touched" class="text-danger">
+                                    <div data-ng-message="required">Assignee is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-show="effort.type == 0 || effort.type == 1 || effort.type == 3">
+                            <div class ="form-group">
+                                <label for="comment">Status <sup class="sup_star">*</sup></label>
+
+                                <select class="form-control" ng-options="(option.name | capitalize) disable when option.name == 'New' for option in activity_status track by option._id" style="text-transform: capitalize" ng-model="effort.status" name="status" data-ng-required="effort.type == 0 || effort.type == 1 || effort.type == 3">
+                                    <option value="">Select Status</option>
+                                </select>
+                                <div data-ng-messages="postComment.status.$error" data-ng-if=" submitted || postComment.status.$touched" class="text-danger">
+                                    <div data-ng-message="required">Status is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-show="effort.type == 0 || effort.type == 1">
+                            <div class="form-group">
+                                <label for="comment">Log Date<sup class="sup_star">*</sup></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="log_date" data-ng-click="open1()" uib-datepicker-popup data-ng-model="effort.log_date" is-open="popup1.opened" datepicker-options="dateOptions" data-ng-required="effort.type == 0 || effort.type == 1" close-text="Close" readonly/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" data-ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <div data-ng-messages="postComment.log_date.$error" data-ng-if=" submitted || postComment.log_date.$touched" class="text-danger">
+                                    <div data-ng-message="required">Log effort date is required.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success pull-right">Post Your Status</button>
+                    </form>
+                </div>               
+            </div>
+
+
+        </div>	
+    </div>		
+</div>   <!-- /.row -->
+
+</section><!-- /.content -->
+

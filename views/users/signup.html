@@ -1,0 +1,44 @@
+<section class="container-fluid" id="mainContainerSection" data-ng-init="checkUserToken(1); submitted = false ">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 >Signup Process</h1>
+            <hr>
+            <div class="col-md-9 personal-info">
+
+                <form role="form" name="user_form" novalidate   data-ng-submit=" user_form.$valid ? signup() : submitted = true " >
+
+                    <div class="form-group">
+                        <label class="control-label">Password<sup class="sup_star">*</sup>:</label>
+                        <input data-ng-model="user.password" data-ng-pattern="/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/?]{6,}$/" data-ng-minlength="6" data-ng-maxlength="30" name="password" type="password" class="form-control" id="password" placeholder="Password" required>
+                        <div data-ng-messages="user_form.password.$error" class="text-danger" role="alert" data-ng-if="submitted || user_form.password.$touched">
+                            <div data-ng-message="required">Password is required.</div>
+                            <div data-ng-message="pattern">Password must contain minimum 6 char and should be alphanumeric</div>
+                            <div data-ng-message="minlength">Your password is too short.</div>
+                            <div data-ng-message="maxlength">Your password is too long.</div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Confirm Password<sup class="sup_star">*</sup>:</label>
+                        <input data-ng-model="user.cpassword" name="cpassword" id="cpassword" type="password"  class="form-control" placeholder="Confirm Password" pw-check="password" required>
+                        <div ng-show="user_form.cpassword.$error.pwmatch" class="text-danger">Passwords don't match.</div>
+                    </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-8">
+                                <input type="submit" class="btn btn-primary" value="Save Changes">
+                            </div>
+                        </div>
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+

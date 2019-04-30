@@ -1,0 +1,24 @@
+<div class="position_for_grid_content panel panel-warning" data-ng-init="getDashbaordTasks();">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tasks
+            <a data-ui-sref="tasks">View all</a>
+            <span class="pull-right clickable" data-toggle="collapse" data-target="#tasks">
+                <i class="fa fa-minus"></i>
+            </span></h3>
+    </div>
+
+    <div class="panel-body  collapse in" id="tasks">
+        <div class="panel_inner">
+            <span ng-if="dasboard_tasks.length <= 0"> No tasks found.</span>
+            <ul class="list-group task-list">                
+                <li class="list-group-item" data-ng-repeat="tasks in dasboard_tasks">
+                    <span data-ng-class="{'label label-primary  pull-right' : tasks.status.name == 'New','label label-warning  pull-right' : tasks.status.name == 'In-progress','label label-success  pull-right' : tasks.status.name == 'Completed'}">{{tasks.status.name| capitalize}}</span>
+                    <a  target="_blank" data-ui-sref="main.task.section({ type: 'detail', id : tasks._id, pid: project_id})"  >#TK-{{tasks.taskId}} {{tasks.name| capitalize}}</a> <b>({{tasks.created_by.first_name| capitalize}})</b>
+                    <br/>
+                    <small>{{tasks.description}}</small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,193 @@
+.ver_midle {
+	display: $inline;
+	vertical-align: middle;
+}	
+header{
+	@include padding(15 45);
+	background-color: $white;
+	@include pos(f, 0 0 auto auto);
+	z-index:8;
+	@include box-shadow(0px, 2px, 16px, rgba(0,0,0,0.2));
+	width:100%;
+	@media screen and (max-width:$desktop){
+		@include padding(10 25);
+	}
+	@media screen and (max-width:$h_tab){
+		@include padding(0);
+	}
+	.mobile-header{
+		background-color: $skycolor;
+		@include padding(10 20);
+		display: none;
+		@media screen and (max-width:$h_tab){
+			display: block;
+		}
+		.menu-icon{
+			@media screen and (max-width:$ptablet){
+				text-align: right;
+			}
+		}
+		.logo-mobile{
+			text-align: right;				
+			@media screen and (max-width:$ptablet){
+				text-align: left;
+			}	
+			a{
+				width:100px;		
+				display: inline-block;
+				img{
+					width: 55px;
+				}
+			}
+		}
+	}
+	.search-row{
+		 @media screen and (max-width:$h_tab){
+		 	padding: 5px 15px;
+		 }
+		.user-info{
+			h3{
+				@include margin(0 25 0 0);
+				@include font-size(24);
+		        color: $blue-color;
+		        display: inline-block;
+		        vertical-align: middle;
+		        font-weight:400;
+		        @media screen and (max-width:$desktop){
+					@include font-size(18);	        
+			    }
+			    @media screen and (max-width:$h_tab){
+					@include padding(0 10);
+					@include margin(0 10 0 0);
+				}
+			    @media screen and (max-width:$ptablet){
+					@include font-size(16);	 
+					@include padding(5 20);       
+			    }
+			}
+			.b_useru-img{
+				@include square(79px);
+				@include radius(50%);
+				overflow: hidden;
+				display: inline-block;
+		        vertical-align: middle;
+		        @media screen and (max-width:$h_tab){
+		        	@include square(50px);
+		        }
+			}
+		}
+		.search-top-btn{
+			border: solid 1px #E4E4E4;
+		    background-color:#bdc2ca;
+		    @include radius(5px);
+		    @include margin-top(18);
+		    overflow: hidden;
+		    @media screen and (max-width:$h_tab){
+		    	@include margin-top(5);
+		    }
+			input{
+			    border: 0;
+			    background-color:$color-f5;
+			    font-weight: 400;
+			    @include font-size(14);
+			    box-shadow: none;
+			    @include padding(10 25);
+			    height:auto;
+			    color:$blue-color;
+			      @include radius(0px);
+			}
+			button{
+			    margin:0 !important;
+			   box-shadow: none;
+			   background-color:#bdc2ca;
+			    border: 0;
+			     @include radius(0px);
+			    @include font-size(22);
+			    color:$white;
+			    float: right;
+			    @include padding(4 15);
+			   &:hover{
+				    border: 0;
+				    box-shadow: none;
+				    border-left: solid 1px #ccc;
+				}  
+			}
+		}
+	}		
+}
+
+
+
+.c-hamburger {   
+    @include border-radius(3px);
+    @include pos(r,0px 0 0 0);  	
+  	@include padding(0); 
+  	@include margin(0); 
+ 	@include square(36px);
+ 	font-size: 0;
+ 	z-index: 9;
+ 	overflow: hidden;
+  	text-indent: -9999px;
+  	appearance: none;
+  	@include box-shadow(0,0,0,$transparent);
+ 	border:0px none;
+  	cursor: pointer;
+  	background: $transparent;
+  	@media screen and (max-width:$ptablet){
+  		display: inline-block;
+  	}
+	&:focus {
+		outline: none;
+	}
+	span {		  	
+	  	@include pos(a, 16px 4px auto 4px);
+	  	display: block;
+	 	height: 4px;
+	  	background: $white;
+	  	&:before , &:after{
+	  		display: block;			 	
+		 	@include pos(a, auto auto auto 0px);
+			width:100%;
+		 	@include  height(4);
+		  	background-color:$white;
+		  	content: "";
+	  	}
+	  	&:before{
+	  		top: -10px;
+	  	}
+	  	&:after{
+	  		bottom: -10px;
+	  	}
+	}
+	&.c-hamburger--htx{
+		span{
+			transition: background 0s 0.3s;
+			&:before , &:after{
+				transition-duration: 0.3s, 0.3s;
+				transition-delay: 0.3s, 0s;
+			}
+			&:before{
+		  		transition-property: top, transform;
+		  	}
+		  	&:after{
+		  	  	transition-property: bottom, transform;
+		  	}
+		}
+	}
+	&.is-active{
+		span{
+			background: none;
+			&:before , &:after{
+				transition-delay: 0s, 0.3s;
+			}
+			&:before{
+		  		top: 0;
+					@include rotate(45deg);
+		  	}
+		  	&:after{
+		 		bottom: 0;
+					@include rotate(-45deg);
+		  	}
+		}
+	}
+}

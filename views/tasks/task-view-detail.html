@@ -1,0 +1,43 @@
+<div class="panel panel-default padding-15x" data-ng-init="getDetails()">
+	<div class="panel-body">
+		<div class="page_title">
+		 <h1><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Description</h1>
+		</div> 
+	</div> 
+
+  <form class="form-horizontal" name="usform" novalidate data-ng-init=" submitted = false" data-ng-submit=" usform.$valid ? updateTask() : submitted = true ">
+      <div class="form-group">
+       <label class="control-label col-sm-2" for="email" >Title<sup class="sup_star">*</sup> </label>
+        <div class="col-sm-9">
+            <input class="form-control capitalize" name="name" type="text" placeholder="Task title" data-ng-minlength="10" data-ng-maxlength="150"  data-ng-model="task.name" required/>
+            <div data-ng-messages="usform.name.$error" class="text-danger" data-ng-if=" submitted || usform.name.$touched">
+               <div data-ng-message="required">Name is required.</div>
+               <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+               <div data-ng-message="maxlength">Maximum 150 characters allowed</div>
+             </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+       <label class="control-label col-sm-2" for="email" >Description</label>
+        <div class="col-sm-9">
+            <textarea placeholder="Task description" class="form-control" rows="8" name="description" data-ng-minlength="10" data-ng-maxlength="5000" data-ng-model="task.description"></textarea>
+            <div data-ng-messages="usform.description.$error" class="text-danger" data-ng-if=" submitted || usform.name.$touched">
+               <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+               <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+             </div>
+        </div>
+      </div>
+                                
+                                
+      <div class="form-group">
+         <label class="control-label col-sm-2"></label>
+       <div class="col-sm-9">
+           <button type="submit" class="btn btn-primary">Save</button>
+       </div>
+     </div>
+   </form>   
+    
+</div>
+
+

@@ -1,0 +1,116 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--- USER STORY ADD STEP ONE STARTS HERE -->
+
+            <form data-ng-show="type == 1" role="form" name="addUsStepOne" novalidate data-ng-submit=" addUsStepOne.$valid ? quickAddUs(1) : submitted = true" >
+                <div class="modal-header popup-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center">Add User Story</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="control-label">Name<sup class="sup_star">*</sup>:</label>
+                        <textarea  data-ng-model="userStoryData.name"  name="name" id="name" class="form-control" rows="2" cols="50" placeholder="User story name" data-ng-minlength="10" data-ng-maxlength="150" required autofocus="true"></textarea>
+                        <div data-ng-messages="addUsStepOne.name.$error" data-ng-if=" submitted || addUsStepOne.name.$touched" class="text-danger">
+                            <div data-ng-message="required">User story name is required</div>
+                            <div data-ng-message="minlength">Minimum 10 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 150 characters allowed</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Screen image:</label>
+                        <input class="form-control upload-csv" ngf-max-size="5MB" ngf-select type="file" data-ng-model="userStoryData.image" name="attachment" ngf-model-invalid="errorMeetingFile"
+                               ngf-pattern="'.jpg,.png,.jpeg'" ng-required>
+
+                        <span data-ng-show="(userStoryData.screen_image[0].name && userStoryData.screen_image[0].name != undefined)"><img style="height:100px;width:100px" ng-src="{{ baseUrl + 'attachment/admin/' + userStoryData.screen_image[0].name}}" class="img-responsive"></span>
+                        <div data-ng-show=" (errorMeetingFile.$error && errorMeetingFile.$error == 'pattern')"  class="text-danger">Images (.jpg, .jpeg, .png) allowed</div>
+                        <div data-ng-show=" (errorMeetingFile.$error && errorMeetingFile.$error == 'maxSize')"  class="text-danger">File(s) too large max 5mb allowed</div>
+                    </div>
+
+                    <sub>
+                        (extension can be .png, .jpg, .jpeg)
+                    </sub>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button  type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+
+            
+            <form data-ng-show="type == 2" role="form" name="addUsStepTwo" novalidate data-ng-submit=" addUsStepTwo.$valid ? quickAddUs(2) : submitted = true " >
+                <div class="modal-header popup-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center">Add User story</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="control-label">Role<sup class="sup_star">*</sup>:</label>
+                        <input  data-ng-minlength="2" data-ng-maxlength="50" data-ng-model="userStoryData.user_story_details.role"  name="role" type="text" id="role" class="form-control" rows="2" cols="50" placeholder="User story Role" ></input>
+                        <div data-ng-messages="addUsStepTwo.role.$error" data-ng-if=" submitted || addUsStepTwo.role.$touched" class="text-danger">
+                            <div data-ng-message="required">User story role is required</div>
+                            <div data-ng-message="minlength">Minimum 2 characters allowed</div>
+                            <div data-ng-message="maxlength">Maximum 50 characters allowed</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Feature<sup class="sup_star">*</sup>:</label>
+                        <textarea   data-ng-maxlength="5000" data-ng-model="userStoryData.user_story_details.feature"  name="feature" id="feature" class="form-control" rows="2" cols="50" placeholder="User story feature" ></textarea>
+                        <div data-ng-messages="addUsStepTwo.feature.$error" data-ng-if=" submitted || addUsStepTwo.feature.$touched" class="text-danger">
+                            <div data-ng-message="required">User story feature is required</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Context<sup class="sup_star">*</sup>:</label>
+                        <textarea  data-ng-maxlength="5000" data-ng-model="userStoryData.user_story_details.context"  name="context" id="context" class="form-control" rows="2" cols="50" placeholder="User story context" ></textarea>
+                        <div data-ng-messages="addUsStepTwo.context.$error" data-ng-if=" submitted || addUsStepTwo.context.$touched" class="text-danger">
+                            <div data-ng-message="required">User story context is required</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="control-label">Event<sup class="sup_star">*</sup>:</label>
+                        <textarea  data-ng-maxlength="5000" data-ng-model="userStoryData.user_story_details.event"  name="event" id="event" class="form-control" rows="2" cols="50" placeholder="User story event" ></textarea>
+                        <div data-ng-messages="addUsStepTwo.event.$error" data-ng-if=" submitted || addUsStepTwo.event.$touched" class="text-danger">
+                            <div data-ng-message="required">User story event is required</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Outcome<sup class="sup_star">*</sup>:</label>
+                        <textarea froala data-ng-maxlength="5000" data-ng-model="userStoryData.user_story_details.outcome"  name="outcome" id="outcome" class="form-control" rows="2" cols="50" placeholder="User story outcome" ></textarea>
+                        <!--<textarea data-ng-maxlength="5000" data-ng-model="us.outcome"  name="outcome" id="outcome" class="form-control" rows="2" cols="50" placeholder="User story outcome" required></textarea>-->
+                        <div data-ng-messages="addUsStepTwo.outcome.$error" data-ng-if=" submitted || addUsStepTwo.outcome.$touched" class="text-danger">
+                            <div data-ng-message="required">User story outcome is required</div>
+                            <div data-ng-message="maxlength">Maximum 5000 characters allowed</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button  type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+            <!--- USER STORY ADD STEP TWO STARTS HERE -->
+
+        </div>
+    </div>
+</div>
+

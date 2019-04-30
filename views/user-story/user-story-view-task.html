@@ -1,0 +1,63 @@
+<!-- 
+// @file task-view-history.html
+// @description - history of issues 
+// @author prabhjot_kaur
+// @date  15 June 2017
+-->  
+<div class="row">
+    <div class="col-xs-12">  
+        <div class="xtraSpace">
+            <div class="tab-container">
+                <div class="col-md-12"> 
+                    <div class="panel panel-default padding-15x" data-ng-init="getSprintdata()">
+                        <div class="pull-right">
+                            <select class="form-control capitalize"  data-ng-change="viewTask();" data-ng-model="sprint_id" data-ng-options="option.sprint_name | capitalize for option in sprint_data track by option._id" >                            
+                            </select>
+                        </div>
+                        <div class="page_title">
+                            <h1><i class="fa fa-tasks" aria-hidden="true"></i>  User Story Tasks {{totalUsTaskCount}}</h1>
+                        </div>    
+                        <div class="panel-body table-responsive">
+                            <table class="table table-striped table-bordered " cellspacing="0 " width="100% ">
+                                <thead class="thead-inverse ">
+                                    <tr>
+                                        <th>Task Id</th>                                            
+                                        <th>Task Name</th>
+                                        <th>Created By</th>
+                                        <th>Effort Estimated</th>
+                                        <th>Effort Logged</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Updated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat=" us_task in user_story_data_tasks track by $index " data-ng-show=" totalUsTaskCount > 0 ">
+                                        <td data-ng-bind="'TK-' + us_task.taskId"></td>
+                                        <td data-ng-bind="us_task.name | capitalize_filter" class="firstCap"></td>
+                                        <td>{{us_task.created_by.first_name| capitalize }} {{(us_task.created_by.last_name && us_task.created_by.last_name != null)? us_task.created_by.last_name:''}}</td>
+                                        <td data-ng-bind="us_task.estimated_hours"></td>
+                                        <td data-ng-bind="us_task.totalEfforts"></td>
+                                        <td data-ng-bind="us_task.status"></td>
+                                        <td data-ng-bind="us_task.created_at | convert_date"></td>
+                                        <td data-ng-bind="us_task.modified | convert_date"></td>
+                                    </tr> 
+                                    <tr data-ng-show="totalUsTaskCount == 0">
+                                        <td colspan="8" class="capitalize no-data">no task found</td>
+                                    </tr>                                               
+                                </tbody>
+                            </table>
+                        </div> 
+                    </div>
+                    <!-- <div ng-if="task_history.length>0"> -->
+                    <nav aria-label="Page navigation" class="pull-right">
+                        <ul class="pagination" uib-pagination total-items="totalUsTaskCount" data-ng-model="currentPageTask" boundary-link-numbers="true" max-size="5" rotate="false" data-ng-change="viewTask()">
+                        </ul>
+                    </nav><!-- </div> -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+    </div>
+</div>
+

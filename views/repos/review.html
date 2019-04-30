@@ -1,0 +1,102 @@
+<section class="container-fluid" id="mainContainerSection">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="xtraSpace">
+
+                <ul class="list-group">
+                    <li data-ui-sref-active="active" class="list-group-item"> <a class="text-color" data-ui-sref-opts="{reload: true}" data-ui-sref="main.review" href="javascript:void(0);">Reviewed</a> </li>
+                    <li data-ui-sref-active="active" class="list-group-item"> <a class="text-color" data-ui-sref-opts="{reload: true}" data-ui-sref="main.unreview" href="javascript:void(0);">Un-Reviewed</a> </li>
+                    <li data-ui-sref-active="active" class="list-group-item"> <a class="text-color" data-ui-sref-opts="{reload: true}" data-ui-sref="main.uncommit" href="javascript:void(0);">User Commits</a> </li>
+                </ul>
+
+
+                <div class="tab-container" data-ng-init="review();">
+                    <div class="panel i_backlog-acti panel-default">   
+                        <div class="panel-heading">        
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-md-3 form-group">
+                                        <select class="form-control"  ng-options="option for option in getRepos track by option" ng-model="repo_id" ng-change="review();">
+                                            <option value="">Select Repo</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <select class="form-control" ng-options="(option.first_name | capitalize) + ' ' + ' ('+option.email+')' disable when option.status != 1 for option in project_assignees track by option.email" ng-model="assigne_id" ng-change="review();">
+                                            <option value="">Select Assignee</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group" >
+                                        <button class="btn btn-primary" type="button" data-ng-click="clearFilter()">Reset</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body table-responsive">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="panel-body table-responsive">
+
+                                        <table class="table table-striped table-bordered">
+                                            <thead class="thead-inverse">
+                                                <tr>
+                                                    <th class="sorting">Commit Date </th>
+                                                    <th class="sorting" >Commited By </th>
+                                                    <th class="sorting" >Repository Name </th>
+                                                    <th class="sorting" >Commited Id</th>
+                                                    <th class="sorting">Comments </th>
+                                                    <th class="sorting" style=" min-width: 120px;">Reviews</th>
+                                                    <th class="sorting" >Status</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>                        
+                                                <tr data-ng-show="review_total_record > 0" data-ng-repeat="reviewData in review_repos">
+                                                    <td data-ng-bind="reviewData.commit_information.timestamp | iso_date_format"> </td>
+                                                    <td>{{(reviewData.committed_by.name| capitalize)}} <br/> ({{reviewData.committed_by.email}})</td>
+                                                    <td data-ng-bind="reviewData.repo_name"></td>
+                                                    <td><a href="{{reviewData.commit_information.url}}" target="_blank">{{reviewData.commit_information.id}}</a></td> 
+                                                    <td data-ng-bind="reviewData.commit_information.message | capitalize_filter" ></td>   
+                                                    <td class="td_aciton">
+                                                        <p><strong>Reviwed By :</strong> {{reviewData.reviewed_by.first_name| capitalize}}</p>
+                                                        <p><strong>Reviwed By Email :</strong> {{reviewData.reviewed_by.email}}</p>
+                                                        <p><strong>Reviwed Date :</strong> {{reviewData.reviewed_at| convert_dateformat}}</p>
+                                                        <p><strong>Comments :</strong> {{reviewData.comment| capitalize_filter }} </p>
+                                                        <p><strong>Lines of code :</strong> {{reviewData.total_number_of_lines}}</p>
+                                                    </td>
+                                                    <td>{{(reviewData.status && reviewData.status == 1) ? 'Accepted' : 'Rejected'}}</td>
+                                                </tr> 
+                                                <tr data-ng-show="review_total_record == 0"><td colspan="7" style="text-align: center">No Record(s) Found.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="pull-right" aria-label="Page navigation" data-ng-show="review_total_record > limit">
+                        <ul data-ng-show="review_total_record > limit" uib-pagination total-items="review_total_record" items-per-page="limit" data-ng-model="currentPage" class="pagination-sm pull-right" boundary-link-numbers="true" rotate="false" data-ng-change="review()"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    ul.list-group:after {
+        clear: both;
+        display: block;
+        content: "";
+    }
+
+    .list-group-item {
+        float: left;        
+    }
+    a.text-color {
+        color:black
+    }
+</style>

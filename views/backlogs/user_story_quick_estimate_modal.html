@@ -1,0 +1,55 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content modal-lg">
+
+            <!--- USER STORY ADD STEP ONE STARTS HERE -->
+            <form  role="form" name="quick_estimation_form" novalidate data-ng-init=" estimation_submitted = false"   data-ng-submit=" quick_estimation_form.$valid ? quickEstimation(2, false) : estimation_submitted = true" >
+                <div class="modal-header popup-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center"> {{ phasename}} phase estimations</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Process Estimation</th>
+                            </tr>
+                        </thead>
+                        <tbody>    
+                            <tr data-ng-init="outerIndex = $index;" data-ng-repeat="list in estimateUserStories">
+
+                                <td data-ng-bind="'US' + list.taskId"></td>
+                                <td data-ng-bind="list.name"></td>
+                                <td> 
+                                    <table>
+                                        <tr>
+                                            <td data-ng-repeat="pro in estimateUserStories[outerIndex].eta"> 
+                                                <strong>{{pro.process_name| capitalize}} </strong>
+
+                                                <div class="input-group" style="padding: 2px;">
+                                                    <input mask="99:99" class="form-control" data-ng-model="estimateUserStories[outerIndex].eta[$index].time" name="estimation_{{outerIndex}}_{{$index}}" placeholder="00:00" required>
+                                                </div>
+                                                <div class="text-danger" data-ng-messages="quick_estimation_form['estimation_'+outerIndex+'_' + $index].$error" data-ng-if=" estimation_submitted || quick_estimation_form['estimation_' + outerIndex + '_' + $index].$touched">
+                                                    <div data-ng-message="required">Estimation is required.</div>
+                                                    <div data-ng-message="mask">Valid format HH:MM (00:00).</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit"  class="btn btn-primary" >Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
